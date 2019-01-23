@@ -4,9 +4,23 @@ language: cpp
 dist: xenial
 sudo: false
 
-matrix:
+stages:
+  - clang-format-check
+  - build
+
+jobs:
   include:
-    - compiler: gcc
+    - stage: clang-format-check
+      addons:
+        apt:
+          packages:
+              - clang-format
+      before_script: curl -L http://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format-diff.py -o utils/clang-format-diff.py
+      script: ./utils/check_code_format.sh
+      install: skip
+
+    - stage: build
+      compiler: gcc
       addons:
         apt:
           sources:
@@ -15,7 +29,8 @@ matrix:
              - g++-6
              - cmake
       env: COMPILER=g++-6 C_COMPILER=gcc-6
-    - compiler: gcc
+    - stage: build
+      compiler: gcc
       addons:
         apt:
           sources:
@@ -24,7 +39,8 @@ matrix:
              - g++-7
              - cmake
       env: COMPILER=g++-7 C_COMPILER=gcc-7
-    - compiler: gcc
+    - stage: build
+      compiler: gcc
       addons:
         apt:
           sources:
@@ -33,7 +49,8 @@ matrix:
              - g++-8
              - cmake
       env: COMPILER=g++-8 C_COMPILER=gcc-8
-    - compiler: clang
+    - stage: build
+      compiler: clang
       addons:
         apt:
           sources:
@@ -47,10 +64,10 @@ matrix:
              - cmake
       env: COMPILER=clang++-7 C_COMPILER=clang-7 STDLIB="-s compiler.libcxx=libc++" SCAN_BUILD="scan-build-7 --status-bugs -v"
 
-before_install:
+install:
   - pip install --user conan
 
-install:
+before_script:
     - if [ "$CXX" = "clang++" ]; then export CCC_CXX="$COMPILER"; export CCC_CC="$C_COMPILER"; export CXXFLAGS="-stdlib=libc++"; fi
     - if [ "$CXX" = "g++" ]; then export CXX="$COMPILER"; export CC="$C_COMPILER"; fi
 
