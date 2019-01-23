@@ -45,7 +45,6 @@ matrix:
              - cmake
     env: COMPILER=clang++-6.0
 
-
 before_install:
   - pip install --user conan
 
