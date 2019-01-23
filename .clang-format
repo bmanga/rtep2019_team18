@@ -1,0 +1,15 @@
+﻿---
+BasedOnStyle: Chromium
+AlignTrailingComments: 'true'
+AllowShortBlocksOnASingleLine: 'false'
+AlwaysBreakTemplateDeclarations: 'true'
+BreakBeforeBraces: Stroustrup
+ColumnLimit: '80'
+Cpp11BracedListStyle: 'true'
+DerivePointerAlignment: 'false'
+PointerAlignment: Right
+SpaceInEmptyParentheses: 'false'
+TabWidth: '2'
+UseTab: Never
+
+...
