@@ -33,6 +33,17 @@ matrix:
              - g++-8
              - cmake
       env: COMPILER=g++-8
+    - compiler: clang
+      addons:
+        apt:
+          sources:
+             - llvm-toolchain-xenial-7.0
+             - ubuntu-toolchain-r-test
+          packages:
+             - clang++-7.0
+             - libc++-dev
+             - cmake
+    env: COMPILER=clang++-7.0
 
 before_install:
   - pip install --user conan
@@ -41,4 +52,4 @@ install:
     - if [ "$CXX" = "clang++" ]; then export CXX="$COMPILER -stdlib=libc++"; fi
     - if [ "$CXX" = "g++" ]; then export CXX="$COMPILER"; fi
 
-script: mkdir build && cd build && conan install .. && cmake .. && make && ./tests/tests
+script: mkdir build && cd build && conan install .. && cmake -DCMAKE_CXX_STANDARD=17 .. && make && ./tests/tests
