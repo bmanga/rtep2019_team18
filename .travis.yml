@@ -33,17 +33,6 @@ matrix:
              - g++-8
              - cmake
       env: COMPILER=g++-8
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-             - llvm-toolchain-trusty-6.0
-             - ubuntu-toolchain-r-test
-          packages:
-             - clang++-6.0
-             - libc++-dev
-             - cmake
-      env: COMPILER=clang++-6.0
 
 before_install:
   - pip install --user conan
