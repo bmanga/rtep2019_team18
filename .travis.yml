@@ -14,7 +14,7 @@ matrix:
           packages:
              - g++-6
              - cmake
-      env: COMPILER=g++-6
+      env: COMPILER=g++-6 C_COMPILER=gcc-6
     - compiler: gcc
       addons:
         apt:
@@ -23,7 +23,7 @@ matrix:
           packages:
              - g++-7
              - cmake
-      env: COMPILER=g++-7
+      env: COMPILER=g++-7 C_COMPILER=gcc-7
     - compiler: gcc
       addons:
         apt:
@@ -32,7 +32,7 @@ matrix:
           packages:
              - g++-8
              - cmake
-      env: COMPILER=g++-8
+      env: COMPILER=g++-8 C_COMPILER=gcc-8
     - compiler: clang
       addons:
         apt:
@@ -43,14 +43,15 @@ matrix:
              - clang++-7
              - libc++-7-dev
              - libc++abi-7-dev
+             - clang-tools-7
              - cmake
-      env: COMPILER=clang++-7 STDLIB="-s compiler.libcxx=libc++"
+      env: COMPILER=clang++-7 C_COMPILER=clang-7 STDLIB="-s compiler.libcxx=libc++" SCAN_BUILD="scan-build-7 --status-bugs -v"
 
 before_install:
   - pip install --user conan
 
 install:
-    - if [ "$CXX" = "clang++" ]; then export CXX="$COMPILER"; export CXXFLAGS="-stdlib=libc++"; fi
-    - if [ "$CXX" = "g++" ]; then export CXX="$COMPILER"; fi
+    - if [ "$CXX" = "clang++" ]; then export CCC_CXX="$COMPILER"; export CCC_CC="$C_COMPILER"; export CXXFLAGS="-stdlib=libc++"; fi
+    - if [ "$CXX" = "g++" ]; then export CXX="$COMPILER"; export CC="$C_COMPILER"; fi
 
-script: mkdir build && cd build && conan install .. $STDLIB && cmake -DCMAKE_CXX_STANDARD=17 .. && make && ./tests/tests
+script: mkdir build && cd build && conan install .. $STDLIB && $SCAN_BUILD cmake -DCMAKE_CXX_STANDARD=17 .. && $SCAN_BUILD make && ./tests/tests
