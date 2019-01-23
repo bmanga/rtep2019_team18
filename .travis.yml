@@ -37,13 +37,13 @@ matrix:
       addons:
         apt:
           sources:
-             - llvm-toolchain-xenial-6.0
+             - llvm-toolchain-xenial-7.0
              - ubuntu-toolchain-r-test
           packages:
-             - clang++-6.0
+             - clang++-7.0
              - libc++-dev
              - cmake
-    env: COMPILER=clang++-6.0
+    env: COMPILER=clang++-7.0
 
 before_install:
   - pip install --user conan
