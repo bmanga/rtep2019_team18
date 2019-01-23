@@ -54,4 +54,4 @@ install:
     - if [ "$CXX" = "clang++" ]; then export CCC_CXX="$COMPILER"; export CCC_CC="$C_COMPILER"; export CXXFLAGS="-stdlib=libc++"; fi
     - if [ "$CXX" = "g++" ]; then export CXX="$COMPILER"; export CC="$C_COMPILER"; fi
 
-script: mkdir build && cd build && conan install .. $STDLIB && $SCAN_BUILD cmake -DCMAKE_CXX_STANDARD=17 .. && $SCAN_BUILD make && ./tests/tests
+script: mkdir build && cd build && conan install .. $STDLIB && $SCAN_BUILD cmake -DCMAKE_CXX_STANDARD=17 .. && $SCAN_BUILD make -j2 && ./tests/tests
