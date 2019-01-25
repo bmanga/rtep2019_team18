@@ -4,6 +4,10 @@ language: cpp
 dist: xenial
 sudo: false
 
+cache:
+  directories:
+    - $HOME/.conan
+
 stages:
   - clang-format-check
   - build
