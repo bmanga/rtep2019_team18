@@ -11,6 +11,7 @@ This data is then analysed to identify an incorrect walking gait due to hemipleg
 
 ### Prerequisites
 * [conan](https://conan.io/) package manager - it can be installed by running ```pip install conan```
+* [cmake](https://cmake.org/) build system version 3.8 or above
 
 ### Build Instructions
 From within the cloned repository directory :
