@@ -9,6 +9,8 @@ This data is then analysed to identify an incorrect walking gait due to hemipleg
 	 title="Gait"  height="500" >
 </p>
 
+See the [Wiki](https://github.com/bmanga/rtep2019_team18/wiki) for more information. 
+
 ### Prerequisites
 * [conan](https://conan.io/) package manager - it can be installed by running ```pip install conan```
 * [cmake](https://cmake.org/) build system version 3.8 or above
@@ -20,4 +22,4 @@ From within the cloned repository directory :
 * ``` cmake ..```
 * ```make```
 
-Or use your favourite ```cmake``` configuration
+Or use your favourite ```cmake``` configuration.
