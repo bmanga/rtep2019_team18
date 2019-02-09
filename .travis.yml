@@ -19,7 +19,7 @@ jobs:
       addons:
         apt:
           packages:
-              - clang-format
+              - clang-format-6.0
       before_script: curl -L http://llvm.org/svn/llvm-project/cfe/trunk/tools/clang-format/clang-format-diff.py -o utils/clang-format-diff.py
       script: ./utils/check_code_format.sh
       install: skip
