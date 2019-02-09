@@ -73,5 +73,6 @@ install:
 before_script:
     - if [ "$CXX" = "clang++" ]; then export CXX="$COMPILER"; export CC="$C_COMPILER"; fi
     - if [ "$CXX" = "g++" ]; then export CXX="$COMPILER"; export CC="$C_COMPILER"; fi
+    - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 script: mkdir build && cd build && conan install .. $STDLIB && cmake $CLANG_TIDY -DCMAKE_CXX_STANDARD=17 .. && make -j2 && ./tests/tests
