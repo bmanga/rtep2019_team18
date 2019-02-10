@@ -1,0 +1,15 @@
+FILES_TO_FORMAT=$(git diff --cached --name-only | grep -E ".*\.(cpp|cc|c\+\+|cxx|c|h|hpp)$")
+
+echo "Formatting files: "
+for file in $FILES_TO_FORMAT; do
+  echo "  - $file"
+done
+
+git diff -U0 --no-color HEAD^ -- $FILES_TO_FORMAT | python utils/clang-format-diff.py -i -p1 -style=file
+
+if [ $? -eq 0 ]; then
+  echo "Done formatting."
+else
+  echo "Hook Failed."
+  exit 1
+fi
