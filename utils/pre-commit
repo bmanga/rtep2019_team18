@@ -1,5 +1,10 @@
 FILES_TO_FORMAT=$(git diff --cached --name-only | grep -E ".*\.(cpp|cc|c\+\+|cxx|c|h|hpp)$")
 
+ if [ -z "${FILES_TO_FORMAT}" ]; then
+  echo "No C++ source code to format."
+  exit 0
+fi
+
 echo "Formatting files: "
 for file in $FILES_TO_FORMAT; do
   echo "  - $file"
@@ -9,6 +14,7 @@ git diff -U0 --no-color HEAD^ -- $FILES_TO_FORMAT | python utils/clang-format-di
 
 if [ $? -eq 0 ]; then
   echo "Done formatting."
+  git add $FILES_TO_FORMAT
 else
   echo "Hook Failed."
   exit 1
