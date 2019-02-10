@@ -23,3 +23,10 @@ From within the cloned repository directory :
 * ```make```
 
 Or use your favourite ```cmake``` configuration.
+
+### Contributions Guidelines
+All code is formatted through `clang-format` according to the `.clang-format` file. `clang-format-6.0` is the recommended version as that's the one used in CI.
+
+The utility script `utils/format_diff_code.sh` (to be run from project root directory) is provided in order to automatically format the changes.
+
+Alternatively, you can copy `utils/pre-commit` into the `.git/hooks` folder to automatically run `clang-format` on commits.
