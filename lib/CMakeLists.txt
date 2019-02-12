@@ -16,7 +16,8 @@ add_library(wiringPi
   wiringPi/wiringPi.c
   wiringPi/wiringPiI2C.c
   wiringPi/softPwm.c
-  wiringPi/softTone.c)
+  wiringPi/softTone.c
+  wiringPi/PiHiPri.c)
 
 target_include_directories(wiringPi PRIVATE ../include)
 
