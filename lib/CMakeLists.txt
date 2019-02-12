@@ -19,3 +19,9 @@ add_library(wiringPi
   wiringPi/softTone.c)
 
 target_include_directories(wiringPi PRIVATE ../include)
+
+add_library(imu
+  IMU/IMU.cpp)
+
+target_link_libraries(imu PRIVATE wiringPi)
+target_include_directories(imu PRIVATE ../include)
