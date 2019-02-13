@@ -16,7 +16,7 @@ find_package(Qt5Charts CONFIG REQUIRED)
 
 
 # Tell CMake to create the helloworld executable
-add_executable(qt-imu-visualizer chart.cpp main.cpp main_window.cpp)
+add_executable(qt-imu-visualizer chart.cpp main.cpp)
 # Use the Widgets module from Qt 5
 target_link_libraries(qt-imu-visualizer Qt5::Widgets Qt5::Charts telemetry)
 target_include_directories(qt-imu-visualizer PRIVATE ../../include)

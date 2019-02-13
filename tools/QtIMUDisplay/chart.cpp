@@ -37,12 +37,19 @@
 
 Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
     : QChart(QChart::ChartTypeCartesian, parent, wFlags),
+      m_time_start(std::chrono::system_clock::now()),
       m_series_x(0),
       m_series_y(0),
       m_series_z(0),
       m_axisX(new QValueAxis()),
-      m_axisY(new QValueAxis())
+      m_axisY(new QValueAxis()),
+      m_step(0),
+      m_x(5),
+      m_y(1)
 {
+  // QObject::connect(&m_timer, &QTimer::timeout, this, &Chart::handleTimeout);
+  // m_timer.setInterval(500);
+
   QPen pen_x;  //
   pen_x.setWidth(3);
   pen_x.setBrush(Qt::red);
@@ -91,11 +98,52 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
   m_axisX->setTickCount(5);
   m_axisX->setRange(0, 10);
   m_axisY->setRange(-2, 2);
+
+  m_timer.start();  // maybe remove
+  m_client.set_message_handler(
+      [this](const void *data, long len) { this->on_message(data, len); });
+  m_client.connect_to("ws://192.168.5.1:9006");
+  m_client.run_on_thread();
 }
 
 Chart::~Chart() {}
 
-qreal Chart::getXAxisMax() const
+void Chart::handleTimeout()
 {
-  return m_axisX->max();
+  qreal x = plotArea().width() / m_axisX->tickCount();
+  qreal y = (m_axisX->max() - m_axisX->min()) / m_axisX->tickCount();
+  m_x += y;
+  m_y = QRandomGenerator::global()->bounded(5) - 2.5;
+  m_series_x->append(m_x, m_y);
+  m_series_y->append(m_x, m_y + 10);
+  m_series_z->append(m_x, m_y + 20);
+  if (m_x >= m_axisX->max())
+    axisX()->setRange(m_x - 10, m_x);
+  if (m_x == 100)
+    m_timer.stop();
+  legend()->setVisible(true);
+  legend()->setAlignment(Qt::AlignBottom);
+}
+
+struct sensors_data {
+  float ax, ay, az;
+  float gx, gy, gz;
+};
+
+void Chart::on_message(const void *d, long len)
+{
+  sensors_data data;
+  memcpy(&data, d, len);
+  auto x = std::chrono::system_clock::now() - m_time_start;
+  double x_sec =
+      std::chrono::duration_cast<std::chrono::milliseconds>(x).count() / 1000.0;
+
+  m_series_x->append(x_sec, data.gx);
+  m_series_y->append(x_sec, data.gy);
+  m_series_z->append(x_sec, data.gz);
+  if (x_sec >= m_axisX->max())
+    axisX()->setRange(x_sec - 10, x_sec);
+
+  legend()->setVisible(true);
+  legend()->setAlignment(Qt::AlignBottom);
 }
