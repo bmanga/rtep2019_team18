@@ -2,7 +2,7 @@ language: cpp
 
 
 dist: xenial
-sudo: true
+sudo: false
 
 cache:
   directories:
@@ -34,6 +34,7 @@ jobs:
              - g++-6
              - cmake
              - qtbase5-dev
+             - libqt5charts5-dev
       env: COMPILER=g++-6 C_COMPILER=gcc-6
     - stage: build
       compiler: gcc
@@ -45,6 +46,7 @@ jobs:
              - g++-7
              - cmake
              - qtbase5-dev
+             - libqt5charts5-dev
       env: COMPILER=g++-7 C_COMPILER=gcc-7
     - stage: build
       compiler: gcc
@@ -56,6 +58,7 @@ jobs:
              - g++-8
              - cmake
              - qtbase5-dev
+             - libqt5charts5-dev
       env: COMPILER=g++-8 C_COMPILER=gcc-8
     - stage: build
       compiler: clang
@@ -74,14 +77,10 @@ jobs:
              - clang-tidy-7
              - cmake
              - qtbase5-dev
+             - libqt5charts5-dev
       env: COMPILER=clang++-7 C_COMPILER=clang-7 CLANG_TIDY="-DCMAKE_CXX_CLANG_TIDY='clang-tidy-7;-warnings-as-errors;'"
 
 install:
-  - sudo add-apt-repository ppa:beineri/opt-qt-5.12.0-xenial -y
-  - sudo apt-get update -q
-  - sudo apt-get install qt512charts-no-lgpl
-  - source /opt/qt512/bin/qt512-env.sh
-
   - pip install --user conan
 
 before_script:
