@@ -13,9 +13,11 @@ class Sensor_IMU {
   int getGyro_X();
   int getGyro_Y();
   int getGyro_Z();
-  int read_i2c(int);
 
  private:
+  int read_i2c(int);
+
+private:
   int fd;
 };
 
