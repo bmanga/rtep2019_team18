@@ -24,8 +24,13 @@ class MainWindow : public QMainWindow {
 
  private:
   tel::client m_client;
-  Chart *m_chartAccel;
-  Chart *m_chartGyro;
+  Chart *m_chartAccel_1;
+  Chart *m_chartGyro_1;
+  Chart *m_chartAccel_2;
+  Chart *m_chartGyro_2;
+  Chart *m_chartAccel_3;
+  Chart *m_chartGyro_3;
+
   std::chrono::system_clock::time_point m_time_start;
   QLineEdit *m_connectURI;
   QPushButton *m_connectButton;
