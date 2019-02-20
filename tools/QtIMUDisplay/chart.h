@@ -31,9 +31,6 @@
 #define CHART_H
 
 #include <QtCharts/QChart>
-#include <QtCore/QTimer>
-#include <chrono>
-#include "telemetry/client.h"
 
 QT_CHARTS_BEGIN_NAMESPACE
 class QSplineSeries;
@@ -55,20 +52,12 @@ class Chart : public QChart {
   QSplineSeries
       *m_series_z;  // will have 3 series (x,y,z) for each Chart instance
 
- public slots:
-  void handleTimeout();
+  qreal getXAxisMax() const;
 
  private:
-  tel::client m_client;
-  QTimer m_timer;
   QStringList m_titles;
   QValueAxis *m_axisX;
   QValueAxis *m_axisY;
-  qreal m_step;
-  qreal m_x;
-  qreal m_y;
-  void on_message(const void *d, long len);
-  std::chrono::system_clock::time_point m_time_start;
 };
 //![1]
 

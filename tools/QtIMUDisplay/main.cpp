@@ -33,57 +33,14 @@
 #include <QtCharts/QChartView>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
-#include "chart.h"
+#include "main_window.h"
 
 QT_CHARTS_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
-  QMainWindow window;
-  Chart *chart_acc = new Chart;  // Chart for acceleration data
-  chart_acc->setTitle("Acceleration data chart");
-  chart_acc->legend()->hide();
-  Chart *chart_gyr = new Chart;  // Chart for gyroscope data
-  chart_gyr->setTitle("Gyroscope data chart");
-  chart_gyr->legend()->hide();
-
-  QCheckBox *Box1 = new QCheckBox("Axis X");
-  Box1->setCheckState(Qt::CheckState::Checked);
-  QObject::connect(Box1, &QCheckBox::stateChanged, chart_acc->m_series_x,
-                   &QAbstractSeries::setVisible);
-  QObject::connect(Box1, &QCheckBox::stateChanged, chart_gyr->m_series_x,
-                   &QAbstractSeries::setVisible);
-
-  QCheckBox *Box2 = new QCheckBox("Axis Y");
-  Box2->setCheckState(Qt::CheckState::Checked);
-  QObject::connect(Box2, &QCheckBox::stateChanged, chart_acc->m_series_y,
-                   &QAbstractSeries::setVisible);
-  QObject::connect(Box2, &QCheckBox::stateChanged, chart_gyr->m_series_y,
-                   &QAbstractSeries::setVisible);
-
-  QCheckBox *Box3 = new QCheckBox("Axis Z");
-  Box3->setCheckState(Qt::CheckState::Checked);
-  QObject::connect(Box3, &QCheckBox::stateChanged, chart_acc->m_series_z,
-                   &QAbstractSeries::setVisible);
-  QObject::connect(Box3, &QCheckBox::stateChanged, chart_gyr->m_series_z,
-                   &QAbstractSeries::setVisible);
-
-  QChartView chartView_1(chart_acc);
-  QChartView chartView_2(chart_gyr);
-  chartView_1.setRenderHint(QPainter::Antialiasing);
-  chartView_2.setRenderHint(QPainter::Antialiasing);
-
-  QVBoxLayout *layout = new QVBoxLayout;
-  layout->addWidget(&chartView_1);
-  layout->addWidget(&chartView_2);
-  layout->addWidget(Box1);
-  layout->addWidget(Box2);
-  layout->addWidget(Box3);
-
-  QWidget *charts = new QWidget();
-  charts->setLayout(layout);
-  window.setCentralWidget(charts);
+  MainWindow window;
   window.resize(700, 700);
   window.show();
   return a.exec();
