@@ -3,11 +3,9 @@
 
 #include <stdint.h>
 
-int get_mpu_fd_address();
-
 class Sensor_IMU {
  public:
-  Sensor_IMU(int fd, int pin);
+  Sensor_IMU(int pin);
 
   int getAccel_X();
   int getAccel_Y();
@@ -17,10 +15,6 @@ class Sensor_IMU {
   int getGyro_Z();
 
  private:
-  int read_i2c(int);
-
-private:
-  int fd;
   int pin;
 };
 

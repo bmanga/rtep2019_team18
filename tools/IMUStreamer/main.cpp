@@ -12,10 +12,8 @@ int main()
   tel::server server;
   server.run_on_thread(9006);
 
-
-  int mpu_fd = get_mpu_fd_address();
-  Sensor_IMU imu_1(mpu_fd, 0);
-  Sensor_IMU imu_2(mpu_fd, 2);
+  Sensor_IMU imu_1(0);
+  Sensor_IMU imu_2(2);
 
   sensors_data data = {};
 
@@ -27,8 +25,6 @@ int main()
     data.gx = imu_1.getGyro_X() / 16384.0;
     data.gy = imu_1.getGyro_Y() / 16384.0;
     data.gz = imu_1.getGyro_Z() / 16384.0;
-
-
 
     printf("Accelerometer (A) X: %.3f\n", data.ax);
     printf("Accelerometer (A) Y: %.3f\n", data.ay);
