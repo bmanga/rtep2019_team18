@@ -3,9 +3,11 @@
 
 #include <stdint.h>
 
+int get_mpu_fd_address();
+
 class Sensor_IMU {
  public:
-  Sensor_IMU();
+  Sensor_IMU(int fd);
 
   int getAccel_X();
   int getAccel_Y();

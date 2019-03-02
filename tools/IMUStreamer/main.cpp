@@ -11,7 +11,7 @@ int main()
 {
   tel::server server;
   server.run_on_thread(9006);
-  Sensor_IMU imu_1;
+  Sensor_IMU imu_1(get_mpu_fd_address());
 
   sensors_data data = {};
 

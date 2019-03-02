@@ -14,9 +14,12 @@
 
 #define MPU_6050_POWER_MGMT 0x6B
 
-Sensor_IMU::Sensor_IMU()
+int get_mpu_fd_address() {
+  return wiringPiI2CSetup(0x68);
+}
+
+Sensor_IMU::Sensor_IMU(int fd) : fd(fd)
 {
-  this->fd = wiringPiI2CSetup(0x68);
   wiringPiI2CReadReg8(fd, MPU_6050_POWER_MGMT);
   // disable sleep mode
   wiringPiI2CWriteReg8(fd, MPU_6050_POWER_MGMT, 0);
