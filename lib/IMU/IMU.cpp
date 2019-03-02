@@ -14,15 +14,20 @@
 
 #define MPU_6050_POWER_MGMT 0x6B
 
+static int intial_setup = wiringPiSetup();
+
 int get_mpu_fd_address() {
   return wiringPiI2CSetup(0x68);
 }
 
-Sensor_IMU::Sensor_IMU(int fd) : fd(fd)
+Sensor_IMU::Sensor_IMU(int fd, int pin) : fd(fd), pin(pin)
 {
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
   wiringPiI2CReadReg8(fd, MPU_6050_POWER_MGMT);
   // disable sleep mode
   wiringPiI2CWriteReg8(fd, MPU_6050_POWER_MGMT, 0);
+  digitalWrite(pin, HIGH);
 }
 
 int Sensor_IMU::getAccel_X()
@@ -69,6 +74,7 @@ int Sensor_IMU::getGyro_Z()
 
 int Sensor_IMU::read_i2c(int addr)
 {
+  digitalWrite(pin, LOW);
   int val, high_byte, low_byte = 0;
   high_byte = wiringPiI2CReadReg8(fd, addr);
 
@@ -77,6 +83,7 @@ int Sensor_IMU::read_i2c(int addr)
   if (val >= 0x8000) {
     val = -(65536 - val);
   }
+  digitalWrite(pin, HIGH);
 
   return val;
 }

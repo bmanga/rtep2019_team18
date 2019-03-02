@@ -7,7 +7,7 @@ int get_mpu_fd_address();
 
 class Sensor_IMU {
  public:
-  Sensor_IMU(int fd);
+  Sensor_IMU(int fd, int pin);
 
   int getAccel_X();
   int getAccel_Y();
@@ -21,6 +21,7 @@ class Sensor_IMU {
 
 private:
   int fd;
+  int pin;
 };
 
 #endif
