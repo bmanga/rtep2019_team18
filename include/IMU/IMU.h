@@ -5,7 +5,7 @@
 
 class Sensor_IMU {
  public:
-  Sensor_IMU();
+  Sensor_IMU(int pin);
 
   int getAccel_X();
   int getAccel_Y();
@@ -13,10 +13,9 @@ class Sensor_IMU {
   int getGyro_X();
   int getGyro_Y();
   int getGyro_Z();
-  int read_i2c(int);
 
  private:
-  int fd;
+  int pin;
 };
 
 #endif

@@ -11,7 +11,9 @@ int main()
 {
   tel::server server;
   server.run_on_thread(9006);
-  Sensor_IMU imu_1;
+
+  Sensor_IMU imu_1(0);
+  Sensor_IMU imu_2(2);
 
   sensors_data data = {};
 
@@ -24,9 +26,13 @@ int main()
     data.gy = imu_1.getGyro_Y() / 16384.0;
     data.gz = imu_1.getGyro_Z() / 16384.0;
 
-    printf("Accelerometer X: %.3f\n", data.ax);
-    printf("Accelerometer Y: %.3f\n", data.ay);
-    printf("Accelerometer Z: %.3f\n", data.az);
+    printf("Accelerometer (A) X: %.3f\n", data.ax);
+    printf("Accelerometer (A) Y: %.3f\n", data.ay);
+    printf("Accelerometer (A) Z: %.3f\n", data.az);
+
+    printf("Accelerometer (B) X: %.3f\n", imu_2.getAccel_X() / 16384.0);
+    printf("Accelerometer (B) Y: %.3f\n", imu_2.getAccel_Y() / 16384.0);
+    printf("Accelerometer (B) Z: %.3f\n", imu_2.getAccel_Z() / 16384.0);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     server.broadcast(&data, sizeof(data));

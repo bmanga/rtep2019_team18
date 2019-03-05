@@ -14,58 +14,12 @@
 
 #define MPU_6050_POWER_MGMT 0x6B
 
-Sensor_IMU::Sensor_IMU()
-{
-  this->fd = wiringPiI2CSetup(0x68);
-  wiringPiI2CReadReg8(fd, MPU_6050_POWER_MGMT);
-  // disable sleep mode
-  wiringPiI2CWriteReg8(fd, MPU_6050_POWER_MGMT, 0);
-}
+static int intial_setup = wiringPiSetup();
+static int fd = wiringPiI2CSetup(0x68);
 
-int Sensor_IMU::getAccel_X()
+static int read_i2c(int pin, int addr)
 {
-  int accel_X = 0;
-  accel_X = read_i2c(ACCEL_X);
-  return accel_X;
-}
-
-int Sensor_IMU::getAccel_Y()
-{
-  int accel_Y = 0;
-  accel_Y = read_i2c(ACCEL_Y);
-  return accel_Y;
-}
-
-int Sensor_IMU::getAccel_Z()
-{
-  int accel_Z = 0;
-  accel_Z = read_i2c(ACCEL_Z);
-  return accel_Z;
-}
-
-int Sensor_IMU::getGyro_X()
-{
-  int gyro_X = 0;
-  gyro_X = read_i2c(GYRO_X);
-  return gyro_X;
-}
-
-int Sensor_IMU::getGyro_Y()
-{
-  int gyro_Y = 0;
-  gyro_Y = read_i2c(GYRO_Y);
-  return gyro_Y;
-}
-
-int Sensor_IMU::getGyro_Z()
-{
-  int gyro_Z = 0;
-  gyro_Z = read_i2c(GYRO_Z);
-  return gyro_Z;
-}
-
-int Sensor_IMU::read_i2c(int addr)
-{
+  digitalWrite(pin, LOW);
   int val, high_byte, low_byte = 0;
   high_byte = wiringPiI2CReadReg8(fd, addr);
 
@@ -74,6 +28,59 @@ int Sensor_IMU::read_i2c(int addr)
   if (val >= 0x8000) {
     val = -(65536 - val);
   }
+  digitalWrite(pin, HIGH);
 
   return val;
+}
+
+Sensor_IMU::Sensor_IMU(int pin) : pin(pin)
+{
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
+  wiringPiI2CReadReg8(fd, MPU_6050_POWER_MGMT);
+  // disable sleep mode
+  wiringPiI2CWriteReg8(fd, MPU_6050_POWER_MGMT, 0);
+  digitalWrite(pin, HIGH);
+}
+
+int Sensor_IMU::getAccel_X()
+{
+  int accel_X = 0;
+  accel_X = read_i2c(pin, ACCEL_X);
+  return accel_X;
+}
+
+int Sensor_IMU::getAccel_Y()
+{
+  int accel_Y = 0;
+  accel_Y = read_i2c(pin, ACCEL_Y);
+  return accel_Y;
+}
+
+int Sensor_IMU::getAccel_Z()
+{
+  int accel_Z = 0;
+  accel_Z = read_i2c(pin, ACCEL_Z);
+  return accel_Z;
+}
+
+int Sensor_IMU::getGyro_X()
+{
+  int gyro_X = 0;
+  gyro_X = read_i2c(pin, GYRO_X);
+  return gyro_X;
+}
+
+int Sensor_IMU::getGyro_Y()
+{
+  int gyro_Y = 0;
+  gyro_Y = read_i2c(pin, GYRO_Y);
+  return gyro_Y;
+}
+
+int Sensor_IMU::getGyro_Z()
+{
+  int gyro_Z = 0;
+  gyro_Z = read_i2c(pin, GYRO_Z);
+  return gyro_Z;
 }
