@@ -32,7 +32,6 @@
 #include <QtCharts/QSplineSeries>
 #include <QtCharts/QValueAxis>
 #include <QtCore/QDebug>
-#include <QtCore/QRandomGenerator>
 #include "telemetry/client.h"
 
 Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
