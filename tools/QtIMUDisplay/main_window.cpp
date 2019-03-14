@@ -16,7 +16,10 @@ MainWindow::MainWindow()
       m_chartAccel_2(new Chart()),
       m_chartGyro_2(new Chart()),
       m_chartAccel_3(new Chart()),
-      m_chartGyro_3(new Chart())
+      m_chartGyro_3(new Chart()),
+      m_chartGRF_r(new Chart()),
+      m_chartGRF_l(new Chart())
+
 {
   m_chartAccel_1->setTitle("Acceleration data chart 1");
   m_chartAccel_1->legend()->hide();
@@ -32,6 +35,11 @@ MainWindow::MainWindow()
   m_chartAccel_3->legend()->hide();
   m_chartGyro_3->setTitle("Gyroscope data chart 3");
   m_chartGyro_3->legend()->hide();
+
+  m_chartGRF_r->setTitle("Force data chart - Right foot");
+  m_chartGRF_r->legend()->hide();
+  m_chartGRF_l->setTitle("Force data chart - Left foot");
+  m_chartGRF_l->legend()->hide();
 
   // Check boxes
   QCheckBox *Box1 = new QCheckBox("Axis X", this);
@@ -83,6 +91,13 @@ MainWindow::MainWindow()
   QObject::connect(Box3, &QCheckBox::stateChanged, m_chartGyro_3->m_series_z,
                    &QAbstractSeries::setVisible);
 
+  QCheckBox *Box4 = new QCheckBox("Sum");
+  Box4->setCheckState(Qt::CheckState::Checked);
+  QObject::connect(Box4, &QCheckBox::stateChanged, m_chartGRF_r->m_series_z,
+                   &QAbstractSeries::setVisible);
+  QObject::connect(Box4, &QCheckBox::stateChanged, m_chartGRF_l->m_series_z,
+                   &QAbstractSeries::setVisible);
+
   // Connect interface
   m_connectURI = new QLineEdit(this);
   m_connectButton = new QPushButton("connect", this);
@@ -100,6 +115,8 @@ MainWindow::MainWindow()
   QChartView *chartView_4 = new QChartView(m_chartGyro_2, this);
   QChartView *chartView_5 = new QChartView(m_chartAccel_3, this);
   QChartView *chartView_6 = new QChartView(m_chartGyro_3, this);
+  QChartView *chartView_7 = new QChartView(m_chartGRF_r, this);
+  QChartView *chartView_8 = new QChartView(m_chartGRF_l, this);
 
   chartView_1->setRenderHint(QPainter::Antialiasing);
   chartView_2->setRenderHint(QPainter::Antialiasing);
@@ -107,6 +124,8 @@ MainWindow::MainWindow()
   chartView_4->setRenderHint(QPainter::Antialiasing);
   chartView_5->setRenderHint(QPainter::Antialiasing);
   chartView_6->setRenderHint(QPainter::Antialiasing);
+  chartView_7->setRenderHint(QPainter::Antialiasing);
+  chartView_8->setRenderHint(QPainter::Antialiasing);
 
   QHBoxLayout *layout_graphs1 = new QHBoxLayout(this);
   layout_graphs1->addWidget(chartView_1);
@@ -130,10 +149,22 @@ MainWindow::MainWindow()
   layout->addLayout(layout_graphs3);
   layout->addLayout(layout_boxes);
 
-  QWidget *charts = new QWidget(this);
+  QTabWidget *TabAccGyro = new QTabWidget();
 
-  charts->setLayout(layout);
-  setCentralWidget(charts);
+  QWidget *charts_IMU = new QWidget(this);
+  TabAccGyro->addTab(charts_IMU, "IMUs");
+  charts_IMU->setLayout(layout);
+
+  QVBoxLayout *layout_graphs_FSR = new QVBoxLayout(this);
+  layout_graphs_FSR->addWidget(chartView_7);
+  layout_graphs_FSR->addWidget(chartView_8);
+  layout_graphs_FSR->addWidget(Box4);
+
+  QWidget *charts_FSR = new QWidget(this);
+  charts_FSR->setLayout(layout_graphs_FSR);
+  TabAccGyro->addTab(charts_FSR, "FSRs");
+
+  setCentralWidget(TabAccGyro);
 
   m_client.set_message_handler(
       [this](const void *data, long len) { this->on_message(data, len); });
@@ -147,15 +178,22 @@ MainWindow::~MainWindow()
   delete m_chartGyro_2;
   delete m_chartAccel_3;
   delete m_chartGyro_3;
+  delete m_chartGRF_r;
+  delete m_chartGRF_l;
 }
 
-struct sensors_packet {
+struct imu_packet {
   float ax, ay, az;
   float gx, gy, gz;
 };
 
+struct fsr_packet {
+  float heel, toe;
+};
+
 struct sensors_data {
-  sensors_packet p1, p2, p3;
+  imu_packet p1, p2, p3;
+  fsr_packet right, left;
 };
 
 void MainWindow::on_message(const void *d, long len)
@@ -169,7 +207,7 @@ void MainWindow::on_message(const void *d, long len)
 
   m_chartAccel_1->m_series_x->append(x_sec, data.p1.ax);
   m_chartAccel_1->m_series_y->append(x_sec, data.p1.ay);
-  m_chartAccel_1->m_series_z->append(x_sec, data.p1.ay);
+  m_chartAccel_1->m_series_z->append(x_sec, data.p1.az);
 
   m_chartGyro_1->m_series_x->append(x_sec, data.p1.gx);
   m_chartGyro_1->m_series_y->append(x_sec, data.p1.gy);
@@ -177,7 +215,7 @@ void MainWindow::on_message(const void *d, long len)
 
   m_chartAccel_2->m_series_x->append(x_sec, data.p2.ax);
   m_chartAccel_2->m_series_y->append(x_sec, data.p2.ay);
-  m_chartAccel_2->m_series_z->append(x_sec, data.p2.ay);
+  m_chartAccel_2->m_series_z->append(x_sec, data.p2.az);
 
   m_chartGyro_2->m_series_x->append(x_sec, data.p2.gx);
   m_chartGyro_2->m_series_y->append(x_sec, data.p2.gy);
@@ -185,19 +223,29 @@ void MainWindow::on_message(const void *d, long len)
 
   m_chartAccel_3->m_series_x->append(x_sec, data.p3.ax);
   m_chartAccel_3->m_series_y->append(x_sec, data.p3.ay);
-  m_chartAccel_3->m_series_z->append(x_sec, data.p3.ay);
+  m_chartAccel_3->m_series_z->append(x_sec, data.p3.az);
 
   m_chartGyro_3->m_series_x->append(x_sec, data.p3.gx);
   m_chartGyro_3->m_series_y->append(x_sec, data.p3.gy);
   m_chartGyro_3->m_series_z->append(x_sec, data.p3.gz);
 
+  m_chartGRF_r->m_series_x->append(x_sec, data.right.toe);
+  m_chartGRF_r->m_series_y->append(x_sec, data.right.heel);
+  m_chartGRF_r->m_series_z->append(x_sec, data.right.toe + data.right.heel);
+
+  m_chartGRF_l->m_series_x->append(x_sec, data.left.toe);
+  m_chartGRF_l->m_series_y->append(x_sec, data.left.heel);
+  m_chartGRF_l->m_series_z->append(x_sec, data.left.toe + data.left.heel);
+
   if (x_sec >= m_chartAccel_1->getXAxisMax()) {
-    m_chartAccel_1->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
-    m_chartGyro_1->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
-    m_chartAccel_2->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
-    m_chartGyro_2->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
-    m_chartAccel_3->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
-    m_chartGyro_3->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
+    m_chartAccel_1->scroll(1, 0);
+    m_chartGyro_1->scroll(1, 0);
+    m_chartAccel_2->scroll(1, 0);
+    m_chartGyro_2->scroll(1, 0);
+    m_chartAccel_3->scroll(1, 0);
+    m_chartGyro_3->scroll(1, 0);
+    m_chartGRF_r->scroll(1, 0);
+    m_chartGRF_l->scroll(1, 0);
   }
 }
 

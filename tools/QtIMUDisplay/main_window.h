@@ -30,6 +30,8 @@ class MainWindow : public QMainWindow {
   Chart *m_chartGyro_2;
   Chart *m_chartAccel_3;
   Chart *m_chartGyro_3;
+  Chart *m_chartGRF_r;
+  Chart *m_chartGRF_l;
 
   std::chrono::system_clock::time_point m_time_start;
   QLineEdit *m_connectURI;
