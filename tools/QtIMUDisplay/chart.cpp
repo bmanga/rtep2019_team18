@@ -29,7 +29,7 @@
 
 #include "chart.h"
 #include <QtCharts/QAbstractAxis>
-#include <QtCharts/QSplineSeries>
+#include <QtCharts/QLineSeries>
 #include <QtCharts/QValueAxis>
 #include <QtCore/QDebug>
 #include "telemetry/client.h"
@@ -55,15 +55,15 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
   pen_z.setWidth(3);
   pen_z.setBrush(Qt::blue);
 
-  m_series_x = new QSplineSeries(this);
+  m_series_x = new QLineSeries(this);
   m_series_x->setName("X-axis");
   m_series_x->setPen(pen_x);
 
-  m_series_y = new QSplineSeries(this);
+  m_series_y = new QLineSeries(this);
   m_series_y->setName("Y-axis");
   m_series_y->setPen(pen_y);
 
-  m_series_z = new QSplineSeries(this);
+  m_series_z = new QLineSeries(this);
   m_series_z->setName("Z-axis");
   m_series_z->setPen(pen_z);
 
