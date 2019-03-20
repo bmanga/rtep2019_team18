@@ -42,7 +42,6 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
       m_axisX(new QValueAxis()),
       m_axisY(new QValueAxis())
 {
-
   QPen pen_x;  //
   pen_x.setWidth(3);
   pen_x.setBrush(Qt::red);
@@ -91,7 +90,6 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
   m_axisX->setTickCount(5);
   m_axisX->setRange(0, 10);
   m_axisY->setRange(-2, 2);
-
 }
 
 Chart::~Chart() {}
