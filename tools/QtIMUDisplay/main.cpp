@@ -33,6 +33,7 @@
 #include <QtCharts/QChartView>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
+#include "Training_mode.hpp"
 #include "main_window.h"
 
 QT_CHARTS_USE_NAMESPACE
@@ -43,5 +44,6 @@ int main(int argc, char *argv[])
   MainWindow window;
   window.resize(700, 700);
   window.show();
+  TrainingMode train;
   return a.exec();
 }
