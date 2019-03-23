@@ -33,7 +33,7 @@
 #include <QtCharts/QChart>
 
 QT_CHARTS_BEGIN_NAMESPACE
-class QSplineSeries;
+class QLineSeries;
 class QValueAxis;
 QT_CHARTS_END_NAMESPACE
 
@@ -47,9 +47,9 @@ class Chart : public QChart {
   virtual ~Chart();  // Chart is an instance - each will contain 3 series
                      // (variables below)
 
-  QSplineSeries *m_series_x;
-  QSplineSeries *m_series_y;
-  QSplineSeries
+  QLineSeries *m_series_x;
+  QLineSeries *m_series_y;
+  QLineSeries
       *m_series_z;  // will have 3 series (x,y,z) for each Chart instance
 
   qreal getXAxisMax() const;
