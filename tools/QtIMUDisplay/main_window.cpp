@@ -238,14 +238,14 @@ void MainWindow::on_message(const void *d, long len)
   m_chartGRF_l->m_series_z->append(x_sec, data.left.toe + data.left.heel);
 
   if (x_sec >= m_chartAccel_1->getXAxisMax()) {
-    m_chartAccel_1->scroll(1, 0);
-    m_chartGyro_1->scroll(1, 0);
-    m_chartAccel_2->scroll(1, 0);
-    m_chartGyro_2->scroll(1, 0);
-    m_chartAccel_3->scroll(1, 0);
-    m_chartGyro_3->scroll(1, 0);
-    m_chartGRF_r->scroll(1, 0);
-    m_chartGRF_l->scroll(1, 0);
+    m_chartAccel_1->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
+    m_chartGyro_1->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
+    m_chartAccel_2->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
+    m_chartGyro_2->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
+    m_chartAccel_3->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
+    m_chartGyro_3->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
+    m_chartGRF_r->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
+    m_chartGRF_l->axes(Qt::Horizontal).back()->setRange(x_sec - 10, x_sec);
   }
 }
 
