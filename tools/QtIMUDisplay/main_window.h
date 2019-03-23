@@ -1,9 +1,12 @@
 #ifndef main_window_hpp
 #define main_window_hpp
 
+#include <QPainter>
+#include <QProgressBar>
 #include <QString>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
+#include "progressbar.hpp"
 #include "telemetry/client.h"
 
 class Chart;

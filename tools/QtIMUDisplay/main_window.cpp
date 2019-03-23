@@ -3,12 +3,14 @@
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QLineEdit>
+#include <QPainter>
 #include <QPushButton>
 #include <QSplineSeries>
 #include <QtCharts/QChartView>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include "chart.h"
+#include "progressbar.hpp"
 
 MainWindow::MainWindow()
     : m_chartAccel_1(new Chart()),
@@ -19,7 +21,6 @@ MainWindow::MainWindow()
       m_chartGyro_3(new Chart()),
       m_chartGRF_r(new Chart()),
       m_chartGRF_l(new Chart())
-
 {
   m_chartAccel_1->setTitle("Acceleration data chart 1");
   m_chartAccel_1->legend()->hide();
@@ -161,9 +162,8 @@ MainWindow::MainWindow()
   layout_graphs_FSR->addWidget(Box4);
 
   QWidget *charts_FSR = new QWidget(this);
-  charts_FSR->setLayout(layout_graphs_FSR);
   TabAccGyro->addTab(charts_FSR, "FSRs");
-
+  charts_FSR->setLayout(layout_graphs_FSR);
   setCentralWidget(TabAccGyro);
 
   m_client.set_message_handler(
