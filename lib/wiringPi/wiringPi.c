@@ -52,7 +52,6 @@
 //		Added in the 2 UART pins
 //		Change maxPins to numPins to more accurately reflect purpose
 
-#include <asm/ioctl.h>
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>

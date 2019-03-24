@@ -25,6 +25,7 @@ CircleWidget::CircleWidget(QWidget *parent) : QWidget(parent)
 void CircleWidget::setDiameter(int d)
 {
   this->diameter = d;
+  this->repaint();
 }
 void CircleWidget::setFloatBased(bool floatBased)
 {
@@ -60,7 +61,8 @@ void CircleWidget::paintEvent(QPaintEvent *)
   // painter.setRenderHint(QPainter::Antialiasing, antialiased);
   painter.translate(width() / 2, height() / 2);
   painter.setPen(QPen(Qt::black, 3));
-  painter.drawEllipse(QRect(-diameter / 2, -diameter / 2, diameter, diameter));
+  painter.drawEllipse(QRect(-this->diameter / 2, -this->diameter / 2,
+                            this->diameter, this->diameter));
 
   //  for (int diameter = 0; diameter < 256; diameter += 9) {
   //    int delta = abs((frameNo % 128) - diameter / 2);

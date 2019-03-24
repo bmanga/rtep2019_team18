@@ -67,9 +67,7 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
   m_series_z->setPen(pen_z);
 
   m_series_x->append(0, 0);
-
   m_series_y->append(0, 0);
-
   m_series_z->append(0, 0);
 
   addSeries(m_series_x);

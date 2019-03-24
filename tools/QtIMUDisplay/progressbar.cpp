@@ -5,7 +5,7 @@
 
 ProgressBar::ProgressBar(QProgressBar *parent)
     : QProgressBar(parent),
-      m_bufferLength(0),
+      m_bufferLength(100),
       m_recordPosition(0),
       m_playPosition(0),
       m_windowPosition(0),
@@ -70,16 +70,16 @@ void ProgressBar::recordPositionChanged(float recordPosition)
 {
   Q_ASSERT(recordPosition >= 0);
   Q_ASSERT(recordPosition <= m_bufferLength);
-  m_recordPosition = recordPosition;
-  repaint();
+  this->m_recordPosition = recordPosition;
+  this->repaint();
 }
 
 void ProgressBar::playPositionChanged(float playPosition)
 {
   Q_ASSERT(playPosition >= 0);
   Q_ASSERT(playPosition <= m_bufferLength);
-  m_playPosition = playPosition;
-  repaint();
+  this->m_playPosition = playPosition;
+  this->repaint();
 }
 
 void ProgressBar::windowChanged(float position, float length)
@@ -87,7 +87,7 @@ void ProgressBar::windowChanged(float position, float length)
   Q_ASSERT(position >= 0);
   Q_ASSERT(position <= m_bufferLength);
   Q_ASSERT(position + length <= m_bufferLength);
-  m_windowPosition = position;
-  m_windowLength = length;
-  repaint();
+  this->m_windowPosition = position;
+  this->m_windowLength = length;
+  this->repaint();
 }

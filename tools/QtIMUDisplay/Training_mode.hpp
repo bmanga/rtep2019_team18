@@ -15,15 +15,26 @@
 #include "telemetry/client.h"
 
 class ProgressBar;
+class CircleWidget;
 
-class TrainingMode {
+class TrainingMode : public QMainWindow {
+  Q_OBJECT
  public:
   TrainingMode();
   ~TrainingMode();
 
+ signals:
+  void newForceRData(float value);
+  void newForceRToeData(float value);
+  void newForceRHeelData(float value);
+  void newForceLData(float value);
+  void newForceLToeData(float value);
+  void newForceLHeelData(float value);
+
  public slots:
   void onConnectClicked();
   void onDisconnectClicked();
+  void foo(int);
 
  private:
   void on_message(const void *d, long len);
@@ -36,15 +47,16 @@ class TrainingMode {
   ProgressBar *force_l_toe;
   ProgressBar *force_l_heel;
   ProgressBar *force_l;
+  CircleWidget *my_circle_r;
+  CircleWidget *my_circle_l;
   QLabel *left_label_WS;
   QLabel *right_label_WS;
   QLabel *left_label_CP;
   QLabel *right_label_CP;
+
   std::chrono::system_clock::time_point m_time_start;
   QLineEdit *m_connectURI;
   QPushButton *m_connectButton;
-  CircleWidget *my_circle_r;
-  CircleWidget *my_circle_l;
 };
 
 #endif /* Training_mode_hpp */
