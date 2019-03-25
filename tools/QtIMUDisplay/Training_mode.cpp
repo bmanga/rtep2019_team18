@@ -24,36 +24,30 @@ TrainingMode::TrainingMode()
       force_l(new ProgressBar()),
       left_label_WS(new QLabel()),
       right_label_WS(new QLabel()),
-      left_label_CP(new QLabel()),
-      right_label_CP(new QLabel()),
       my_circle_r(new CircleWidget()),
-      my_circle_l(new CircleWidget())
+      my_circle_l(new CircleWidget()),
+      left_label_CP(new QLabel()),
+      right_label_CP(new QLabel())
 
 {
   // Weight shifting
   force_l->bufferLengthChanged(100);
-  // force_l->playPositionChanged(70);
   left_label_WS->setText("Left");
-  left_label_WS->setAlignment(Qt::AlignCenter);
   QFont font_label("Arial", 48);
   left_label_WS->setFont(font_label);
   right_label_WS->setText("Right");
   right_label_WS->setFont(font_label);
-  right_label_WS->setAlignment(Qt::AlignCenter);
   force_r->bufferLengthChanged(100);
-  // force_r->playPositionChanged(10);
 
-  // Weight shifting
+  // Calf push
   my_circle_r->setDiameter(100);
   my_circle_l->setDiameter(100);
   left_label_CP->setText("Left");
-  left_label_CP->setAlignment(Qt::AlignCenter);
   left_label_CP->setFont(font_label);
-
   right_label_CP->setText("Right");
-  right_label_CP->setAlignment(Qt::AlignCenter);
   right_label_CP->setFont(font_label);
 
+  // Connect button
   m_connectURI = new QLineEdit(this);
   m_connectButton = new QPushButton("connect", this);
   QHBoxLayout *connectInterfaceLayout = new QHBoxLayout(this);
@@ -61,14 +55,14 @@ TrainingMode::TrainingMode()
   connectInterfaceLayout->addWidget(m_connectButton);
 
   QTabWidget *Training = new QTabWidget();
-
   QWidget *Weight_shift = new QWidget();
-  QVBoxLayout *Weight_shift_complete = new QVBoxLayout;
-  QGridLayout *Weight_shift_grid = new QGridLayout();
-  Weight_shift_grid->addWidget(left_label_WS, 0, 0);
+  QVBoxLayout *Weight_shift_complete = new QVBoxLayout(Weight_shift);
+  QGridLayout *Weight_shift_grid = new QGridLayout(Weight_shift);
+  Weight_shift_grid->addWidget(left_label_WS, 0, 0, Qt::AlignCenter);
   Weight_shift_grid->addWidget(force_l, 1, 0, Qt::AlignCenter);
-  Weight_shift_grid->addWidget(right_label_WS, 0, 1);
+  Weight_shift_grid->addWidget(right_label_WS, 0, 1, Qt::AlignCenter);
   Weight_shift_grid->addWidget(force_r, 1, 1, Qt::AlignCenter);
+
   Weight_shift_complete->addLayout(connectInterfaceLayout);
   Weight_shift_complete->addLayout(Weight_shift_grid);
   Weight_shift->setLayout(Weight_shift_complete);
@@ -76,14 +70,15 @@ TrainingMode::TrainingMode()
 
   QWidget *Calf_push = new QWidget();
   QGridLayout *Calf_push_grid = new QGridLayout();
-  Calf_push_grid->addWidget(left_label_CP, 0, 0);
+  Calf_push_grid->addWidget(left_label_CP, 0, 0, Qt::AlignCenter);
   Calf_push_grid->addWidget(my_circle_r, 1, 0, Qt::AlignCenter);
-  Calf_push_grid->addWidget(right_label_CP, 0, 1);
+  Calf_push_grid->addWidget(right_label_CP, 0, 1, Qt::AlignCenter);
   Calf_push_grid->addWidget(my_circle_l, 1, 1, Qt::AlignCenter);
   Calf_push->setLayout(Calf_push_grid);
   Training->addTab(Calf_push, "Calf Push");
   Training->show();
 
+  // Signal connection
   connect(m_connectButton, &QPushButton::clicked, this,
           &TrainingMode::onConnectClicked);
 
@@ -121,11 +116,6 @@ struct fsr_packet {
 struct sensors_data {
   fsr_packet right, left;
 };
-
-void TrainingMode::foo(int n)
-{
-  qDebug() << "diok" << n;
-}
 
 void TrainingMode::on_message(const void *d, long len)
 {

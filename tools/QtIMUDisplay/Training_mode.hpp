@@ -34,7 +34,6 @@ class TrainingMode : public QMainWindow {
  public slots:
   void onConnectClicked();
   void onDisconnectClicked();
-  void foo(int);
 
  private:
   void on_message(const void *d, long len);
@@ -53,7 +52,6 @@ class TrainingMode : public QMainWindow {
   QLabel *right_label_WS;
   QLabel *left_label_CP;
   QLabel *right_label_CP;
-
   std::chrono::system_clock::time_point m_time_start;
   QLineEdit *m_connectURI;
   QPushButton *m_connectButton;
