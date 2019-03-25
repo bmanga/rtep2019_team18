@@ -1,10 +1,3 @@
-//
-//  CircleWidget.cpp
-//  qt-imu-visualizer
-//
-//  Created by Luca Rosalia on 20/03/2019.
-//
-
 #include "CircleWidget.hpp"
 
 #include <QPainter>
@@ -17,7 +10,6 @@ CircleWidget::CircleWidget(QWidget *parent) : QWidget(parent)
   antialiased = false;
   frameNo = 0;
   diameter = 0;
-
   setBackgroundRole(QPalette::Base);
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
@@ -27,6 +19,7 @@ void CircleWidget::setDiameter(int d)
   this->diameter = d;
   this->repaint();
 }
+
 void CircleWidget::setFloatBased(bool floatBased)
 {
   this->floatBased = floatBased;
@@ -58,24 +51,12 @@ void CircleWidget::nextAnimationFrame()
 void CircleWidget::paintEvent(QPaintEvent *)
 {
   QPainter painter(this);
-  // painter.setRenderHint(QPainter::Antialiasing, antialiased);
+  painter.setRenderHint(QPainter::Antialiasing, antialiased);
+  QColor targetColor(0, 180, 0);
   painter.translate(width() / 2, height() / 2);
-  painter.setPen(QPen(Qt::black, 3));
+  painter.setPen(QPen(targetColor, 5));
   painter.drawEllipse(QRect(-this->diameter / 2, -this->diameter / 2,
                             this->diameter, this->diameter));
-
-  //  for (int diameter = 0; diameter < 256; diameter += 9) {
-  //    int delta = abs((frameNo % 128) - diameter / 2);
-  //    int alpha = 255 - (delta * delta) / 4 - diameter;
-  //    if (alpha > 0) {
-  //      painter.setPen(QPen(QColor(0, diameter / 2, 127, alpha), 3));
-  //
-  //      if (floatBased)
-  //        painter.drawEllipse(QRectF(-diameter / 2.0, -diameter / 2.0,
-  //        diameter, diameter));
-  //      else
-  //        painter.drawEllipse(QRect(-diameter / 2, -diameter / 2, diameter,
-  //        diameter));
-  //    }
-  //  }
+  painter.setPen(QPen(Qt::green, 3));
+  painter.drawEllipse(QRect(-50, -50, 100, 100));  // 100 will be target
 }
