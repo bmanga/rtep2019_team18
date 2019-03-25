@@ -14,7 +14,6 @@ ProgressBar::ProgressBar(QProgressBar *parent)
   // setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
   setFixedWidth(50);
   setFixedHeight(400);
-  // setAlignment(Qt::AlignCenter);
 }
 
 ProgressBar::~ProgressBar() {}
@@ -33,7 +32,8 @@ void ProgressBar::paintEvent(QPaintEvent * /*event*/)
 {
   QPainter painter(this);
   const qreal play = qreal(m_playPosition) / m_bufferLength;
-  QColor bufferColor(100, play * 255, (1 - play) * 255);
+  QColor bufferColor((1 - play) * 255, (play)*255, 20);  // RGB
+  QColor targetColor(0, 180, 0);
   QColor windowColor(255, 255, 0);
 
   painter.fillRect(rect(), Qt::lightGray);
@@ -45,6 +45,15 @@ void ProgressBar::paintEvent(QPaintEvent * /*event*/)
     const qreal record = qreal(m_recordPosition) / m_bufferLength;
     bar.setTop(0 + (1 - record) * 400);
     painter.fillRect(bar, bufferColor);
+
+    QPen pen_box;
+    pen_box.setWidth(8);
+    pen_box.setBrush(Qt::black);
+    QRect box = rect();
+    box.setRect(-5, 100, 60, 75);
+    painter.fillRect(box, targetColor);
+    painter.setPen(pen_box);
+    painter.drawRect(box);
 
     QRect window = rect();
     const qreal windowLeft = qreal(m_windowPosition) / m_bufferLength;
