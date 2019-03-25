@@ -90,6 +90,10 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
   m_axisX->setTickCount(5);
   m_axisX->setRange(0, 10);
   m_axisY->setRange(-2, 2);
+
+  m_series_x->setUseOpenGL(true);
+  m_series_y->setUseOpenGL(true);
+  m_series_z->setUseOpenGL(true);
 }
 
 Chart::~Chart() {}
