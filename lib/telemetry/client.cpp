@@ -25,7 +25,11 @@ class client_impl {
         ws::lib::bind(&client_impl::on_message, this, _1, _2));
   }
 
-  ~client_impl() { m_client_thread.join(); }
+  ~client_impl()
+  {
+    if (m_client_thread.joinable())
+      m_client_thread.join();
+  }
 
   void run_on_thread()
   {
