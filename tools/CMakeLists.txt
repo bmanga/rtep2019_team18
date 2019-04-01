@@ -9,5 +9,6 @@ add_subdirectory(IMUStreamer)
 add_subdirectory(IMUStreamReader)
 add_subdirectory(MockIMUStreamer)
 add_subdirectory(QtIMUDisplay)
+add_subdirectory(QtSavedataDisplay)
 
 
