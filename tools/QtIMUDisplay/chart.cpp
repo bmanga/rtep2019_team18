@@ -107,11 +107,11 @@ void Chart::saveToJson(QJsonObject &root, const char *groupName)
     QJsonArray data(
         {m_series_x->at(j).y(), m_series_y->at(j).y(), m_series_z->at(j).y()});
 
-    auto currentTimepoint =
-        root[QString::number(m_series_x->at(j).x())].toObject();
+    QString tpStr = QString::asprintf("%08.3f", m_series_x->at(j).x());
+    auto currentTimepoint = root[tpStr].toObject();
     currentTimepoint[groupName] = data;
 
-    root[QString::number(m_series_x->at(j).x())] = currentTimepoint;
+    root[tpStr] = currentTimepoint;
   }
 }
 
