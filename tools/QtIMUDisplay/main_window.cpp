@@ -1,14 +1,20 @@
 #include "main_window.h"
 #include <QCheckBox>
+#include <QDateTime>
 #include <QDebug>
+#include <QDir>
 #include <QHBoxLayout>
+#include <QJsonArray>
 #include <QLineEdit>
 #include <QPainter>
 #include <QPushButton>
 #include <QSplineSeries>
 #include <QtCharts/QChartView>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
+#include <iostream>
 #include "chart.h"
 #include "progressbar.hpp"
 
@@ -109,6 +115,8 @@ MainWindow::MainWindow()
   connect(m_connectButton, &QPushButton::clicked, this,
           &MainWindow::onConnectClicked);
 
+  QPushButton *saveDataButton = new QPushButton("save data", this);
+
   // Charts
   QChartView *chartView_1 = new QChartView(m_chartAccel_1, this);
   QChartView *chartView_2 = new QChartView(m_chartGyro_1, this);
@@ -142,6 +150,7 @@ MainWindow::MainWindow()
   layout_boxes->addWidget(Box1);
   layout_boxes->addWidget(Box2);
   layout_boxes->addWidget(Box3);
+  layout_boxes->addWidget(saveDataButton);
 
   QVBoxLayout *layout = new QVBoxLayout;
   layout->addLayout(connectInterfaceLayout);
@@ -165,6 +174,9 @@ MainWindow::MainWindow()
   TabAccGyro->addTab(charts_FSR, "FSRs");
   charts_FSR->setLayout(layout_graphs_FSR);
   setCentralWidget(TabAccGyro);
+
+  connect(saveDataButton, &QPushButton::clicked, this,
+          &MainWindow::onSaveClicked);
 
   m_client.set_message_handler(
       [this](const void *data, long len) { this->on_message(data, len); });
@@ -271,4 +283,35 @@ void MainWindow::onDisconnectClicked()
              &MainWindow::onDisconnectClicked);
   connect(m_connectButton, &QPushButton::clicked, this,
           &MainWindow::onConnectClicked);
+}
+
+void MainWindow::onSaveClicked()
+{
+  QJsonObject root;
+
+  m_chartGRF_l->saveToJson(root, "FSR_L");
+  m_chartGRF_r->saveToJson(root, "FSR_R");
+
+  m_chartAccel_1->saveToJson(root, "acceleration_A");
+  m_chartAccel_2->saveToJson(root, "acceleration_B");
+  m_chartAccel_3->saveToJson(root, "acceleration_C");
+
+  m_chartGyro_1->saveToJson(root, "gyroscope_A");
+  m_chartGyro_2->saveToJson(root, "gyroscope_B");
+  m_chartGyro_3->saveToJson(root, "gyroscope_C");
+
+  QJsonDocument json(root);
+  QDir().mkdir("savedata");
+
+  QString timestamp =
+      QDateTime::currentDateTime().toString("yy.MM.dd-hh:mm:ss");
+  QString filename = "savedata/" + timestamp + ".json";
+  QFile file(filename);
+  if (!file.open(QIODevice::WriteOnly)) {
+    qWarning("Couldn't open save file.");
+    return;
+  }
+  file.write(json.toJson());
+
+  qDebug() << "Datapoints saved to file " << filename;
 }

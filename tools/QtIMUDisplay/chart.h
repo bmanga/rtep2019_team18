@@ -37,6 +37,8 @@ class QLineSeries;
 class QValueAxis;
 QT_CHARTS_END_NAMESPACE
 
+class QJsonObject;
+
 QT_CHARTS_USE_NAMESPACE
 
 //![1]
@@ -53,6 +55,8 @@ class Chart : public QChart {
       *m_series_z;  // will have 3 series (x,y,z) for each Chart instance
 
   qreal getXAxisMax() const;
+
+  void saveToJson(QJsonObject &root, const char *groupName);
 
  private:
   QStringList m_titles;

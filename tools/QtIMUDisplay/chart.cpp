@@ -28,10 +28,13 @@
 ****************************************************************************/
 
 #include "chart.h"
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QtCharts/QAbstractAxis>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QValueAxis>
 #include <QtCore/QDebug>
+#include <cassert>
 #include "telemetry/client.h"
 
 Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
@@ -92,6 +95,24 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
   m_series_x->setUseOpenGL(true);
   m_series_y->setUseOpenGL(true);
   m_series_z->setUseOpenGL(true);
+}
+
+void Chart::saveToJson(QJsonObject &root, const char *groupName)
+{
+  assert(m_series_x->count() == m_series_y->count() &&
+         m_series_y->count() == m_series_z->count());
+
+  QJsonArray series;
+  for (int j = 0, max = m_series_x->count(); j < max; ++j) {
+    QJsonArray data(
+        {m_series_x->at(j).y(), m_series_y->at(j).y(), m_series_z->at(j).y()});
+
+    auto currentTimepoint =
+        root[QString::number(m_series_x->at(j).x())].toObject();
+    currentTimepoint[groupName] = data;
+
+    root[QString::number(m_series_x->at(j).x())] = currentTimepoint;
+  }
 }
 
 Chart::~Chart() {}
