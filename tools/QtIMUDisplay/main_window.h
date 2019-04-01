@@ -21,6 +21,7 @@ class MainWindow : public QMainWindow {
  public slots:
   void onConnectClicked();
   void onDisconnectClicked();
+  void onSaveClicked();
 
  private:
   void on_message(const void *d, long len);
