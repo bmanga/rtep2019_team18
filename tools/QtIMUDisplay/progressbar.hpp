@@ -24,6 +24,15 @@ class ProgressBar : public QProgressBar {
   void recordPositionChanged(float recordPosition);
   void playPositionChanged(float playPosition);
   void windowChanged(float position, float length);
+  void setTarget(float lower, float upper);
+  void checkStatus();
+
+ signals:
+  void onTarget(void);
+  void offTarget(void);
+
+ private:
+  bool isPositionOnTarget(float val) const;
 
  private:
   float m_bufferLength;
@@ -31,6 +40,10 @@ class ProgressBar : public QProgressBar {
   float m_playPosition;
   float m_windowPosition;
   float m_windowLength;
+  float m_targetLow;
+  float m_targetHigh;
+
+  bool m_prevOnTarget = false;
 };
 
 #endif /* progressbar_hpp */

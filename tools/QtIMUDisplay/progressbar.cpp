@@ -17,7 +17,6 @@ ProgressBar::ProgressBar(QProgressBar *parent)
 }
 
 ProgressBar::~ProgressBar() {}
-
 void ProgressBar::reset()
 {
   m_bufferLength = 0;
@@ -26,6 +25,30 @@ void ProgressBar::reset()
   m_windowPosition = 0;
   m_windowLength = 0;
   update();
+}
+
+void ProgressBar::setTarget(float lower, float upper)
+{
+  m_targetLow = lower;
+  m_targetHigh = upper;
+}
+
+void ProgressBar::checkStatus()
+{
+  bool posOnTarget = isPositionOnTarget(m_playPosition);
+
+  if (posOnTarget && !m_prevOnTarget) {
+    emit onTarget();
+  }
+  else if (!posOnTarget && m_prevOnTarget) {
+    emit offTarget();
+  }
+  m_prevOnTarget = posOnTarget;
+}
+
+bool ProgressBar::isPositionOnTarget(float val) const
+{
+  return val >= m_targetLow && val <= m_targetHigh;
 }
 
 void ProgressBar::paintEvent(QPaintEvent * /*event*/)
@@ -89,6 +112,8 @@ void ProgressBar::playPositionChanged(float playPosition)
   Q_ASSERT(playPosition <= m_bufferLength);
   this->m_playPosition = playPosition;
   this->repaint();
+
+  checkStatus();
 }
 
 void ProgressBar::windowChanged(float position, float length)
