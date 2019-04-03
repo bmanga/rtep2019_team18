@@ -58,7 +58,7 @@ void MainWindow::onFileSelectPressed()
 
 void MainWindow::onFileLoadPressed()
 {
-  auto dataFile = QFile(m_saved_data_le->text());
+  QFile dataFile(m_saved_data_le->text());
 
   if (!dataFile.open(QFile::ReadOnly)) {
     QMessageBox().critical(0, "File Error", "Data file does not exist");
