@@ -54,9 +54,9 @@ void CircleWidget::paintEvent(QPaintEvent *)
   painter.setRenderHint(QPainter::Antialiasing, antialiased);
   QColor targetColor(0, 180, 0);
   painter.translate(width() / 2, height() / 2);
-  painter.setPen(QPen(targetColor, 5));
+  painter.setPen(QPen(Qt::black, 3));
   painter.drawEllipse(QRect(-this->diameter / 2, -this->diameter / 2,
                             this->diameter, this->diameter));
-  painter.setPen(QPen(Qt::green, 3));
+  painter.setPen(QPen(targetColor, 5));
   painter.drawEllipse(QRect(-50, -50, 100, 100));  // 100 will be target
 }
