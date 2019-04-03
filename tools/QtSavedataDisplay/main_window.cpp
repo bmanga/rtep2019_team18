@@ -95,23 +95,23 @@ void MainWindow::onFileLoadPressed()
   for (const auto &seriesStr : seriesNames) {
     // Create 3 boxes to disable/enable the series.
     auto *box_x = new QCheckBox(seriesStr + "-X", this);
-    box_x->setChecked(true);
     auto *series_x =
         m_chart->getSeries((seriesStr + "-X").toStdString().c_str());
+    series_x->setVisible(false);
     connect(box_x, &QCheckBox::stateChanged, series_x,
             &QLineSeries::setVisible);
 
     auto *box_y = new QCheckBox(seriesStr + "-Y", this);
-    box_y->setChecked(true);
     auto *series_y =
         m_chart->getSeries((seriesStr + "-Y").toStdString().c_str());
+    series_y->setVisible(false);
     connect(box_y, &QCheckBox::stateChanged, series_y,
             &QLineSeries::setVisible);
 
     auto *box_z = new QCheckBox(seriesStr + "-Z", this);
-    box_z->setChecked(true);
     auto *series_z =
         m_chart->getSeries((seriesStr + "-Z").toStdString().c_str());
+    series_z->setVisible(false);
     connect(box_z, &QCheckBox::stateChanged, series_z,
             &QLineSeries::setVisible);
 
