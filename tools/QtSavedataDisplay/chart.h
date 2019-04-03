@@ -18,7 +18,8 @@ class QLineSeries;
 class Chart : public QChart {
  public:
   Chart();
-  void addSeries(const char *seriesName, const QList<QPointF> &datapoints);
+  bool addSeries(const char *seriesName);
+  QLineSeries *getSeries(const char *seriesName);
 
  private:
   QMap<QString, QLineSeries *> m_series;

@@ -14,21 +14,29 @@ Chart::Chart() : m_axis_x(new QValueAxis()), m_axis_y(new QValueAxis())
 
   addAxis(m_axis_x, Qt::AlignBottom);
   addAxis(m_axis_y, Qt::AlignLeft);
+
+  legend()->setAlignment(Qt::AlignBottom);
 }
 
-void Chart::addSeries(const char *seriesName, const QList<QPointF> &datapoints)
+bool Chart::addSeries(const char *seriesName)
 {
   // Cannot add the same series multiple times
   if (m_series.contains(seriesName))
-    return;
+    return false;
 
   auto *series = m_series[seriesName] = new QLineSeries(this);
   series->setName(seriesName);
-
-  series->append(datapoints);
 
   QChart::addSeries(series);
 
   series->attachAxis(m_axis_x);
   series->attachAxis(m_axis_y);
+
+  return true;
+}
+
+QLineSeries *Chart::getSeries(const char *seriesName)
+{
+  addSeries(seriesName);
+  return m_series[seriesName];
 }

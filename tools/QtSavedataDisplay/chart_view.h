@@ -9,6 +9,9 @@ class ChartView : public QChartView {
  public:
   using QChartView::QChartView;
 
+  void adjustXAxis();
+  void adjustYAxis();
+
  protected:
   void mousePressEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;

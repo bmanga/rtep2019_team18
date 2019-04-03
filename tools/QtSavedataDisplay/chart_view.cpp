@@ -67,9 +67,8 @@ void ChartView::wheelEvent(QWheelEvent *event)
 
   m_total_zoom_scale *= scalingFactor;
   if (m_total_zoom_scale < 1) {
-    chart()->zoomReset();
-    chart()->axisX()->setRange(
-        0, static_cast<QXYSeries *>(chart()->series()[0])->points().back().x());
+    adjustXAxis();
+    adjustYAxis();
     m_total_zoom_scale = 1;
     return;
   }
@@ -77,10 +76,25 @@ void ChartView::wheelEvent(QWheelEvent *event)
   chart()->scroll(event->pos().x() - this->width() / 2, 0);
   chart()->zoom(scalingFactor);
 
+  adjustYAxis();
+}
+
+void ChartView::adjustXAxis()
+{
+  chart()->zoomReset();
+  chart()->axisX()->setRange(
+      0, static_cast<QXYSeries *>(chart()->series()[0])->points().back().x());
+}
+
+void ChartView::adjustYAxis()
+{
   QRectF visibleRect = seriesRect(chart());
   QVector<qreal> visibleYs;
 
   for (auto *series : chart()->series()) {
+    if (!series->isVisible())
+      continue;
+
     auto minmax = yMinMax(static_cast<QXYSeries *>(series), visibleRect);
     visibleYs.append(minmax.first);
     visibleYs.append(minmax.second);
@@ -88,5 +102,5 @@ void ChartView::wheelEvent(QWheelEvent *event)
 
   auto minmax = std::minmax_element(visibleYs.begin(), visibleYs.end());
 
-  chart()->axisY()->setRange(*minmax.first, *minmax.second);
+  chart()->axisY()->setRange(*minmax.first, *minmax.second * 1.2);
 }
