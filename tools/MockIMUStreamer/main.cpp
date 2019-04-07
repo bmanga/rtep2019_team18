@@ -19,7 +19,7 @@ struct sensors_data {
 std::random_device rd;
 
 std::mt19937 gen(rd());
-std::uniform_real_distribution<float> dist(1, 49);
+std::uniform_real_distribution<float> dist(1, 250);
 
 imu_packet random_packet()
 {

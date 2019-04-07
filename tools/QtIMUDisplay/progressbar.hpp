@@ -2,6 +2,7 @@
 #define progressbar_hpp
 
 #include <stdio.h>
+#include <QColor>
 #include <QProgressBar>
 #include <QWidget>
 
@@ -19,8 +20,14 @@ class ProgressBar : public QProgressBar {
   void reset();
   void paintEvent(QPaintEvent *event) override;
 
+  QColor interpolate2(float pos, QColor start, QColor end) const;
+  QColor interpolate3(float pos,
+                      QColor start,
+                      float middlePos,
+                      QColor middle,
+                      QColor end) const;
+
  public slots:
-  void bufferLengthChanged(float length);
   void recordPositionChanged(float recordPosition);
   void playPositionChanged(float playPosition);
   void windowChanged(float position, float length);
@@ -28,16 +35,13 @@ class ProgressBar : public QProgressBar {
   void checkStatus();
 
  signals:
-  void onTarget(void);
-  void offTarget(void);
+  void onTarget(bool);
 
  private:
   bool isPositionOnTarget(float val) const;
 
  private:
-  float m_bufferLength;
   float m_recordPosition;
-  float m_playPosition;
   float m_windowPosition;
   float m_windowLength;
   float m_targetLow;
