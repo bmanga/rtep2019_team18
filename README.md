@@ -13,6 +13,8 @@ See the [Wiki](https://github.com/bmanga/rtep2019_team18/wiki) for more informat
 
 ### Prerequisites
 * [conan](https://conan.io/) package manager - it can be installed by running ```pip install conan```
+* * Make sure you have added the bincrafters remote repository. If not, run:<br/>
+ ```conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan```
 * [cmake](https://cmake.org/) build system version 3.8 or above
 
 ### Build Instructions
