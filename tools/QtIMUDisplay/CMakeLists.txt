@@ -23,10 +23,14 @@ add_executable(qt-imu-visualizer chart.cpp
 	main_window.h
 	progressbar.cpp
 	Training_mode.cpp
+	Level_weight_shifting.cpp
+	Level_weight_shifting.hpp
 	CircleWidget.cpp
 	CircleWidget.hpp
 	Training_mode.hpp
 	progressbar.hpp
+  intro_window.cpp
+  intro_window.hpp
 	)
 # Use the Widgets module from Qt 5
 target_link_libraries(qt-imu-visualizer Qt5::Widgets Qt5::Charts telemetry)

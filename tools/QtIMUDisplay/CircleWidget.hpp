@@ -11,24 +11,34 @@ class CircleWidget : public QWidget {
  public:
   CircleWidget(QWidget *parent = 0);
 
-  void setFloatBased(bool floatBased);
-  void setAntialiased(bool antialiased);
-  void setDiameter(int d);
-
+  void paintEvent(QPaintEvent *event) override;
+  QColor interpolate2(float pos, QColor start, QColor end) const;  // NEW
+  QColor interpolate3(float pos,
+                      QColor start,
+                      float middlePos,
+                      QColor middle,
+                      QColor end) const;  // NEW
   QSize minimumSizeHint() const override;
   QSize sizeHint() const override;
 
  public slots:
-  void nextAnimationFrame();
-
- protected:
-  void paintEvent(QPaintEvent *event) override;
+  void setDiameter(float d);
+  float getDiameter();
+  void setTarget(float lower, float upper);  // NEW
+  void checkStatus();                        // NEW
 
  private:
   bool floatBased;
   bool antialiased;
-  int frameNo;
-  int diameter;
+  float diameter;
+  float max_diameter;
+  float m_targetLow = 0.3;   // NEW
+  float m_targetHigh = 0.5;  // NEW
+  bool m_prevOnTarget = false;
+  bool isPositionOnTarget(float val) const;  // NEW
+
+ signals:
+  void onTarget(bool);
 };
 
 #endif /* CircleWidget_hpp */

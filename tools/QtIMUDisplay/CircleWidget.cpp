@@ -3,33 +3,54 @@
 #include <QPainter>
 
 #include <stdlib.h>
+#include <iostream>
 
 CircleWidget::CircleWidget(QWidget *parent) : QWidget(parent)
 {
   floatBased = false;
-  antialiased = false;
-  frameNo = 0;
+  antialiased = true;
   diameter = 0;
+  max_diameter = 300;
   setBackgroundRole(QPalette::Base);
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
-void CircleWidget::setDiameter(int d)
+void CircleWidget::setDiameter(float d)
 {
   this->diameter = d;
+  checkStatus();
   this->repaint();
 }
 
-void CircleWidget::setFloatBased(bool floatBased)
+float CircleWidget::getDiameter()
 {
-  this->floatBased = floatBased;
-  update();
+  return this->diameter;
 }
 
-void CircleWidget::setAntialiased(bool antialiased)
+void CircleWidget::setTarget(float lower, float upper)
 {
-  this->antialiased = antialiased;
-  update();
+  m_targetLow = lower;
+  m_targetHigh = upper;
+}
+
+void CircleWidget::checkStatus()
+{
+  bool posOnTarget = isPositionOnTarget(this->getDiameter());
+
+  if (posOnTarget && !m_prevOnTarget) {
+    emit onTarget(true);
+  }
+  else if (!posOnTarget && m_prevOnTarget) {
+    emit onTarget(false);
+  }
+  m_prevOnTarget = posOnTarget;
+}
+
+bool CircleWidget::isPositionOnTarget(float val) const
+{
+  return val >= m_targetLow * this->max_diameter + 10 &&
+         val <= m_targetHigh * this->max_diameter +
+                    10;  // max diam will (kinda) come from calibration
 }
 
 QSize CircleWidget::minimumSizeHint() const
@@ -39,24 +60,59 @@ QSize CircleWidget::minimumSizeHint() const
 
 QSize CircleWidget::sizeHint() const
 {
-  return QSize(180, 180);
-}
-
-void CircleWidget::nextAnimationFrame()
-{
-  ++frameNo;
-  update();
+  return QSize(800, 800);
 }
 
 void CircleWidget::paintEvent(QPaintEvent *)
 {
+  QColor targetColor(0, 180, 0, 255.02 / 2.0);
+  QColor new_green(0, 180, 0);
+  QColor new_yellow(232, 220, 58);
+  QColor new_red(188, 37, 37);
+
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing, antialiased);
-  QColor targetColor(0, 180, 0);
   painter.translate(width() / 2, height() / 2);
-  painter.setPen(QPen(Qt::black, 3));
-  painter.drawEllipse(QRect(-this->diameter / 2, -this->diameter / 2,
-                            this->diameter, this->diameter));
-  painter.setPen(QPen(targetColor, 5));
-  painter.drawEllipse(QRect(-50, -50, 100, 100));  // 100 will be target
+  float max = this->max_diameter;
+  float d_outer = max * this->m_targetHigh;
+  float d_inner = max * this->m_targetLow;
+  float midline_target = (d_outer + d_inner + 20) / 2.0;
+  float thickness_target = (d_outer - d_inner) / 2.0;
+  painter.setPen(QPen(targetColor, thickness_target));
+  painter.drawEllipse(QRect(-midline_target / 2.0, -midline_target / 2.0,
+                            midline_target, midline_target));
+
+  auto color =
+      m_prevOnTarget
+          ? new_green
+          : interpolate3(this->getDiameter() / this->max_diameter, new_red,
+                         (this->m_targetHigh + this->m_targetLow) / 2,
+                         new_yellow, new_red);
+  painter.setPen(QPen(color, 6));
+  painter.drawEllipse(QRect(-this->getDiameter() / 2, -this->getDiameter() / 2,
+                            this->getDiameter(), this->getDiameter()));
+  painter.setPen(QPen(Qt::black, 5));
+  painter.drawEllipse(QRect(-(d_outer + 10) / 2.0, -(d_outer + 10) / 2.0,
+                            (d_outer + 10), (d_outer + 10)));
+  painter.drawEllipse(QRect(-(d_inner + 10) / 2.0, -(d_inner + 10) / 2.0,
+                            (d_inner + 10), (d_inner + 10)));
+}
+
+QColor CircleWidget::interpolate2(float pos, QColor initial, QColor end) const
+{
+  int red = (int)((1 - pos) * initial.red() + (pos)*end.red());
+  int green = (int)((1 - pos) * initial.green() + (pos)*end.green());
+  int blue = (int)((1 - pos) * initial.blue() + (pos)*end.blue());
+  return {red, green, blue};
+}
+
+QColor CircleWidget::interpolate3(float pos,
+                                  QColor start,
+                                  float middlePos,
+                                  QColor middle,
+                                  QColor end) const
+{
+  if (pos < middlePos)
+    return interpolate2(pos / middlePos, start, middle);
+  return interpolate2((pos - middlePos) / (1 - middlePos), middle, end);
 }

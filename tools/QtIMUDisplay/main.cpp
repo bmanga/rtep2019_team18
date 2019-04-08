@@ -34,6 +34,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include "Training_mode.hpp"
+#include "intro_window.hpp"
 #include "main_window.h"
 
 QT_CHARTS_USE_NAMESPACE
@@ -41,9 +42,14 @@ QT_CHARTS_USE_NAMESPACE
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
+  IntroWindow intro;
+  intro.resize(700, 700);
+  intro.show();
   MainWindow window;
   window.resize(700, 700);
   window.show();
+  // window.resize(700, 700);
+  // window.show();
   TrainingMode train;
   return a.exec();
 }
