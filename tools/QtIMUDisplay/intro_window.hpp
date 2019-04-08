@@ -20,6 +20,7 @@ class IntroWindow : public QMainWindow {
 
   QPushButton *GaitMode;
   QPushButton *TrainingMode;
+  QPushButton *Vocal;
 
  private:
   QLabel *Message;

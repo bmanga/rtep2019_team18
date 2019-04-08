@@ -48,8 +48,6 @@ int main(int argc, char *argv[])
   MainWindow window;
   window.resize(700, 700);
   window.show();
-  // window.resize(700, 700);
-  // window.show();
   TrainingMode train;
   return a.exec();
 }
