@@ -39,7 +39,8 @@ class MainWindow : public QMainWindow {
   Chart *m_chartGRF_r;
   Chart *m_chartGRF_l;
 
-  std::chrono::system_clock::time_point m_time_start;
+  float m_time_start;
+  bool m_time_started = false;
   QLineEdit *m_connectURI;
   QPushButton *m_connectButton;
 };

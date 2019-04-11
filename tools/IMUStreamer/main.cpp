@@ -1,3 +1,4 @@
+#include <chrono>
 #include <iostream>
 #include <thread>
 #include "IMU/IMU.h"
@@ -13,6 +14,7 @@ struct fsr_data {
 };
 
 struct packet {
+  float timepoint;
   sensors_data a, b, c;
   fsr_data x, y;
 };
@@ -31,6 +33,9 @@ int main()
   imu_3.initialize();
 
   packet data = {};
+
+  using clk = std::chrono::steady_clock;
+  auto start_time = clk::now();
 
   while (1) {
     data = {};
@@ -54,6 +59,13 @@ int main()
     data.c.gx = imu_3.getGyro_X() / 16384.0;
     data.c.gy = imu_3.getGyro_Y() / 16384.0;
     data.c.gz = imu_3.getGyro_Z() / 16384.0;
+
+    float elapsed_s = std::chrono::duration_cast<std::chrono::milliseconds>(
+                          clk::now() - start_time)
+                          .count() /
+                      1000.f;
+
+    data.timepoint = elapsed_s;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     server.broadcast(&data, sizeof(data));

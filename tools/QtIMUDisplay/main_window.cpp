@@ -251,6 +251,7 @@ struct fsr_packet {
 };
 
 struct sensors_data {
+  float timepoint;
   imu_packet p1, p2, p3;
   fsr_packet right, left;
 };
@@ -260,9 +261,13 @@ void MainWindow::on_message(const void *d, long len)
   sensors_data data;
 
   memcpy(&data, d, len);
-  auto x = std::chrono::system_clock::now() - m_time_start;
-  double x_sec =
-      std::chrono::duration_cast<std::chrono::milliseconds>(x).count() / 1000.0;
+
+  if (!m_time_started) {
+    m_time_start = data.timepoint;
+    m_time_started = true;
+  }
+
+  double x_sec = data.timepoint - m_time_start;
 
   m_chartAccel_1->m_series_x->append(x_sec, data.p1.ax);
   m_chartAccel_1->m_series_y->append(x_sec, data.p1.ay);
@@ -310,7 +315,6 @@ void MainWindow::on_message(const void *d, long len)
 
 void MainWindow::onConnectClicked()
 {
-  m_time_start = std::chrono::system_clock::now();
   QString uri = m_connectURI->text();
   if (uri == "")
     return;
