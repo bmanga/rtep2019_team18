@@ -13,6 +13,7 @@
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QFileDialog>
 #include <QtWidgets/QMainWindow>
 #include <iostream>
 #include "chart.h"
@@ -355,10 +356,15 @@ void MainWindow::onSaveClicked()
   auto savepath = QCoreApplication::applicationDirPath() + "/savedata/";
   QDir().mkdir(savepath);
 
-  QString timestamp =
-      QDateTime::currentDateTime().toString("yy.MM.dd-hh:mm:ss");
+  QString savename = QDateTime::currentDateTime().toString("yy.MM.dd-hh:mm:ss");
 
-  QString filename = savepath + timestamp + ".json";
+  QString filename = savepath + savename + ".json";
+  filename =
+      QFileDialog::getSaveFileName(this, "Save Datapoints as Json", filename);
+
+  if (filename.isEmpty())
+    return;
+
   QFile file(filename);
   if (!file.open(QIODevice::WriteOnly)) {
     qWarning("Couldn't open save file.");
