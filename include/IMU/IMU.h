@@ -7,6 +7,8 @@ class Sensor_IMU {
  public:
   Sensor_IMU(int pin);
 
+  void initialize();
+
   int getAccel_X();
   int getAccel_Y();
   int getAccel_Z();

@@ -26,3 +26,7 @@ add_library(imu
 
 target_link_libraries(imu PRIVATE wiringPi)
 target_include_directories(imu PRIVATE ../include)
+
+add_library(fsr fsr/fsr_reader.cpp)
+target_include_directories(fsr PRIVATE ../include)
+

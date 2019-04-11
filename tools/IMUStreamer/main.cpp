@@ -1,3 +1,4 @@
+#include <iostream>
 #include <thread>
 #include "IMU/IMU.h"
 #include "telemetry/server.h"
@@ -7,6 +8,15 @@ struct sensors_data {
   float gx, gy, gz;
 };
 
+struct fsr_data {
+  float a, b;
+};
+
+struct packet {
+  sensors_data a, b, c;
+  fsr_data x, y;
+};
+
 int main()
 {
   tel::server server;
@@ -14,25 +24,36 @@ int main()
 
   Sensor_IMU imu_1(0);
   Sensor_IMU imu_2(2);
+  Sensor_IMU imu_3(3);
 
-  sensors_data data = {};
+  imu_1.initialize();
+  imu_2.initialize();
+  imu_3.initialize();
+
+  packet data = {};
 
   while (1) {
-    data.ax = imu_1.getAccel_X() / 16384.0;
-    data.ay = imu_1.getAccel_Y() / 16384.0;
-    data.az = imu_1.getAccel_Z() / 16384.0;
+    data = {};
+    data.a.ax = imu_1.getAccel_X() / 16384.0;
+    data.a.ay = imu_1.getAccel_Y() / 16384.0;
+    data.a.az = imu_1.getAccel_Z() / 16384.0;
+    data.a.gx = imu_1.getGyro_X() / 16384.0;
+    data.a.gy = imu_1.getGyro_Y() / 16384.0;
+    data.a.gz = imu_1.getGyro_Z() / 16384.0;
 
-    data.gx = imu_1.getGyro_X() / 16384.0;
-    data.gy = imu_1.getGyro_Y() / 16384.0;
-    data.gz = imu_1.getGyro_Z() / 16384.0;
+    data.b.ax = imu_2.getAccel_X() / 16384.0;
+    data.b.ay = imu_2.getAccel_Y() / 16384.0;
+    data.b.az = imu_2.getAccel_Z() / 16384.0;
+    data.b.gx = imu_2.getGyro_X() / 16384.0;
+    data.b.gy = imu_2.getGyro_Y() / 16384.0;
+    data.b.gz = imu_2.getGyro_Z() / 16384.0;
 
-    printf("Accelerometer (A) X: %.3f\n", data.ax);
-    printf("Accelerometer (A) Y: %.3f\n", data.ay);
-    printf("Accelerometer (A) Z: %.3f\n", data.az);
-
-    printf("Accelerometer (B) X: %.3f\n", imu_2.getAccel_X() / 16384.0);
-    printf("Accelerometer (B) Y: %.3f\n", imu_2.getAccel_Y() / 16384.0);
-    printf("Accelerometer (B) Z: %.3f\n", imu_2.getAccel_Z() / 16384.0);
+    data.c.ax = imu_3.getAccel_X() / 16384.0;
+    data.c.ay = imu_3.getAccel_Y() / 16384.0;
+    data.c.az = imu_3.getAccel_Z() / 16384.0;
+    data.c.gx = imu_3.getGyro_X() / 16384.0;
+    data.c.gy = imu_3.getGyro_Y() / 16384.0;
+    data.c.gz = imu_3.getGyro_Z() / 16384.0;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     server.broadcast(&data, sizeof(data));
