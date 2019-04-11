@@ -1,4 +1,5 @@
 #include "fsr/fsr_reader.h"
+#include <cassert>
 using namespace std;
 /**********************************************************
  * spiOpen() :function is called by the constructor.
@@ -80,7 +81,8 @@ int mcp3008Spi::spiClose()
  * ******************************************************************/
 int mcp3008Spi::spiWriteRead(unsigned char *data, int length)
 {
-  struct spi_ioc_transfer spi[length] = {};
+  assert(length <= 8 && "Only up to 8 bytes supported.");
+  struct spi_ioc_transfer spi[8] = {};
   int i = 0;
   int retVal = -1;
 
