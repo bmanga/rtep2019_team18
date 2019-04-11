@@ -1,50 +1,63 @@
-//
-//  intro_window.cpp
-//  rtep_team18
-//
-//  Created by Luca Rosalia on 07/04/2019.
-//
-
 #include "intro_window.hpp"
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QString>
+#include "main_window.h"
 
 IntroWindow::IntroWindow() : Message(new QLabel())
 {
   GaitMode = new QPushButton("GAIT", this);
   TrainingMode = new QPushButton("TRAINING", this);
+  QCheckBox *Vocal = new QCheckBox(this);
+  Vocal->setText("Vocal Instructions");
 
-  Message->setText(
-      "Please, select your preferred mode of choice:\n GAIT mode is to assist "
-      "you during your walking.\nTRAINING mode provides exercises aimed to "
-      "improve your posture and motion.");
+  Message->setText(R"(
+  <html>
+        Please, select your preferred mode of choice:
+        <br>
+        <ul>
+            <blockquote><b>GAIT</b> mode is to assist you during walking.</blockquote>
+            <br>
+            <blockquote><b>TRAINING</b> mode provides exercises to improve posture and motion. </blockquote>
+        <br>
+        </ul>
+        First, tick the "Vocal Instructions" box, if you require vocal assistance.
+        <br>
+  </html>)");
+
   Message->setWordWrap(true);
 
   QFont font_message = Message->font();
   font_message.setPixelSize(28);
   Message->setFont(font_message);
 
-  QFont font = GaitMode->font();
-  font.setBold(true);     // set style bold if is true
-  font.setPixelSize(48);  // Sets the font size to pixelSize pixels.
-  GaitMode->setFont(font);
-  // change color
-  QString Buttonstyle = "QPushButton {background-color: #0000FF, color: red;}";
+  QFont font_vocal("Arial", 22);
+  Vocal->setFont(font_vocal);
 
-  GaitMode->setStyleSheet(Buttonstyle);
-  GaitMode->resize({200}, {100});
+  QFont font("Arial", 40);
+  font.setBold(true);
+  GaitMode->setFont(font);
+  TrainingMode->setFont(font);
+
+  GaitMode->setStyleSheet("background-color: white");
+  TrainingMode->setStyleSheet("background-color: white");
   QWidget *Intro = new QWidget();
-  QGridLayout *IntroLay = new QGridLayout(Intro);
-  IntroLay->addWidget(Message, 0, 0, 1, 2, Qt::AlignCenter);
-  IntroLay->addWidget(GaitMode, 1, 0, Qt::AlignCenter);
-  IntroLay->addWidget(TrainingMode, 1, 1, Qt::AlignCenter);
+  auto *IntroLay = new QVBoxLayout(Intro);
+  IntroLay->addWidget(Message, 0, Qt::AlignCenter);
+  IntroLay->addWidget(Vocal, 0, Qt::AlignCenter);
+  IntroLay->addLayout([&] {
+    QHBoxLayout *l = new QHBoxLayout();
+    l->addWidget(GaitMode);
+    l->addSpacing(50);
+    l->addWidget(TrainingMode);
+    return l;
+  }());
   Intro->setLayout(IntroLay);
   setCentralWidget(Intro);
   Intro->show();
   Intro->resize(700, 700);
-  // Add speaker option
 }
 
 IntroWindow::~IntroWindow()

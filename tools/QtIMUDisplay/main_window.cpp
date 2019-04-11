@@ -19,7 +19,8 @@
 #include "progressbar.hpp"
 
 MainWindow::MainWindow()
-    : m_chartAccel_1(new Chart()),
+    : GaitInstructions(new QLabel()),
+      m_chartAccel_1(new Chart()),
       m_chartGyro_1(new Chart()),
       m_chartAccel_2(new Chart()),
       m_chartGyro_2(new Chart()),
@@ -28,6 +29,52 @@ MainWindow::MainWindow()
       m_chartGRF_r(new Chart()),
       m_chartGRF_l(new Chart())
 {
+  GaitInstructions->setText(R"(
+  <html>
+        <blockquote>In this mode you will receive notification when any walking abnormality is detected.<\blockquote>
+        <br>
+        <blockquote>Please, indicate your desired feedback modalities.<\blockquote>
+        <br>
+        <blockquote>You can disconnect the device from your computer.<\blockquote>
+  </html>)");
+
+  GaitInstructions->setWordWrap(true);
+
+  QFont font_message = GaitInstructions->font();
+  font_message.setPixelSize(28);
+  GaitInstructions->setFont(font_message);
+
+  QCheckBox *Vocal_feedback = new QCheckBox("Vocal Feedback", this);
+  QCheckBox *Vibro_feedback = new QCheckBox("Vibration", this);
+  QPushButton *Next = new QPushButton("NEXT", this);
+
+  QFont CheckBoxes("Arial", 22);
+  Vocal_feedback->setFont(CheckBoxes);
+  Vibro_feedback->setFont(CheckBoxes);
+
+  QWidget *GaiInsLayWid = new QWidget();
+
+  auto *GaiInsLay = new QVBoxLayout();
+  GaiInsLay->addWidget(GaitInstructions, 0, Qt::AlignCenter);
+
+  GaiInsLay->addLayout([&] {
+    QHBoxLayout *l = new QHBoxLayout();
+    l->addWidget(Vocal_feedback, 0, Qt::AlignCenter);
+    l->addWidget(Vibro_feedback, 0, Qt::AlignCenter);
+    return l;
+  }());
+
+  GaiInsLay->addWidget(Next, 0, Qt::AlignCenter);
+  GaiInsLayWid->setLayout(GaiInsLay);
+  GaiInsLayWid->show();
+
+  QFont font_next("Arial", 40);
+  font_next.setBold(true);
+  Next->setFont(font_next);
+
+  Next->setStyleSheet("background-color: white");
+  Next->setMinimumSize(150, 100);
+
   m_chartAccel_1->setTitle("Acceleration data chart 1");
   m_chartAccel_1->legend()->hide();
   m_chartGyro_1->setTitle("Gyroscope data chart 1");

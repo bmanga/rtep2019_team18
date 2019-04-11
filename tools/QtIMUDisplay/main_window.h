@@ -1,6 +1,7 @@
 #ifndef main_window_hpp
 #define main_window_hpp
 
+#include <QLabel>
 #include <QPainter>
 #include <QProgressBar>
 #include <QString>
@@ -25,6 +26,7 @@ class MainWindow : public QMainWindow {
 
  private:
   void on_message(const void *d, long len);
+  QLabel *GaitInstructions;
 
  private:
   tel::client m_client;
