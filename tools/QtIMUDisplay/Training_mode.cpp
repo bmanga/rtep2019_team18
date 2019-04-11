@@ -17,11 +17,8 @@
 #include "progressbar.hpp"
 
 TrainingMode::TrainingMode()
-    :  // force_r_toe(new ProgressBar()),
-       // force_r_heel(new ProgressBar()),
+    : TrainInstructions(new QLabel()),
       force_r(new ProgressBar()),
-      // force_l_toe(new ProgressBar()),
-      // force_l_heel(new ProgressBar()),
       force_l(new ProgressBar()),
       left_label_WS(new QLabel()),
       right_label_WS(new QLabel()),
@@ -30,30 +27,89 @@ TrainingMode::TrainingMode()
       left_label_CP(new QLabel()),
       right_label_CP(new QLabel()),
       communication_label_WS(new QLabel()),
-      communication_label_CP(new QLabel())
+      communication_label_CP(new QLabel()),
+      level_label_WS(new QLabel()),
+      level_label_CP(new QLabel())
 
 {
-  // Weight shifting
-  // force_l->bufferLengthChanged(100);
+  TrainInstructions->setText(R"(
+  <html>
+      <center>Welcome to Training Mode!</center>
+      <br>
+      <ul>
+      There are two exercises you can choose from. Please follow you physiotherapist's advice.
+      <br>
+          <blockquote><b>Weight Shift</b> to shift your body weight from one leg to the other.</blockquote>
+          <br>
+          <blockquote><b>Calf Push</b> to shift your body weight from heel to toes. </blockquote>
+          <br>
+      </ul>
+  </html>)");
+  TrainInstructions->setWordWrap(true);
+
+  QFont font_message = TrainInstructions->font();
+  font_message.setPixelSize(28);
+  TrainInstructions->setFont(font_message);
+
+  QPushButton *WSButton = new QPushButton("Weight Shift", this);
+  QPushButton *CPButton = new QPushButton("Calf Push", this);
+
+  QFont CheckBoxes("Arial", 22);
+  WSButton->setFont(CheckBoxes);
+  CPButton->setFont(CheckBoxes);
+
+  QWidget *TraInsLayWid = new QWidget();
+
+  auto *TraInsLay = new QVBoxLayout();
+  TraInsLay->addWidget(TrainInstructions, 0, Qt::AlignCenter);
+
+  TraInsLay->addLayout([&] {
+    QHBoxLayout *l = new QHBoxLayout();
+    l->addWidget(WSButton);
+    l->addSpacing(50);
+    l->addWidget(CPButton);
+    return l;
+  }());
+  TraInsLayWid->setLayout(TraInsLay);
+  TraInsLayWid->show();
+
+  QFont font_tra_buttons("Arial", 40);
+  font_tra_buttons.setBold(true);
+  WSButton->setFont(font_tra_buttons);
+  WSButton->setStyleSheet("background-color: white");
+  CPButton->setFont(font_tra_buttons);
+  CPButton->setStyleSheet("background-color: white");
   left_label_WS->setText("Left");
+  QFont font_comm_level("Arial", 28);
   QFont font_label_level("Arial", 48);
   QFont font_label_foot("Arial", 36);
   left_label_WS->setFont(font_label_foot);
   right_label_WS->setText("Right");
   right_label_WS->setFont(font_label_foot);
-  // force_r->bufferLengthChanged(100);
-  communication_label_WS->setText("Level 1");
-  communication_label_WS->setFont(font_label_level);
+  communication_label_WS->setText(R"(
+  <html>
+        <center>Shift your body weight from one leg to the other to hit the green target in each bar.</center>
+  </html>)");
+  communication_label_WS->setWordWrap(true);
+  communication_label_WS->setFont(font_comm_level);
+  level_label_WS->setText("Level 1");
+  level_label_WS->setAlignment(Qt::AlignCenter);
+  level_label_WS->setFont(font_label_level);
 
-  // Calf push
   left_label_CP->setText("Left");
   left_label_CP->setFont(font_label_foot);
   right_label_CP->setText("Right");
   right_label_CP->setFont(font_label_foot);
-  communication_label_CP->setText("Level 1");
-  communication_label_CP->setFont(font_label_level);
+  communication_label_CP->setText(R"(
+                                  <html>
+                                  <center>Shift your body weight from heel to toes to hit the green target in each bar.</center>
+                                  </html>)");
+  communication_label_CP->setWordWrap(true);
+  communication_label_CP->setFont(font_comm_level);
+  level_label_CP->setText("Level 1");
+  level_label_CP->setAlignment(Qt::AlignCenter);
+  level_label_CP->setFont(font_label_level);
 
-  // Connect button
   m_connectURI = new QLineEdit(this);
   m_connectButton = new QPushButton("connect", this);
   QHBoxLayout *connectInterfaceLayout = new QHBoxLayout(this);
@@ -68,30 +124,32 @@ TrainingMode::TrainingMode()
   Weight_shift_grid->addWidget(force_l, 1, 0, Qt::AlignCenter);
   Weight_shift_grid->addWidget(right_label_WS, 2, 1, Qt::AlignCenter);
   Weight_shift_grid->addWidget(force_r, 1, 1, Qt::AlignCenter);
-  Weight_shift_grid->addWidget(communication_label_WS, 0, 0, 1, 2,
-                               Qt::AlignCenter);
 
   LevelWS *lev = new LevelWS(force_l, force_r);
   lev->setLvlRequirements({0.2, 0.5}, {0.5, 0.8}, std::chrono::seconds(5));
 
   Weight_shift_complete->addLayout(connectInterfaceLayout);
+  Weight_shift_complete->addWidget(communication_label_WS);
+  Weight_shift_complete->addWidget(level_label_WS);
   Weight_shift_complete->addLayout(Weight_shift_grid);
   Weight_shift->setLayout(Weight_shift_complete);
   Training->addTab(Weight_shift, "Weight Shift");
 
   QWidget *Calf_push = new QWidget();
+  QVBoxLayout *Calf_push_complete = new QVBoxLayout(Calf_push);
   QGridLayout *Calf_push_grid = new QGridLayout();
   Calf_push_grid->addWidget(left_label_CP, 2, 0, Qt::AlignCenter);
   Calf_push_grid->addWidget(my_circle_r, 1, 0, Qt::AlignCenter);
   Calf_push_grid->addWidget(right_label_CP, 2, 1, Qt::AlignCenter);
   Calf_push_grid->addWidget(my_circle_l, 1, 1, Qt::AlignCenter);
-  Calf_push_grid->addWidget(communication_label_CP, 0, 0, 1, 2,
-                            Qt::AlignCenter);
-  Calf_push->setLayout(Calf_push_grid);
+  Calf_push_complete->addWidget(communication_label_CP);
+  Calf_push_complete->addSpacing(20);
+  Calf_push_complete->addWidget(level_label_CP);
+  Calf_push_complete->addLayout(Calf_push_grid);
+  Calf_push->setLayout(Calf_push_complete);
   Training->addTab(Calf_push, "Calf Push");
   Training->show();
 
-  // Signal connection
   connect(m_connectButton, &QPushButton::clicked, this,
           &TrainingMode::onConnectClicked);
 

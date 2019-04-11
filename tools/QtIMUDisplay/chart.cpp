@@ -45,6 +45,8 @@ Chart::Chart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
       m_axisX(new QValueAxis()),
       m_axisY(new QValueAxis())
 {
+  m_axisX->setTitleText("Elapsed time (s)");
+  m_axisY->setTitleText("Amplitude");
   QPen pen_x;  //
   pen_x.setWidth(3);
   pen_x.setBrush(Qt::red);
