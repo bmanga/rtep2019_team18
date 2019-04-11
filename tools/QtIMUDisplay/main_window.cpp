@@ -348,11 +348,14 @@ void MainWindow::onSaveClicked()
   m_chartGyro_3->saveToJson(root, "gyroscope_C");
 
   QJsonDocument json(root);
-  QDir().mkdir("savedata");
+
+  auto savepath = QCoreApplication::applicationDirPath() + "/savedata/";
+  QDir().mkdir(savepath);
 
   QString timestamp =
       QDateTime::currentDateTime().toString("yy.MM.dd-hh:mm:ss");
-  QString filename = "savedata/" + timestamp + ".json";
+
+  QString filename = savepath + timestamp + ".json";
   QFile file(filename);
   if (!file.open(QIODevice::WriteOnly)) {
     qWarning("Couldn't open save file.");
