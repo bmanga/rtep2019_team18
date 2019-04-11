@@ -1,8 +1,8 @@
+#include <iostream>
 #include <thread>
 #include "IMU/IMU.h"
 #include "fsr/fsr_reader.h"
 #include "telemetry/server.h"
-#include <iostream>
 
 using namespace std;
 
@@ -11,11 +11,9 @@ struct imu {
   float gx, gy, gz;
 };
 
-struct fsr
-{
+struct fsr {
   float heel, toe;
 };
-
 
 struct packet {
   imu a, b, c;
@@ -31,7 +29,6 @@ int main()
   Sensor_IMU imu_2(2);
   Sensor_IMU imu_3(3);
 
-
   imu_1.initialize();
   imu_2.initialize();
   imu_3.initialize();
@@ -42,69 +39,71 @@ int main()
   int a2dChannel = 0;
   unsigned char pdata[3];
 
-
   packet data = {};
 
   while (1) {
     pdata[0] = 1;  //  first byte transmitted -> start bit
-    pdata[1] = 0b10'000'000; // second byte transmitted -> (SGL/DIF = 1, D2=D1=D0=0)
-    pdata[2] = 0; // third byte transmitted....don't care
+    pdata[1] =
+        0b10'000'000;  // second byte transmitted -> (SGL/DIF = 1, D2=D1=D0=0)
+    pdata[2] = 0;      // third byte transmitted....don't care
 
-    a2d.spiWriteRead(pdata, sizeof(pdata) );
+    a2d.spiWriteRead(pdata, sizeof(pdata));
 
     a2dVal = 0;
-    a2dVal = (pdata[1]<< 8) & 0b1100000000; //merge data[1] & data[2] to get result
-    a2dVal |=  (pdata[2] & 0xff);
-
+    a2dVal = (pdata[1] << 8) &
+             0b1100000000;  // merge data[1] & data[2] to get result
+    a2dVal |= (pdata[2] & 0xff);
 
     cout << "The Result is: " << a2dVal << endl;
-    data.right.heel = a2dVal/512.0f;
-
+    data.right.heel = a2dVal / 512.0f;
 
     // Second
     pdata[0] = 1;  //  first byte transmitted -> start bit
-    pdata[1] = 0b10'010'000; // second byte transmitted -> (SGL/DIF = 1, D2=D1=D0=0)
-    pdata[2] = 0; // third byte transmitted....don't care
+    pdata[1] =
+        0b10'010'000;  // second byte transmitted -> (SGL/DIF = 1, D2=D1=D0=0)
+    pdata[2] = 0;      // third byte transmitted....don't care
 
-    a2d.spiWriteRead(pdata, sizeof(pdata) );
+    a2d.spiWriteRead(pdata, sizeof(pdata));
 
     a2dVal = 0;
-    a2dVal = (pdata[1]<< 8) & 0b1100000000; //merge data[1] & data[2] to get result
-    a2dVal |=  (pdata[2] & 0xff);
+    a2dVal = (pdata[1] << 8) &
+             0b1100000000;  // merge data[1] & data[2] to get result
+    a2dVal |= (pdata[2] & 0xff);
 
     cout << "The Result is: " << a2dVal << endl;
-    data.right.toe = a2dVal/512.0f;
-    
+    data.right.toe = a2dVal / 512.0f;
+
     // Third
     pdata[0] = 1;  //  first byte transmitted -> start bit
-    pdata[1] = 0b10'100'000; // second byte transmitted -> (SGL/DIF = 1, D2=D1=D0=0)
-    pdata[2] = 0; // third byte transmitted....don't care
+    pdata[1] =
+        0b10'100'000;  // second byte transmitted -> (SGL/DIF = 1, D2=D1=D0=0)
+    pdata[2] = 0;      // third byte transmitted....don't care
 
-    a2d.spiWriteRead(pdata, sizeof(pdata) );
+    a2d.spiWriteRead(pdata, sizeof(pdata));
 
     a2dVal = 0;
-    a2dVal = (pdata[1]<< 8) & 0b1100000000; //merge data[1] & data[2] to get result
-    a2dVal |=  (pdata[2] & 0xff);
+    a2dVal = (pdata[1] << 8) &
+             0b1100000000;  // merge data[1] & data[2] to get result
+    a2dVal |= (pdata[2] & 0xff);
 
     cout << "The Result is: " << a2dVal << endl;
-    data.left.heel = a2dVal/512.0f;
-    
+    data.left.heel = a2dVal / 512.0f;
+
     // Fourth
     pdata[0] = 1;  //  first byte transmitted -> start bit
-    pdata[1] = 0b10'110'000; // second byte transmitted -> (SGL/DIF = 1, D2=D1=D0=0)
-    pdata[2] = 0; // third byte transmitted....don't care
+    pdata[1] =
+        0b10'110'000;  // second byte transmitted -> (SGL/DIF = 1, D2=D1=D0=0)
+    pdata[2] = 0;      // third byte transmitted....don't care
 
-    a2d.spiWriteRead(pdata, sizeof(pdata) );
+    a2d.spiWriteRead(pdata, sizeof(pdata));
 
     a2dVal = 0;
-    a2dVal = (pdata[1]<< 8) & 0b1100000000; //merge data[1] & data[2] to get result
-    a2dVal |=  (pdata[2] & 0xff);
+    a2dVal = (pdata[1] << 8) &
+             0b1100000000;  // merge data[1] & data[2] to get result
+    a2dVal |= (pdata[2] & 0xff);
 
     cout << "The Result is: " << a2dVal << endl;
-    data.left.toe = a2dVal/512.0f;
-
-
-
+    data.left.toe = a2dVal / 512.0f;
 
     data.a.ax = imu_1.getAccel_X() / 16384.0;
     data.a.ay = imu_1.getAccel_Y() / 16384.0;
@@ -120,20 +119,12 @@ int main()
     data.b.gy = imu_2.getGyro_Y() / 16384.0;
     data.b.gz = imu_2.getGyro_Z() / 16384.0;
 
-
     data.c.ax = imu_3.getAccel_X() / 16384.0;
     data.c.ay = imu_3.getAccel_Y() / 16384.0;
     data.c.az = imu_3.getAccel_Z() / 16384.0;
     data.c.gx = imu_3.getGyro_X() / 16384.0;
     data.c.gy = imu_3.getGyro_Y() / 16384.0;
     data.c.gz = imu_3.getGyro_Z() / 16384.0;
-
-    //printf("Accelerometer (A) X: %.3f\n", data.ax);
-    //printf("Accelerometer (A) Y: %.3f\n", data.ay);
-    //printf("Accelerometer (A) Z: %.3f\n", data.az);
-    //printf("Accelerometer (B) X: %.3f\n", imu_2.getAccel_X() / 16384.0);
-    //printf("Accelerometer (B) Y: %.3f\n", imu_2.getAccel_Y() / 16384.0);
-    //printf("Accelerometer (B) Z: %.3f\n", imu_2.getAccel_Z() / 16384.0);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(25));
     server.broadcast(&data, sizeof(data));

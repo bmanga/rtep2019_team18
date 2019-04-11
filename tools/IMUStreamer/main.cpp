@@ -1,15 +1,17 @@
-#include <thread>
 #include <iostream>
+#include <thread>
 #include "IMU/IMU.h"
-#include "telemetry/server.h"
 #include "fmt/format.h"
+#include "telemetry/server.h"
 
 struct sensors_data {
   float ax, ay, az;
   float gx, gy, gz;
 };
 
-struct fsr_data { float a, b; };
+struct fsr_data {
+  float a, b;
+};
 
 struct packet {
   sensors_data a, b, c;
@@ -54,12 +56,12 @@ int main()
     data.c.gy = imu_3.getGyro_Y() / 16384.0;
     data.c.gz = imu_3.getGyro_Z() / 16384.0;
 
-
-    std::cout << fmt::format("A: {: f} {: f} {: f} -- B: {: f} {: f} {: f} -- C: {: f} {: f} {: f}",
-                             data.a.ax, data.a.ay, data.a.az,
-                             data.b.ax, data.b.ay, data.b.az,
-                             data.c.ax, data.c.ay, data.c.az
-    ) << std::endl;
+    std::cout << fmt::format(
+                     "A: {: f} {: f} {: f} -- B: {: f} {: f} {: f} -- C: {: f} "
+                     "{: f} {: f}",
+                     data.a.ax, data.a.ay, data.a.az, data.b.ax, data.b.ay,
+                     data.b.az, data.c.ax, data.c.ay, data.c.az)
+              << std::endl;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     server.broadcast(&data, sizeof(data));
