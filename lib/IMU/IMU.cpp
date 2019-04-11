@@ -36,6 +36,11 @@ static int read_i2c(int pin, int addr)
 Sensor_IMU::Sensor_IMU(int pin) : pin(pin)
 {
   pinMode(pin, OUTPUT);
+  digitalWrite(pin, HIGH);
+}
+
+void Sensor_IMU::initialize()
+{
   digitalWrite(pin, LOW);
   wiringPiI2CReadReg8(fd, MPU_6050_POWER_MGMT);
   // disable sleep mode
