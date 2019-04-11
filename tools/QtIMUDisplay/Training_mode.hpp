@@ -52,8 +52,11 @@ class TrainingMode : public QMainWindow {
   QLabel *right_label_WS;
   QLabel *left_label_CP;
   QLabel *right_label_CP;
+  QLabel *TrainInstructions;
   QLabel *communication_label_WS;
   QLabel *communication_label_CP;
+  QLabel *level_label_WS;
+  QLabel *level_label_CP;
   std::chrono::system_clock::time_point m_time_start;
   QLineEdit *m_connectURI;
   QPushButton *m_connectButton;

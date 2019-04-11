@@ -31,6 +31,8 @@ MainWindow::MainWindow()
 {
   GaitInstructions->setText(R"(
   <html>
+        <center>Welcome to Gait Mode!</center>
+        <br>
         <blockquote>In this mode you will receive notification when any walking abnormality is detected.<\blockquote>
         <br>
         <blockquote>Please, indicate your desired feedback modalities.<\blockquote>
@@ -46,7 +48,7 @@ MainWindow::MainWindow()
 
   QCheckBox *Vocal_feedback = new QCheckBox("Vocal Feedback", this);
   QCheckBox *Vibro_feedback = new QCheckBox("Vibration", this);
-  QPushButton *Next = new QPushButton("NEXT", this);
+  QPushButton *OK = new QPushButton("OK", this);
 
   QFont CheckBoxes("Arial", 22);
   Vocal_feedback->setFont(CheckBoxes);
@@ -64,18 +66,19 @@ MainWindow::MainWindow()
     return l;
   }());
 
-  GaiInsLay->addWidget(Next, 0, Qt::AlignCenter);
+  GaiInsLay->addWidget(OK, 0, Qt::AlignCenter);
   GaiInsLayWid->setLayout(GaiInsLay);
   GaiInsLayWid->show();
 
-  QFont font_next("Arial", 40);
-  font_next.setBold(true);
-  Next->setFont(font_next);
+  QFont font_OK("Arial", 40);
+  font_OK.setBold(true);
+  OK->setFont(font_OK);
 
-  Next->setStyleSheet("background-color: white");
-  Next->setMinimumSize(150, 100);
+  OK->setStyleSheet("background-color: white");
+  OK->setMinimumSize(100, 75);
 
   m_chartAccel_1->setTitle("Acceleration data chart 1");
+
   m_chartAccel_1->legend()->hide();
   m_chartGyro_1->setTitle("Gyroscope data chart 1");
   m_chartGyro_1->legend()->hide();
