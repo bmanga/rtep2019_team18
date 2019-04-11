@@ -19,4 +19,4 @@ A separate .stl file exists for every part component, while these are grouped to
 </ul>
 </dl>
 
-A description of each of these components and relative illustrations can be found in the Wiki of the repository.
+A description of each of these components and relative illustrations can be found in the [Wiki](https://github.com/bmanga/rtep2019_team18/wiki).
