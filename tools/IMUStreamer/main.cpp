@@ -55,7 +55,6 @@ int main()
     data.c.gy = imu_3.getGyro_Y() / 16384.0;
     data.c.gz = imu_3.getGyro_Z() / 16384.0;
 
-
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     server.broadcast(&data, sizeof(data));
   }
