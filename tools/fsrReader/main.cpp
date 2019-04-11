@@ -1,4 +1,4 @@
-#include "fsr_reader.h"
+#include "fsr/fsr_reader.h"
 #include "telemetry/server.h"
 #include <thread>
 #include <iostream>
