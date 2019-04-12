@@ -58,6 +58,7 @@ CalibrateWindow::CalibrateWindow(int a, QMainWindow *parent)
   pal.setColor(QPalette::Background, background);
   setAutoFillBackground(true);
   setPalette(pal);
+<<<<<<< HEAD
   connect(CalibrateButton, &QPushButton::clicked, this,
           &CalibrateWindow::onCalibrateButtonPushed);
 

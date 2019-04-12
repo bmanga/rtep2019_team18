@@ -1,4 +1,5 @@
 #include "MainWindow.hpp"
+<<<<<<< HEAD
 #include "CalibrateWindow.hpp"
 #include "FinalWindow.hpp"
 #include "Training_mode.hpp"
@@ -75,3 +76,8 @@ void MainWindow::setCalibrationMax(int maxValue)
 {
     calibrationMax = maxValue;
 }
+=======
+MainWindow::MainWindow() {}
+
+MainWindow::~MainWindow() {}
+>>>>>>> Edited GUI, now works with realtime data from sensors.

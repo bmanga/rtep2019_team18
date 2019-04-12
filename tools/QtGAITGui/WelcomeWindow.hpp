@@ -6,6 +6,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QWidget>
+<<<<<<< HEAD
 #include "WindowBase.hpp"
 
 class WelcomeWindow : public WindowBase {
@@ -15,6 +16,13 @@ class WelcomeWindow : public WindowBase {
   ~WelcomeWindow();
  private slots:
   void onNextButtonPushed();
+=======
+
+class WelcomeWindow : public QWidget {
+ public:
+  WelcomeWindow();
+  ~WelcomeWindow();
+>>>>>>> Edited GUI, now works with realtime data from sensors.
 
  private:
   QLineEdit *ConnectLabel;

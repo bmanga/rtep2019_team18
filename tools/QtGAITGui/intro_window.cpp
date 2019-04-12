@@ -10,7 +10,10 @@
 #include <QtCharts/QChartView>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
+<<<<<<< HEAD
 #include "MainWindow.hpp"
+=======
+>>>>>>> Edited GUI, now works with realtime data from sensors.
 
 IntroWindow::IntroWindow() : Message(new QLabel())
 {
@@ -64,17 +67,21 @@ IntroWindow::IntroWindow() : Message(new QLabel())
   pal.setColor(QPalette::Background, background);
   setAutoFillBackground(true);
   setPalette(pal);
+<<<<<<< HEAD
 
   connect(WSButton, &QPushButton::clicked, this,
           &IntroWindow::onWSButtonPushed);
   connect(CPButton, &QPushButton::clicked, this,
           &IntroWindow::onCPButtonPushed);
+=======
+>>>>>>> Edited GUI, now works with realtime data from sensors.
 }
 
 IntroWindow::~IntroWindow()
 {
   delete Message;
 }
+<<<<<<< HEAD
 
 void IntroWindow::onWSButtonPushed()
 {
@@ -84,3 +91,5 @@ void IntroWindow::onCPButtonPushed()
 {
   emit windowDone(WindowKind::Intro, 1);
 }
+=======
+>>>>>>> Edited GUI, now works with realtime data from sensors.

@@ -2,8 +2,11 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+<<<<<<< HEAD
 #include "MainWindow.hpp"
 
+=======
+>>>>>>> Edited GUI, now works with realtime data from sensors.
 WelcomeWindow::WelcomeWindow()
     : ConnectLabel(new QLineEdit()),
       VocalInstructions(new QCheckBox()),
@@ -60,6 +63,7 @@ WelcomeWindow::WelcomeWindow()
   pal.setColor(QPalette::Background, background);
   setAutoFillBackground(true);
   setPalette(pal);
+<<<<<<< HEAD
 
   connect(NextButton, &QPushButton::clicked, this,
           &WelcomeWindow::onNextButtonPushed);
@@ -73,3 +77,14 @@ void WelcomeWindow::onNextButtonPushed()
   emit windowDone(WindowKind::Welcome, 0);
 }
 WelcomeWindow::~WelcomeWindow() {}
+=======
+}
+WelcomeWindow::~WelcomeWindow()
+{
+  delete ConnectButton;
+  delete VocalInstructions;
+  delete NextButton;
+  delete WelcomeText;
+  delete ConnectLabel;
+}
+>>>>>>> Edited GUI, now works with realtime data from sensors.

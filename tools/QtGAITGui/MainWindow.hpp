@@ -2,6 +2,7 @@
 #define MainWindow_hpp
 
 #include <stdio.h>
+<<<<<<< HEAD
 #include <QMetaType>
 #include <QString>
 #include <QtWidgets/QMainWindow>
@@ -27,11 +28,26 @@ struct sensors_data {
   fsr_packet left, right;
 };
 
+=======
+#include <CircleWidget.hpp>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPainter>
+#include <QProgressBar>
+#include <QPushButton>
+#include <QString>
+#include <QtWidgets/QMainWindow>
+#include <chrono>
+#include "progressbar.hpp"
+#include "telemetry/client.h"
+
+>>>>>>> Edited GUI, now works with realtime data from sensors.
 class MainWindow : public QMainWindow {
   Q_OBJECT
  public:
   MainWindow();
   ~MainWindow();
+<<<<<<< HEAD
   void setCalibrationMax(int max);
 
   int calibrationMax;
@@ -53,6 +69,8 @@ class MainWindow : public QMainWindow {
  private:
   tel::client m_client;
   void on_message(const void *d, long len);
+=======
+>>>>>>> Edited GUI, now works with realtime data from sensors.
 };
 
 #endif /* MainWindow_hpp */

@@ -13,7 +13,10 @@
 #include <QVBoxLayout>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
+<<<<<<< HEAD
 #include "WindowBase.hpp"
+=======
+>>>>>>> Edited GUI, now works with realtime data from sensors.
 #include "progressbar.hpp"
 #include "telemetry/client.h"
 
@@ -21,9 +24,15 @@ class ProgressBar;
 class CircleWidget;
 
 template <class WidgetT>
+<<<<<<< HEAD
 class TrainingMode : public WindowBase {
  public:
   TrainingMode(QString instructions, QMainWindow *parent)
+=======
+class TrainingMode : public QWidget {
+ public:
+  TrainingMode(QString instructions)
+>>>>>>> Edited GUI, now works with realtime data from sensors.
       : widget_r(new WidgetT()),
         widget_l(new WidgetT()),
         level_label(new QLabel()),
@@ -64,6 +73,7 @@ class TrainingMode : public WindowBase {
     ExerciseLay->addWidget(level_label, 1, Qt::AlignCenter);
     ExerciseLay->addLayout(grid);
     setLayout(ExerciseLay);
+<<<<<<< HEAD
 
     connect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataL,
             widget_l, &WidgetT::onNewFSRData);
@@ -73,6 +83,8 @@ class TrainingMode : public WindowBase {
     int calibrationMax = static_cast<MainWindow *>(parent)->calibrationMax;
     widget_l->setMaxValue(calibrationMax);
     widget_r->setMaxValue(calibrationMax);
+=======
+>>>>>>> Edited GUI, now works with realtime data from sensors.
   }
 
  private:

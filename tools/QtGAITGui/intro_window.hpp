@@ -14,17 +14,24 @@
 #include <QtWidgets/QMainWindow>
 #include "WindowBase.hpp"
 
+<<<<<<< HEAD:tools/QtGAITGui/intro_window.hpp
 class IntroWindow : public WindowBase {
+=======
+class IntroWindow : public QWidget {
+>>>>>>> Edited GUI, now works with realtime data from sensors.:tools/QtGAITGui/intro_window.hpp
  public:
   IntroWindow();
   ~IntroWindow();
 
   QPushButton *WSButton;
   QPushButton *CPButton;
+<<<<<<< HEAD:tools/QtGAITGui/intro_window.hpp
 
  private slots:
   void onWSButtonPushed();
   void onCPButtonPushed();
+=======
+>>>>>>> Edited GUI, now works with realtime data from sensors.:tools/QtGAITGui/intro_window.hpp
 
  private:
   QLabel *Message;
