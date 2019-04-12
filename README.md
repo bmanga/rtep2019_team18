@@ -1,8 +1,8 @@
 # Gait Analysis and Interactive Training [![Build Status](https://travis-ci.com/bmanga/rtep2019_team18.svg?branch=master)](https://travis-ci.com/bmanga/rtep2019_team18)
 
 <p align="center">
-	<img src="https://user-images.githubusercontent.com/46964367/56052054-6846a700-5d48-11e9-9294-2bcc49930567.jpeg"
-	 height="260" >
+	<img src="https://user-images.githubusercontent.com/46964367/56059240-8b2e8680-5d5b-11e9-8905-3c618d17b47c.png"
+	 height="300" >
 </p>
 
 ### Overview and Impact
