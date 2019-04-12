@@ -8,7 +8,7 @@
 ### Overview
 GAIT is about the development of a Raspberry Pi wearable system which analyses the user's walking characteristics and provides targeted training in two separate modes, namely Gait and Training mode.
 
-In Gait mode, data is analysed and classified in real time by use of a deep convolutional neural network which automatically predicts the nature of the gait from the signals received from IMUs mounted on the lower limb and pressure sensors embedded in modified insoles. Training mode offers typical game-based rehabilitation exercises, including weight shifting and calf pushes, and provides both auditory and visual feedback to the user, with games being streamed to an exernal screen.
+In Gait mode, data is analysed and classified in real time by use of a deep convolutional neural network which automatically predicts the nature of the gait from the signals received from IMUs mounted on the lower limb and pressure sensors embedded in modified insoles. Training mode offers typical game-based rehabilitation exercises, including weight shifting and calf pushes, and provides both auditory and visual feedback to the user, with games being streamed to an external screen.
 
 This device aims to promote neuroplasticity for motor rehabilitation of stroke patients and may therefore become an auxiliary tool in the recovery of motor functions of stroke survivors. 
 
