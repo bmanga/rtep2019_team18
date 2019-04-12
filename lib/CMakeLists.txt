@@ -34,3 +34,7 @@ add_library(mp3
   mp3/mp3.cpp)
 target_include_directories(mp3 PRIVATE ../include)
 target_link_libraries(mp3 PRIVATE mpg123 ao)
+
+add_library(analysis analysis/gait_cycle_splitter.cpp)
+target_link_libraries(analysis PRIVATE kfr)
+target_include_directories(analysis PRIVATE ../include)
