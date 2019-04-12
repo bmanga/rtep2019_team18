@@ -14,7 +14,7 @@ class ProgressBar : public QProgressBar {
   Q_OBJECT
 
  public:
-  explicit ProgressBar(QProgressBar *parent = 0);
+  explicit ProgressBar(QWidget *parent = 0);
   ~ProgressBar();
 
   void reset();
@@ -46,6 +46,8 @@ class ProgressBar : public QProgressBar {
   float m_windowLength;
   float m_targetLow;
   float m_targetHigh;
+
+  float max;
 
   bool m_prevOnTarget = false;
 };

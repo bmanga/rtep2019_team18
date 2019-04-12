@@ -16,7 +16,6 @@
 #include <QtWidgets/QMainWindow>
 #include <iostream>
 #include "chart.h"
-#include "progressbar.hpp"
 
 MainWindow::MainWindow()
     : GaitInstructions(new QLabel()),
