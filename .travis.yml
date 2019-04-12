@@ -34,6 +34,8 @@ jobs:
              - g++-6
              - cmake
              - qtbase5-dev
+             - libao-dev
+             - libmpg123-dev
       env: COMPILER=g++-6 C_COMPILER=gcc-6
     - stage: build
       compiler: gcc
@@ -45,6 +47,8 @@ jobs:
              - g++-7
              - cmake
              - qtbase5-dev
+             - libao-dev
+             - libmpg123-dev
       env: COMPILER=g++-7 C_COMPILER=gcc-7
     - stage: build
       compiler: gcc
@@ -56,6 +60,8 @@ jobs:
              - g++-8
              - cmake
              - qtbase5-dev
+             - libao-dev
+             - libmpg123-dev
       env: COMPILER=g++-8 C_COMPILER=gcc-8
     - stage: build
       compiler: clang
@@ -74,6 +80,8 @@ jobs:
              - clang-tidy-7
              - cmake
              - qtbase5-dev
+             - libao-dev
+             - libmpg123-dev
       env: COMPILER=clang++-7 C_COMPILER=clang-7 CLANG_TIDY="-DCMAKE_CXX_CLANG_TIDY='clang-tidy-7;-warnings-as-errors;'"
 
 install:
