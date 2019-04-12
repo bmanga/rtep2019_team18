@@ -30,3 +30,7 @@ target_include_directories(imu PRIVATE ../include)
 add_library(fsr fsr/fsr_reader.cpp)
 target_include_directories(fsr PRIVATE ../include)
 
+add_library(mp3
+  mp3/mp3.cpp)
+target_include_directories(mp3 PRIVATE ../include)
+target_link_libraries(mp3 PRIVATE mpg123 ao)
