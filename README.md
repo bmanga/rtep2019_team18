@@ -1,13 +1,24 @@
-## Gait Analysis and Interactive Training [![Build Status](https://travis-ci.com/bmanga/rtep2019_team18.svg?branch=master)](https://travis-ci.com/bmanga/rtep2019_team18)
+# Gait Analysis and Interactive Training [![Build Status](https://travis-ci.com/bmanga/rtep2019_team18.svg?branch=master)](https://travis-ci.com/bmanga/rtep2019_team18)
 
-This project aims to create a wearable Raspberry Pi system which analyses the patient's walking pattern through a number of IMUs distributed along the legs and pressure sensors in special soles.
+<p align="center">
+	<img src="https://user-images.githubusercontent.com/46964367/56052054-6846a700-5d48-11e9-9294-2bcc49930567.jpeg"
+	 height="250" >
+</p>
 
-This data is then analysed to identify an incorrect walking gait due to hemiplegia caused by a stroke and is then able to provide guidance and exercises to aid rehabilitation in real time.
+## Overview and Impact
+GAIT is about the development of a Raspberry Pi wearable system which analyses the user's walking characteristics and provides targeted training in two separate modes, namely Gait and Training mode.
+
+In Gait mode, data is analysed and classified in real time by use of a deep convolutional neural network which automatically predicts the nature of the gait from the signals received from IMUs mounted on the lower limb and pressure sensors embedded in modified insoles. Training mode offers typical game-based rehabilitation exercises, including weight shifting and calf pushes, and provides both auditory and visual feedback to the user, with games being streamed to an exernal screen.
+
+This device aims to promote neuroplasticity for motor rehabilitation of stroke patients and may therefore become an auxiliary tool in the recovery of motor functions of stroke survivors.
 
 <p align="center">
 	<img src="https://user-images.githubusercontent.com/13623481/51919339-1f36b600-23db-11e9-9939-d928cba637c1.png"
 	 title="Gait"  height="500" >
 </p>
+
+
+## Team
 
 See the [Wiki](https://github.com/bmanga/rtep2019_team18/wiki) for more information. 
 
