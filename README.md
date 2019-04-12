@@ -15,8 +15,7 @@ This device aims to promote neuroplasticity for motor rehabilitation of stroke p
 Learn more about GAIT on the [Wiki](https://github.com/bmanga/rtep2019_team18/wiki). 
 
 <p align="center">
-	<img src="https://user-images.githubusercontent.com/13623481/51919339-1f36b600-23db-11e9-9939-d928cba637c1.png"
-	 title="Gait"  height="500" >
+	<img src="https://user-images.githubusercontent.com/46964367/56056911-70f1aa00-5d55-11e9-952c-37fc65126eec.png" height="500" >
 </p>
 
 ### Prerequisites
