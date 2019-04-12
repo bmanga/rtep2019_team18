@@ -9,4 +9,8 @@ add_subdirectory(IMUStreamReader)
 add_subdirectory(MockIMUStreamer)
 add_subdirectory(QtIMUDisplay)
 add_subdirectory(QtSavedataDisplay)
+add_subdirectory(fsrReader)
 add_subdirectory(Streamer)
+add_subdirectory(QtGAITGui)
+
+install(DIRECTORY ../resources DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

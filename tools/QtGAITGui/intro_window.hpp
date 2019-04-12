@@ -13,14 +13,13 @@
 #include <QPushButton>
 #include <QtWidgets/QMainWindow>
 
-class IntroWindow : public QMainWindow {
+class IntroWindow : public QWidget {
  public:
   IntroWindow();
   ~IntroWindow();
 
-  QPushButton *GaitMode;
-  QPushButton *TrainingMode;
-  QPushButton *Vocal;
+  QPushButton *WSButton;
+  QPushButton *CPButton;
 
  private:
   QLabel *Message;

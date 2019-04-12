@@ -3,11 +3,9 @@
 
 #include <QLabel>
 #include <QPainter>
-#include <QProgressBar>
 #include <QString>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
-#include "progressbar.hpp"
 #include "telemetry/client.h"
 
 class Chart;
