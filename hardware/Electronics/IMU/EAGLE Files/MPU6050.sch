@@ -1944,8 +1944,8 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="GND5" library="SparkFun-PowerSymbols" deviceset="GND" device=""/>
 <part name="GND6" library="SparkFun-PowerSymbols" deviceset="GND" device=""/>
 <part name="GND7" library="SparkFun-PowerSymbols" deviceset="GND" device=""/>
-<part name="R1" library="SparkFun-Resistors" deviceset="RESISTOR" device="0805" value=" "/>
-<part name="R2" library="SparkFun-Resistors" deviceset="RESISTOR" device="0805" value=" "/>
+<part name="R1" library="SparkFun-Resistors" deviceset="RESISTOR" device="0805" value="4.7k"/>
+<part name="R2" library="SparkFun-Resistors" deviceset="RESISTOR" device="0805" value="4.7k"/>
 <part name="C1" library="SparkFun-Capacitors" deviceset="1.0UF" device="-0805-25V-10%" value="0.1uF"/>
 <part name="C3" library="SparkFun-Capacitors" deviceset="1.0UF" device="-0805-25V-10%" value="2.2nF"/>
 <part name="C2" library="SparkFun-Capacitors" deviceset="1.0UF" device="-0805-25V-10%" value="0.1uF"/>
@@ -1991,11 +1991,11 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <instance part="GND5" gate="1" x="50.8" y="17.78" smashed="yes">
 <attribute name="VALUE" x="50.8" y="17.526" size="1.778" layer="96" align="top-center"/>
 </instance>
-<instance part="GND6" gate="1" x="104.14" y="2.54" smashed="yes">
-<attribute name="VALUE" x="104.14" y="2.286" size="1.778" layer="96" align="top-center"/>
+<instance part="GND6" gate="1" x="104.14" y="5.08" smashed="yes">
+<attribute name="VALUE" x="104.14" y="4.826" size="1.778" layer="96" align="top-center"/>
 </instance>
-<instance part="GND7" gate="1" x="30.48" y="12.7" smashed="yes">
-<attribute name="VALUE" x="30.48" y="12.446" size="1.778" layer="96" align="top-center"/>
+<instance part="GND7" gate="1" x="30.48" y="17.78" smashed="yes">
+<attribute name="VALUE" x="30.48" y="17.526" size="1.778" layer="96" align="top-center"/>
 </instance>
 <instance part="R1" gate="G$1" x="27.94" y="76.2" smashed="yes" rot="R90">
 <attribute name="NAME" x="26.416" y="76.2" size="1.778" layer="95" font="vector" rot="R90" align="bottom-center"/>
@@ -2068,13 +2068,13 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <segment>
 <pinref part="U1" gate="G$1" pin="GND"/>
 <wire x1="93.98" y1="22.86" x2="104.14" y2="22.86" width="0.1524" layer="91"/>
-<wire x1="104.14" y1="22.86" x2="104.14" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="22.86" x2="104.14" y2="7.62" width="0.1524" layer="91"/>
 <pinref part="GND6" gate="1" pin="GND"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="CLKIN"/>
 <wire x1="63.5" y1="55.88" x2="30.48" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="55.88" x2="30.48" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="55.88" x2="30.48" y2="20.32" width="0.1524" layer="91"/>
 <pinref part="GND7" gate="1" pin="GND"/>
 </segment>
 </net>
