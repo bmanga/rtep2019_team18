@@ -1,9 +1,167 @@
 #ifndef RTEP_TEAM18_GAIT_CYCLE_SPLITTER_H
 #define RTEP_TEAM18_GAIT_CYCLE_SPLITTER_H
 
+#include <atomic>
+#include <cassert>
+#include <chrono>
+#include <iostream>
+#include <kfr/base.hpp>
+#include <kfr/dft.hpp>
+#include <kfr/dsp.hpp>
+#include <kfr/io.hpp>
+#include <mutex>
+#include <numeric>
+#include <thread>
+
+#include <DspFilters/Dsp.h>
+#include <DspFilters/Filter.h>
+
+#include "peak_analysis.h"
+
 class gait_cycle_splitter {
  public:
+  float getDominantFrequency(
+      double sampling_freq,
+      kfr::univector<kfr::complex<kfr::fbase>> datapoints)
+  {
+    datapoints = datapoints - kfr::mean(datapoints);
+
+    auto size = datapoints.size();
+
+    const kfr::dft_plan<kfr::fbase> dft(size);
+
+    kfr::univector<kfr::complex<kfr::fbase>> out =
+        {};  // kfr::scalar(kfr::qnan);
+
+    out.resize(size);
+
+    // allocate work buffer for fft (if needed)
+    kfr::univector<kfr::u8> temp(dft.temp_size);
+
+    // perform forward fft
+    dft.execute(out, datapoints, temp);
+
+    out /= size;
+
+    kfr::univector<kfr::fbase> abs_out = kfr::real(kfr::cabs(out));
+
+    auto max_it = std::max_element(abs_out.begin(), abs_out.begin() + size / 2);
+    size_t max_idx = std::distance(abs_out.begin(), max_it);
+
+    kfr::univector<kfr::fbase> freq;
+    freq.resize(size);
+    std::iota(freq.begin(), freq.end(), 0);
+
+    auto T = (double)size / sampling_freq;
+
+    freq /= T;
+
+    return freq[max_idx];
+  }
+
+  kfr::univector<kfr::fbase> getFilteredData(double sampling_freq,
+                                             double dominant_freq,
+                                             kfr::univector<double> datapoints)
+  {
+    Dsp::SimpleFilter<Dsp::Butterworth::BandPass<10>, 1> f;
+    f.setup(5,              // order
+            sampling_freq,  // sample rate
+            dominant_freq,  // center frequency
+            0.2             // band width
+    );
+
+    double *datap = datapoints.data();
+
+    f.process(datapoints.size(), &datap);
+    std::reverse(datapoints.begin(), datapoints.end());
+    f.process(datapoints.size(), &datap);
+
+    return datapoints;
+  }
+
+  void update_cycle_freq()
+  {
+    kfr::univector<double> fsr_points;
+    while (m_run_freq_updater) {
+      std::this_thread::sleep_for(std::chrono::seconds(5));
+      m_cycle_freq_mut.lock();
+      m_cur_sampling_freq = 1 / (m_timepoints[1] - m_timepoints[0]);
+      fsr_points = m_fsr_points;
+      m_cycle_freq_mut.unlock();
+
+      m_cur_cycle_freq = getDominantFrequency(m_cur_sampling_freq, fsr_points);
+    }
+  }
+
+  gait_cycle_splitter()
+      : m_run_freq_updater{true},
+        m_freq_thread(&gait_cycle_splitter::update_cycle_freq, this)
+  {
+  }
+
+  ~gait_cycle_splitter()
+  {
+    m_run_freq_updater = false;
+    m_freq_thread.join();
+  }
+
+  void add_cycle_points(double tp, double dp)
+  {
+    std::unique_lock<std::mutex> l(m_cycle_freq_mut);
+    m_timepoints.push_back(tp);
+    m_fsr_points.push_back(dp);
+  }
+
+  void remove_cycle_points(double seconds)
+  {
+    std::unique_lock<std::mutex> l(m_cycle_freq_mut);
+    if (m_timepoints.empty())
+      return;
+
+    double start = m_timepoints[0];
+    auto it = std::find_if(m_timepoints.begin(), m_timepoints.end(),
+                           [=](double t) { return (t - start) > seconds; });
+
+    auto idx = std::distance(m_timepoints.begin(), it);
+
+    if (idx < 0)
+      return;
+
+    m_timepoints.erase(m_timepoints.begin(), it);
+    m_fsr_points.erase(m_fsr_points.begin(), m_fsr_points.begin() + idx);
+  }
+
+  std::pair<double, double> latest_gait_cycle()
+  {
+    kfr::univector<double> filtered;
+    m_cycle_freq_mut.lock();
+    filtered = m_fsr_points;
+    m_cycle_freq_mut.unlock();
+
+    filtered = getFilteredData(m_cur_sampling_freq.load(),
+                               m_cur_cycle_freq.load(), filtered);
+
+    std::vector<int> peaks;
+    findPeaks(filtered, peaks);
+
+    if (peaks.size() < 2)
+      return {0, 0};
+
+    return {m_timepoints[peaks[peaks.size() - 2]], m_timepoints[peaks.back()]};
+  }
+
  private:
+  std::mutex m_cycle_freq_mut;
+  kfr::univector<double> m_timepoints;
+  kfr::univector<double> m_fsr_points;
+
+  std::atomic<double> m_cur_cycle_freq;
+  std::atomic<double> m_cur_sampling_freq;
+  std::atomic_bool m_run_freq_updater;
+
+  std::thread m_freq_thread;
+
+  std::chrono::steady_clock::time_point m_latest_in_tp;
 };
 
 #endif  // RTEP_TEAM18_GAIT_CYCLE_SPLITTER_H

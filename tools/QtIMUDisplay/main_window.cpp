@@ -267,7 +267,7 @@ void MainWindow::on_message(const void *d, long len)
     m_time_started = true;
   }
 
-  double x_sec = data.timepoint - m_time_start;
+  double x_sec = data.timepoint;  // - m_time_start;
 
   m_chartAccel_1->m_series_x->append(x_sec, data.p1.ax);
   m_chartAccel_1->m_series_y->append(x_sec, data.p1.ay);

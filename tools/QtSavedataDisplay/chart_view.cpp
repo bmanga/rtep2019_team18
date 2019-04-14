@@ -82,12 +82,15 @@ void ChartView::wheelEvent(QWheelEvent *event)
 void ChartView::adjustXAxis()
 {
   chart()->zoomReset();
-  chart()->axisX()->setRange(
-      0, static_cast<QXYSeries *>(chart()->series()[0])->points().back().x());
+  // chart()->axisX()->setRange(
+  //    0, static_cast<QXYSeries *>(chart()->series()[0])->points().back().x());
+  chart()->axisX()->setRange(1190, 1193);
 }
 
 void ChartView::adjustYAxis()
 {
+  chart()->axisY()->setRange(0, 2);
+  return;
   QRectF visibleRect = seriesRect(chart());
   QVector<qreal> visibleYs;
 
