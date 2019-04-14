@@ -1,7 +1,9 @@
 #ifndef RTEP_TEAM18_GAIT_CYCLE_SPLITTER_H
 #define RTEP_TEAM18_GAIT_CYCLE_SPLITTER_H
 
+#include <array>
 #include <atomic>
+#include <boost/circular_buffer.hpp>
 #include <cassert>
 #include <chrono>
 #include <iostream>
@@ -17,6 +19,8 @@
 #include <DspFilters/Filter.h>
 
 #include "peak_analysis.h"
+
+using packaged_data = std::array<float, 20>;
 
 class gait_cycle_splitter {
  public:
@@ -56,6 +60,8 @@ class gait_cycle_splitter {
 
     freq /= T;
 
+    std::cout << "max freq: " << freq[max_idx] << "\n";
+
     return freq[max_idx];
   }
 
@@ -86,7 +92,8 @@ class gait_cycle_splitter {
       std::this_thread::sleep_for(std::chrono::seconds(5));
       m_cycle_freq_mut.lock();
       m_cur_sampling_freq = 1 / (m_timepoints[1] - m_timepoints[0]);
-      fsr_points = m_fsr_points;
+      double *data = m_fsr_points.linearize();
+      fsr_points.assign(data, data + m_fsr_points.size());
       m_cycle_freq_mut.unlock();
 
       m_cur_cycle_freq = getDominantFrequency(m_cur_sampling_freq, fsr_points);
@@ -94,7 +101,10 @@ class gait_cycle_splitter {
   }
 
   gait_cycle_splitter()
-      : m_run_freq_updater{true},
+      : m_timepoints(256),
+        m_fsr_points(256),
+        m_data_points(256),
+        m_run_freq_updater{true},
         m_freq_thread(&gait_cycle_splitter::update_cycle_freq, this)
   {
   }
@@ -105,37 +115,26 @@ class gait_cycle_splitter {
     m_freq_thread.join();
   }
 
-  void add_cycle_points(double tp, double dp)
+  void add_cycle_points(double tp, double dp, packaged_data pd)
   {
     std::unique_lock<std::mutex> l(m_cycle_freq_mut);
     m_timepoints.push_back(tp);
     m_fsr_points.push_back(dp);
-  }
-
-  void remove_cycle_points(double seconds)
-  {
-    std::unique_lock<std::mutex> l(m_cycle_freq_mut);
-    if (m_timepoints.empty())
-      return;
-
-    double start = m_timepoints[0];
-    auto it = std::find_if(m_timepoints.begin(), m_timepoints.end(),
-                           [=](double t) { return (t - start) > seconds; });
-
-    auto idx = std::distance(m_timepoints.begin(), it);
-
-    if (idx < 0)
-      return;
-
-    m_timepoints.erase(m_timepoints.begin(), it);
-    m_fsr_points.erase(m_fsr_points.begin(), m_fsr_points.begin() + idx);
+    m_data_points.push_back(pd);
   }
 
   std::pair<double, double> latest_gait_cycle()
   {
     kfr::univector<double> filtered;
+    kfr::univector<double> timepoints;
     m_cycle_freq_mut.lock();
-    filtered = m_fsr_points;
+
+    double *filtered_data = m_fsr_points.linearize();
+    double *timepoints_data = m_timepoints.linearize();
+
+    filtered.assign(filtered_data, filtered_data + m_fsr_points.size());
+    timepoints.assign(timepoints_data, timepoints_data + m_fsr_points.size());
+
     m_cycle_freq_mut.unlock();
 
     filtered = getFilteredData(m_cur_sampling_freq.load(),
@@ -144,24 +143,26 @@ class gait_cycle_splitter {
     std::vector<int> peaks;
     findPeaks(filtered, peaks);
 
-    if (peaks.size() < 2)
+    if (peaks.size() < 3)
       return {0, 0};
 
-    return {m_timepoints[peaks[peaks.size() - 2]], m_timepoints[peaks.back()]};
+    return {timepoints[peaks[peaks.size() - 3]],
+            timepoints[peaks[peaks.size() - 2]]};
   }
 
  private:
   std::mutex m_cycle_freq_mut;
-  kfr::univector<double> m_timepoints;
-  kfr::univector<double> m_fsr_points;
+
+  boost::circular_buffer<double> m_timepoints;
+  boost::circular_buffer<double> m_fsr_points;
+
+  boost::circular_buffer<packaged_data> m_data_points;
 
   std::atomic<double> m_cur_cycle_freq;
   std::atomic<double> m_cur_sampling_freq;
   std::atomic_bool m_run_freq_updater;
 
   std::thread m_freq_thread;
-
-  std::chrono::steady_clock::time_point m_latest_in_tp;
 };
 
 #endif  // RTEP_TEAM18_GAIT_CYCLE_SPLITTER_H

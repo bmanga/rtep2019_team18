@@ -28,26 +28,37 @@ void on_message(const void *d, long len)
   sensors_data data;
   memcpy(&data, d, len);
 
-  s.add_cycle_points(data.timepoint, data.left.heel);
+  // series:  FSR_L, FSR_R, acceleration_A, acceleration_B, acceleration_C,
+  // gyroscope_A, gyroscope_B, gyroscope_C
+  packaged_data points = {
+      data.left.heel + data.left.toe,
+      data.right.heel + data.right.toe,
+      data.p1.ax,
+      data.p1.ay,
+      data.p1.az,
+      data.p2.ax,
+      data.p2.ay,
+      data.p2.az,
+      data.p3.ax,
+      data.p3.ay,
+      data.p3.az,
+      data.p1.gx,
+      data.p1.gy,
+      data.p1.gz,
+      data.p2.gx,
+      data.p2.gy,
+      data.p2.gz,
+      data.p3.gx,
+      data.p3.gy,
+      data.p3.gz,
+  };
+
+  s.add_cycle_points(data.timepoint, data.left.heel, points);
 
   static bool first = true;
   if (first) {
     first_tp = data.timepoint;
     first = false;
-  }
-  static bool init = false;
-  static double initial_time = data.timepoint;
-  if (!init) {
-    if (data.timepoint - initial_time > 6.0) {
-      init = true;
-    }
-  }
-  else {
-    static double last_removed = data.timepoint;
-    if (data.timepoint - last_removed > 1) {
-      s.remove_cycle_points(data.timepoint - last_removed);
-      last_removed = data.timepoint;
-    }
   }
 }
 
@@ -59,22 +70,22 @@ if (argc != 2) {
                "address of the streamer server to connect to.";
   return -1;
 }
+   */
 
-*/
-  /*
-  std::string addr = "ws://192.168.1.130:9004";
+#if 1
+  std::string addr = "ws://192.168.1.163:9004";
   tel::client client;
   client.set_message_handler(&on_message);
 
   client.connect_to(addr);
   client.run_on_thread();
 
-  while(true) {
+  while (true) {
     std::this_thread::sleep_for(std::chrono::seconds(1));
     auto last_cycle = s.latest_gait_cycle();
     printf("%.2lf -- %.2lf\n", last_cycle.first, last_cycle.second);
   }
-   */
+#else
   auto res = s.getFilteredData(
       1 / 0.051,
       s.getDominantFrequency(
@@ -163,4 +174,5 @@ if (argc != 2) {
   for (auto j : res) {
     std::cout << j << std::endl;
   }
+#endif
 }
