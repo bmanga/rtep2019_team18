@@ -19,6 +19,7 @@
 #include <DspFilters/Filter.h>
 
 #include "peak_analysis.h"
+#include "resample.h"
 
 using packaged_data = std::array<float, 20>;
 
@@ -42,6 +43,17 @@ class mutexed_data {
   std::mutex m_data_mut;
   T m_data;
 };
+
+std::vector<double> resample_series(double in_freq,
+                                    int num_out_samples,
+                                    std::vector<double> &input)
+{
+  int freq = (int)(in_freq * 100);
+  std::vector<double> output;
+  resample(freq * num_out_samples / input.size(), freq, input, output);
+  output[0] = input[0];
+  return output;
+}
 
 class gait_cycle_splitter {
  public:
@@ -170,7 +182,7 @@ class gait_cycle_splitter {
     if (peaks.size() < 3)
       return {0, 0};
 
-    std::array<kfr::univector<float>, 20> linearized_dataseries;
+    std::array<kfr::univector<double>, 20> linearized_dataseries;
 
     for (int j = peaks[peaks.size() - 3]; j < peaks[peaks.size() - 2]; ++j) {
       for (int k = 0; k < 20; ++k) {
@@ -184,7 +196,7 @@ class gait_cycle_splitter {
             timepoints[peaks[peaks.size() - 2]]};
   }
 
-  std::array<kfr::univector<float>, 20> get_latest_cycle_data()
+  std::array<kfr::univector<double>, 20> get_latest_cycle_data()
   {
     return m_latest_gait_data.get();
   }
@@ -192,7 +204,7 @@ class gait_cycle_splitter {
  private:
   std::mutex m_cycle_freq_mut;
 
-  mutexed_data<std::array<kfr::univector<float>, 20>> m_latest_gait_data;
+  mutexed_data<std::array<kfr::univector<double>, 20>> m_latest_gait_data;
 
   boost::circular_buffer<double> m_timepoints;
   boost::circular_buffer<double> m_fsr_points;
