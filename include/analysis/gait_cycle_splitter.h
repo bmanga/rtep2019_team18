@@ -22,6 +22,27 @@
 
 using packaged_data = std::array<float, 20>;
 
+template <class T>
+class mutexed_data {
+ public:
+  void set(const T &data)
+  {
+    std::unique_lock<std::mutex> l(m_data_mut);
+    m_data = data;
+  }
+
+  T get()
+  {
+    std::unique_lock<std::mutex> l(m_data_mut);
+    T data = m_data;
+    return data;
+  }
+
+ private:
+  std::mutex m_data_mut;
+  T m_data;
+};
+
 class gait_cycle_splitter {
  public:
   float getDominantFrequency(
@@ -127,13 +148,16 @@ class gait_cycle_splitter {
   {
     kfr::univector<double> filtered;
     kfr::univector<double> timepoints;
+    kfr::univector<packaged_data> data;
     m_cycle_freq_mut.lock();
 
     double *filtered_data = m_fsr_points.linearize();
     double *timepoints_data = m_timepoints.linearize();
+    packaged_data *series_data = m_data_points.linearize();
 
     filtered.assign(filtered_data, filtered_data + m_fsr_points.size());
     timepoints.assign(timepoints_data, timepoints_data + m_fsr_points.size());
+    data.assign(series_data, series_data + m_data_points.size());
 
     m_cycle_freq_mut.unlock();
 
@@ -146,12 +170,29 @@ class gait_cycle_splitter {
     if (peaks.size() < 3)
       return {0, 0};
 
+    std::array<kfr::univector<float>, 20> linearized_dataseries;
+
+    for (int j = peaks[peaks.size() - 3]; j < peaks[peaks.size() - 2]; ++j) {
+      for (int k = 0; k < 20; ++k) {
+        linearized_dataseries[k].push_back(series_data[j][k]);
+      }
+    }
+
+    m_latest_gait_data.set(linearized_dataseries);
+
     return {timepoints[peaks[peaks.size() - 3]],
             timepoints[peaks[peaks.size() - 2]]};
   }
 
+  std::array<kfr::univector<float>, 20> get_latest_cycle_data()
+  {
+    return m_latest_gait_data.get();
+  }
+
  private:
   std::mutex m_cycle_freq_mut;
+
+  mutexed_data<std::array<kfr::univector<float>, 20>> m_latest_gait_data;
 
   boost::circular_buffer<double> m_timepoints;
   boost::circular_buffer<double> m_fsr_points;
