@@ -7,15 +7,20 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QWidget>
+#include "WindowBase.hpp"
 
-class CalibrateWindow : public QWidget {
+class CalibrateWindow : public WindowBase {
  public:
-  CalibrateWindow();
+  CalibrateWindow(int a);
   ~CalibrateWindow();
 
  private:
+  int nextWindowId;
   QPushButton *CalibrateButton;
   QLabel *CalibrateText;
+
+ private slots:
+  void onCalibrateButtonPushed();
 };
 
 #endif /* CalibrateWindow_hpp */

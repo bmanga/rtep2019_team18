@@ -1,8 +1,10 @@
 #include "CalibrateWindow.hpp"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-CalibrateWindow::CalibrateWindow()
-    : CalibrateButton(new QPushButton()), CalibrateText(new QLabel())
+CalibrateWindow::CalibrateWindow(int a)
+    : nextWindowId(a),
+      CalibrateButton(new QPushButton()),
+      CalibrateText(new QLabel())
 {
   CalibrateText->setText(R"(
                        <html>
@@ -36,9 +38,16 @@ CalibrateWindow::CalibrateWindow()
   pal.setColor(QPalette::Background, background);
   setAutoFillBackground(true);
   setPalette(pal);
+  connect(CalibrateButton, &QPushButton::clicked, this,
+          &CalibrateWindow::onCalibrateButtonPushed);
 }
 CalibrateWindow::~CalibrateWindow()
 {
   delete CalibrateButton;
   delete CalibrateText;
+}
+
+void CalibrateWindow::onCalibrateButtonPushed()
+{
+  emit windowDone(WindowKind::Cal, this->nextWindowId);
 }
