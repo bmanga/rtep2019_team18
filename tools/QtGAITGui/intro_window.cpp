@@ -10,6 +10,7 @@
 #include <QtCharts/QChartView>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
+#include "MainWindow.hpp"
 
 IntroWindow::IntroWindow() : Message(new QLabel())
 {
@@ -63,9 +64,23 @@ IntroWindow::IntroWindow() : Message(new QLabel())
   pal.setColor(QPalette::Background, background);
   setAutoFillBackground(true);
   setPalette(pal);
+
+  connect(WSButton, &QPushButton::clicked, this,
+          &IntroWindow::onWSButtonPushed);
+  connect(CPButton, &QPushButton::clicked, this,
+          &IntroWindow::onCPButtonPushed);
 }
 
 IntroWindow::~IntroWindow()
 {
   delete Message;
+}
+
+void IntroWindow::onWSButtonPushed()
+{
+  emit windowDone(WindowKind::Intro, 0);
+}
+void IntroWindow::onCPButtonPushed()
+{
+  emit windowDone(WindowKind::Intro, 1);
 }

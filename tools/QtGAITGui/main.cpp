@@ -29,24 +29,14 @@ int main(int argc, char *argv[])
                                            <br>
                                            </html>)");
 
-  QMainWindow w0, w1, w2, w3, w4, w5;
-  w0.setCentralWidget(new WelcomeWindow());
-  w1.setCentralWidget(new IntroWindow());
-  w2.setCentralWidget(new CalibrateWindow());
-  w3.setCentralWidget(t1);
-  w4.setCentralWidget(t2);
-  w5.setCentralWidget(new FinalWindow());
+  MainWindow w0;
   QPixmap pixmap("/Users/luca/Downloads/GaitLogo.png");
   QSplashScreen splash(pixmap);
   splash.show();
   a.processEvents();
   splash.finish(&w0);
   w0.show();
-  w1.show();
-  w2.show();
-  w3.show();
-  w4.show();
-  w5.show();
+
   a.exec();
   return 0;
 }

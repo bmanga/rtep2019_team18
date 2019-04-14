@@ -2,6 +2,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+#include "MainWindow.hpp"
+
 WelcomeWindow::WelcomeWindow()
     : ConnectLabel(new QLineEdit()),
       VocalInstructions(new QCheckBox()),
@@ -58,12 +60,16 @@ WelcomeWindow::WelcomeWindow()
   pal.setColor(QPalette::Background, background);
   setAutoFillBackground(true);
   setPalette(pal);
+
+  connect(NextButton, &QPushButton::clicked, this,
+          &WelcomeWindow::onNextButtonPushed);
 }
-WelcomeWindow::~WelcomeWindow()
+
+void WelcomeWindow::onNextButtonPushed()
 {
-  delete ConnectButton;
-  delete VocalInstructions;
-  delete NextButton;
-  delete WelcomeText;
-  delete ConnectLabel;
+  static_cast<MainWindow *>(this->parent())
+      ->connectToAddress(ConnectLabel->text().isEmpty() ? "localhost"
+                                                        : ConnectLabel->text());
+  emit windowDone(WindowKind::Welcome, 0);
 }
+WelcomeWindow::~WelcomeWindow() {}

@@ -13,6 +13,7 @@
 #include <QVBoxLayout>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
+#include "WindowBase.hpp"
 #include "progressbar.hpp"
 #include "telemetry/client.h"
 
@@ -20,7 +21,7 @@ class ProgressBar;
 class CircleWidget;
 
 template <class WidgetT>
-class TrainingMode : public QWidget {
+class TrainingMode : public WindowBase {
  public:
   TrainingMode(QString instructions)
       : widget_r(new WidgetT()),
