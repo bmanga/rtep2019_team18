@@ -13,7 +13,10 @@ enum WindowKind {
 class WindowBase : public QWidget {
   Q_OBJECT
  public:
+<<<<<<< HEAD
     WindowBase(QWidget *parent = nullptr) : QWidget(parent) {}
+=======
+>>>>>>> qt gui: all windows in training mode are now connected
  signals:
   void windowDone(WindowKind, int);
 };

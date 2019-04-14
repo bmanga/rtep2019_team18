@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QWidget>
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <QtWidgets/QMainWindow>
 #include "WindowBase.hpp"
 #include <stdio.h>
@@ -46,16 +47,26 @@ class CalibrateWindow : public WindowBase {
     void calibrateR(fsr_packet data);
 
 =======
+=======
+#include "WindowBase.hpp"
+>>>>>>> qt gui: all windows in training mode are now connected
 
-class CalibrateWindow : public QWidget {
+class CalibrateWindow : public WindowBase {
  public:
-  CalibrateWindow();
+  CalibrateWindow(int a);
   ~CalibrateWindow();
 
  private:
+  int nextWindowId;
   QPushButton *CalibrateButton;
   QLabel *CalibrateText;
+<<<<<<< HEAD
 >>>>>>> Edited GUI, now works with realtime data from sensors.
+=======
+
+ private slots:
+  void onCalibrateButtonPushed();
+>>>>>>> qt gui: all windows in training mode are now connected
 };
 
 #endif /* CalibrateWindow_hpp */

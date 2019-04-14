@@ -1,10 +1,16 @@
 #include "MainWindow.hpp"
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include "CalibrateWindow.hpp"
 #include "FinalWindow.hpp"
 #include "Training_mode.hpp"
 #include "WelcomeWindow.hpp"
 #include "intro_window.hpp"
+=======
+#include "CalibrateWindow.hpp"
+#include "FinalWindow.hpp"
+#include "Training_mode.hpp"
+>>>>>>> qt gui: all windows in training mode are now connected
 
 MainWindow::MainWindow()
 {
@@ -12,9 +18,12 @@ MainWindow::MainWindow()
   setCentralWidget(welcomeScreen);
   connect(welcomeScreen, &WindowBase::windowDone, this,
           &MainWindow::onWindowDone);
+<<<<<<< HEAD
 
   m_client.set_message_handler(
       [this](const void *data, long len) { this->on_message(data, len); });
+=======
+>>>>>>> qt gui: all windows in training mode are now connected
 }
 
 void MainWindow::onWindowDone(WindowKind wk, int extra)
@@ -26,7 +35,11 @@ void MainWindow::onWindowDone(WindowKind wk, int extra)
       nextWindow = new IntroWindow();
       break;
     case WindowKind::Intro:
+<<<<<<< HEAD
       nextWindow = new CalibrateWindow(extra, this);
+=======
+      nextWindow = new CalibrateWindow(extra);
+>>>>>>> qt gui: all windows in training mode are now connected
       break;
     case WindowKind::Cal:
       if (extra == 0) {
@@ -38,8 +51,12 @@ void MainWindow::onWindowDone(WindowKind wk, int extra)
                                                    Shift your weight from one foot to the other to reach the target levels shown on each bar
                                                    <br>
                                                    
+<<<<<<< HEAD
                                                    </html>)",
                                                    this);
+=======
+                                                   </html>)");
+>>>>>>> qt gui: all windows in training mode are now connected
         ;
       }
       else {
@@ -50,8 +67,12 @@ void MainWindow::onWindowDone(WindowKind wk, int extra)
                                                     <br>
                                                     Shift your weight from heel to toes to  reach the target levels shown on each bar
                                                     <br>
+<<<<<<< HEAD
                                                     </html>)",
                                                     this);
+=======
+                                                    </html>)");
+>>>>>>> qt gui: all windows in training mode are now connected
         ;
       }
 
@@ -60,6 +81,7 @@ void MainWindow::onWindowDone(WindowKind wk, int extra)
   connect(nextWindow, &WindowBase::windowDone, this, &MainWindow::onWindowDone);
   this->setCentralWidget(nextWindow);
 }
+<<<<<<< HEAD
 
 MainWindow::~MainWindow() {}
 
@@ -78,6 +100,8 @@ void MainWindow::setCalibrationMax(int maxValue)
 }
 =======
 MainWindow::MainWindow() {}
+=======
+>>>>>>> qt gui: all windows in training mode are now connected
 
 MainWindow::~MainWindow() {}
 >>>>>>> Edited GUI, now works with realtime data from sensors.

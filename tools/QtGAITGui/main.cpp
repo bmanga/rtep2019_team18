@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
                                            <br>
                                            </html>)");
 
+<<<<<<< HEAD
   QMainWindow w0, w1, w2, w3, w4, w5;
   w0.setCentralWidget(new WelcomeWindow());
   w1.setCentralWidget(new IntroWindow());
@@ -42,12 +43,16 @@ int main(int argc, char *argv[])
   w4.setCentralWidget(t2);
   w5.setCentralWidget(new FinalWindow());
 >>>>>>> Edited GUI, now works with realtime data from sensors.
+=======
+  MainWindow w0;
+>>>>>>> qt gui: all windows in training mode are now connected
   QPixmap pixmap("/Users/luca/Downloads/GaitLogo.png");
   QSplashScreen splash(pixmap);
   splash.show();
   a.processEvents();
   splash.finish(&w0);
   w0.show();
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 =======
@@ -57,6 +62,9 @@ int main(int argc, char *argv[])
   w4.show();
   w5.show();
 >>>>>>> Edited GUI, now works with realtime data from sensors.
+=======
+
+>>>>>>> qt gui: all windows in training mode are now connected
   a.exec();
   return 0;
 }

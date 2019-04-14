@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QWidget>
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include "WindowBase.hpp"
 
 class WelcomeWindow : public WindowBase {
@@ -17,12 +18,21 @@ class WelcomeWindow : public WindowBase {
  private slots:
   void onNextButtonPushed();
 =======
+=======
+#include "WindowBase.hpp"
+>>>>>>> qt gui: all windows in training mode are now connected
 
-class WelcomeWindow : public QWidget {
+class WelcomeWindow : public WindowBase {
+  Q_OBJECT
  public:
   WelcomeWindow();
   ~WelcomeWindow();
+<<<<<<< HEAD
 >>>>>>> Edited GUI, now works with realtime data from sensors.
+=======
+ private slots:
+  void onNextButtonPushed();
+>>>>>>> qt gui: all windows in training mode are now connected
 
  private:
   QLineEdit *ConnectLabel;

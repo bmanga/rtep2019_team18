@@ -2,6 +2,7 @@
 #include "WindowBase.hpp"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+<<<<<<< HEAD
 #include <QtWidgets/QMainWindow>
 #include <stdio.h>
 #include <CircleWidget.hpp>
@@ -23,6 +24,10 @@
 CalibrateWindow::CalibrateWindow(int a, QMainWindow *parent)
     : WindowBase(parent),
     nextWindowId(a),
+=======
+CalibrateWindow::CalibrateWindow(int a)
+    : nextWindowId(a),
+>>>>>>> qt gui: all windows in training mode are now connected
       CalibrateButton(new QPushButton()),
       CalibrateText(new QLabel())
 {
@@ -59,12 +64,17 @@ CalibrateWindow::CalibrateWindow(int a, QMainWindow *parent)
   setAutoFillBackground(true);
   setPalette(pal);
 <<<<<<< HEAD
+<<<<<<< HEAD
   connect(CalibrateButton, &QPushButton::clicked, this,
           &CalibrateWindow::onCalibrateButtonPushed);
 
 
     calibration_points = 0;
 
+=======
+  connect(CalibrateButton, &QPushButton::clicked, this,
+          &CalibrateWindow::onCalibrateButtonPushed);
+>>>>>>> qt gui: all windows in training mode are now connected
 }
 CalibrateWindow::~CalibrateWindow()
 {
@@ -74,6 +84,7 @@ CalibrateWindow::~CalibrateWindow()
 
 void CalibrateWindow::onCalibrateButtonPushed()
 {
+<<<<<<< HEAD
     connect(static_cast<MainWindow *>(this->parent()), &MainWindow::newFSRDataL, this,&CalibrateWindow::calibrateL);
     connect(static_cast<MainWindow *>(this->parent()), &MainWindow::newFSRDataR, this,&CalibrateWindow::calibrateR);
 
@@ -105,4 +116,7 @@ void CalibrateWindow::onCalibrateDone()
     // call parent and set max
     static_cast<MainWindow *> (parent())->setCalibrationMax(max);
     emit windowDone(WindowKind::Cal, 0);
+=======
+  emit windowDone(WindowKind::Cal, this->nextWindowId);
+>>>>>>> qt gui: all windows in training mode are now connected
 }

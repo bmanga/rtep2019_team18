@@ -14,9 +14,13 @@
 #include <QtWidgets/QMainWindow>
 #include <chrono>
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include "WindowBase.hpp"
 =======
 >>>>>>> Edited GUI, now works with realtime data from sensors.
+=======
+#include "WindowBase.hpp"
+>>>>>>> qt gui: all windows in training mode are now connected
 #include "progressbar.hpp"
 #include "telemetry/client.h"
 
@@ -25,11 +29,15 @@ class CircleWidget;
 
 template <class WidgetT>
 <<<<<<< HEAD
+<<<<<<< HEAD
 class TrainingMode : public WindowBase {
  public:
   TrainingMode(QString instructions, QMainWindow *parent)
 =======
 class TrainingMode : public QWidget {
+=======
+class TrainingMode : public WindowBase {
+>>>>>>> qt gui: all windows in training mode are now connected
  public:
   TrainingMode(QString instructions)
 >>>>>>> Edited GUI, now works with realtime data from sensors.

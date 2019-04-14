@@ -30,6 +30,7 @@ struct sensors_data {
 
 =======
 #include <CircleWidget.hpp>
+#include <QDebug>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPainter>
@@ -38,6 +39,9 @@ struct sensors_data {
 #include <QString>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
+#include "WelcomeWindow.hpp"
+#include "WindowBase.hpp"
+#include "intro_window.hpp"
 #include "progressbar.hpp"
 #include "telemetry/client.h"
 
@@ -47,6 +51,7 @@ class MainWindow : public QMainWindow {
  public:
   MainWindow();
   ~MainWindow();
+<<<<<<< HEAD
 <<<<<<< HEAD
   void setCalibrationMax(int max);
 
@@ -64,13 +69,26 @@ class MainWindow : public QMainWindow {
     address = "ws://" + address + ":9004";
     m_client.connect_to(address.toStdString());
     m_client.run_on_thread();
+=======
+
+ public slots:
+  void onWindowDone(WindowKind win, int extra = 0);
+
+  void connectToAddress(QString address)
+  {
+    address = "ws://" + address + ":9004";
+    qDebug() << "address is: " << address;
+>>>>>>> qt gui: all windows in training mode are now connected
   }
 
  private:
   tel::client m_client;
+<<<<<<< HEAD
   void on_message(const void *d, long len);
 =======
 >>>>>>> Edited GUI, now works with realtime data from sensors.
+=======
+>>>>>>> qt gui: all windows in training mode are now connected
 };
 
 #endif /* MainWindow_hpp */

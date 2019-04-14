@@ -18,10 +18,7 @@ find_package(Qt5Charts CONFIG REQUIRED)
 # Tell CMake to create the helloworld executable
 add_executable(qt-gait-gui
 	main.cpp
-<<<<<<< HEAD
 	WindowBase.hpp
-=======
->>>>>>> Edited GUI, now works with realtime data from sensors.
 	Training_mode.cpp
 	Training_mode.hpp
 	CircleWidget.cpp
