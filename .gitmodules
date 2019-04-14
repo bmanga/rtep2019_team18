@@ -4,3 +4,6 @@
 [submodule "third_party/DSPFilters"]
 	path = third_party/DSPFilters
 	url = git@github.com:vinniefalco/DSPFilters.git
+[submodule "third_party/SignalResampler"]
+	path = third_party/SignalResampler
+	url = git@github.com:KuznechINC/SignalResampler.git
