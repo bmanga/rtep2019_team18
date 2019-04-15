@@ -11,13 +11,16 @@
 #include <stdio.h>
 #include <QLabel>
 #include <QPushButton>
+#include <QtTextToSpeech/QTextToSpeech>
 #include <QtWidgets/QMainWindow>
 #include "WindowBase.hpp"
 
 class IntroWindow : public WindowBase {
  public:
-  IntroWindow();
+  IntroWindow(QMainWindow *parent);
   ~IntroWindow();
+
+  void checkVoiceEnabled();
 
   QPushButton *WSButton;
   QPushButton *CPButton;
@@ -28,6 +31,7 @@ class IntroWindow : public WindowBase {
 
  private:
   QLabel *Message;
+  QTextToSpeech *m_speech;
 };
 
 #endif /* intro_window_hpp */

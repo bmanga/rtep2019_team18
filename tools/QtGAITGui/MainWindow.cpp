@@ -22,7 +22,7 @@ void MainWindow::onWindowDone(WindowKind wk, int extra)
   WindowBase *nextWindow = nullptr;
   switch (wk) {
     case WindowKind::Welcome:
-      nextWindow = new IntroWindow();
+      nextWindow = new IntroWindow(this);
       break;
     case WindowKind::Intro:
       nextWindow = new CalibrateWindow(extra, this);
@@ -73,4 +73,15 @@ void MainWindow::on_message(const void *d, long len)
 void MainWindow::setCalibrationMax(double maxValue)
 {
   calibrationMax = maxValue;
+}
+
+void MainWindow::toggleVoice(bool voice)
+{
+  vocalInstructions = voice;
+  printf("Set vocal!");
+}
+
+bool MainWindow::getVoiceEnabled()
+{
+  return vocalInstructions;
 }

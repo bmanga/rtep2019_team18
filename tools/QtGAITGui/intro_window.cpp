@@ -8,11 +8,14 @@
 #include <QPushButton>
 #include <QSplineSeries>
 #include <QtCharts/QChartView>
+#include <QtTextToSpeech/QTextToSpeech>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include "MainWindow.hpp"
+#include "WindowBase.hpp"
 
-IntroWindow::IntroWindow() : Message(new QLabel())
+IntroWindow::IntroWindow(QMainWindow *parent)
+    : WindowBase(parent), Message(new QLabel()), m_speech(new QTextToSpeech())
 {
   WSButton = new QPushButton("Weight Shifting", this);
   CPButton = new QPushButton("Calf Pushes", this);
@@ -69,6 +72,7 @@ IntroWindow::IntroWindow() : Message(new QLabel())
           &IntroWindow::onWSButtonPushed);
   connect(CPButton, &QPushButton::clicked, this,
           &IntroWindow::onCPButtonPushed);
+  checkVoiceEnabled();
 }
 
 IntroWindow::~IntroWindow()
@@ -83,4 +87,18 @@ void IntroWindow::onWSButtonPushed()
 void IntroWindow::onCPButtonPushed()
 {
   emit windowDone(WindowKind::Intro, 1);
+}
+
+void IntroWindow::checkVoiceEnabled()
+{
+  if (static_cast<MainWindow *>(parent())->getVoiceEnabled() == true) {
+    m_speech->setPitch(-0.3);
+    m_speech->setRate(-0.3);
+    m_speech->setVolume(.8);
+    m_speech->say(
+        "Please select your exercise of choice. Weight Shifting requires "
+        "shifting of your body weight from one foot, to the other. ");
+    m_speech->say(
+        "Calf Pushes requires shifting of your body weight from heel to toes.");
+  }
 }
