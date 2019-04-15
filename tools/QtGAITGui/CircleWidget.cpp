@@ -116,3 +116,9 @@ QColor CircleWidget::interpolate3(float pos,
     return interpolate2(pos / middlePos, start, middle);
   return interpolate2((pos - middlePos) / (1 - middlePos), middle, end);
 }
+
+
+void CircleWidget::setMaxValue(int calibrationMax)
+{
+    //this->setMaxValue(calibrationMax);
+}

@@ -154,3 +154,9 @@ QColor ProgressBar::interpolate3(float pos,
     return interpolate2(pos / middlePos, start, middle);
   return interpolate2((pos - middlePos) / (1 - middlePos), middle, end);
 }
+
+
+void ProgressBar::setMaxValue(int calibrationMax)
+{
+    this->setMaximum(calibrationMax);
+}

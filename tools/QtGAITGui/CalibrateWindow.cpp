@@ -1,8 +1,28 @@
 #include "CalibrateWindow.hpp"
+#include "WindowBase.hpp"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-CalibrateWindow::CalibrateWindow(int a)
-    : nextWindowId(a),
+#include <QtWidgets/QMainWindow>
+#include <stdio.h>
+#include <CircleWidget.hpp>
+#include <QGridLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPainter>
+#include <QProgressBar>
+#include <QPushButton>
+#include <QString>
+#include <QVBoxLayout>
+#include <QtWidgets/QMainWindow>
+#include <chrono>
+#include <QTimer>
+#include "MainWindow.hpp"
+#include "progressbar.hpp"
+#include "telemetry/client.h"
+
+CalibrateWindow::CalibrateWindow(int a, QMainWindow *parent)
+    : WindowBase(parent),
+    nextWindowId(a),
       CalibrateButton(new QPushButton()),
       CalibrateText(new QLabel())
 {
@@ -40,6 +60,10 @@ CalibrateWindow::CalibrateWindow(int a)
   setPalette(pal);
   connect(CalibrateButton, &QPushButton::clicked, this,
           &CalibrateWindow::onCalibrateButtonPushed);
+
+
+    calibration_points = 0;
+
 }
 CalibrateWindow::~CalibrateWindow()
 {
@@ -49,5 +73,35 @@ CalibrateWindow::~CalibrateWindow()
 
 void CalibrateWindow::onCalibrateButtonPushed()
 {
-  emit windowDone(WindowKind::Cal, this->nextWindowId);
+    connect(static_cast<MainWindow *>(this->parent()), &MainWindow::newFSRDataL, this,&CalibrateWindow::calibrateL);
+    connect(static_cast<MainWindow *>(this->parent()), &MainWindow::newFSRDataR, this,&CalibrateWindow::calibrateR);
+
+    //emit windowDone(WindowKind::Cal, this->nextWindowId);
+}
+
+
+void CalibrateWindow::calibrateL(fsr_packet data)
+{
+    pointsSumL == data.toe + data.heel;
+}
+
+
+void CalibrateWindow::calibrateR(fsr_packet data)
+{
+    if(calibration_points < 100){
+        calibration_points += 1;
+        pointsSumR == data.toe + data.heel;
+    }
+    else{
+        onCalibrateDone();        //disconnect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataL,
+        // this, this::calibrate);
+    }
+}
+
+void CalibrateWindow::onCalibrateDone()
+{
+    double max = (pointsSumL + pointsSumR) / 100;
+    // call parent and set max
+    static_cast<MainWindow *> (parent())->setCalibrationMax(max);
+    emit windowDone(WindowKind::Cal, 0);
 }

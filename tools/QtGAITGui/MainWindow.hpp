@@ -32,8 +32,12 @@ class MainWindow : public QMainWindow {
  public:
   MainWindow();
   ~MainWindow();
+  void setCalibrationMax(int max);
 
- signals:
+  int calibrationMax;
+
+
+    signals:
   void newFSRDataL(fsr_packet);
   void newFSRDataR(fsr_packet);
 

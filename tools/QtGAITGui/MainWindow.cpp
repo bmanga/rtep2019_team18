@@ -25,7 +25,7 @@ void MainWindow::onWindowDone(WindowKind wk, int extra)
       nextWindow = new IntroWindow();
       break;
     case WindowKind::Intro:
-      nextWindow = new CalibrateWindow(extra);
+      nextWindow = new CalibrateWindow(extra, this);
       break;
     case WindowKind::Cal:
       if (extra == 0) {
@@ -69,4 +69,9 @@ void MainWindow::on_message(const void *d, long len)
 
   emit newFSRDataL(data.left);
   emit newFSRDataR(data.right);
+}
+
+void MainWindow::setCalibrationMax(int maxValue)
+{
+    calibrationMax = maxValue;
 }

@@ -22,6 +22,9 @@ class CircleWidget : public QWidget {
   QSize minimumSizeHint() const override;
   QSize sizeHint() const override;
 
+  void setMaxValue(int calibrationMax);
+
+
  public slots:
   void setDiameter(float d);
   float getDiameter();

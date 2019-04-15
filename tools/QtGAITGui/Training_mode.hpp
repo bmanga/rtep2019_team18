@@ -69,6 +69,10 @@ class TrainingMode : public WindowBase {
             widget_l, &WidgetT::onNewFSRData);
     connect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataR,
             widget_r, &WidgetT::onNewFSRData);
+
+    int calibrationMax = static_cast<MainWindow *>(parent)->calibrationMax;
+    widget_l->setMaxValue(calibrationMax);
+    widget_r->setMaxValue(calibrationMax);
   }
 
  private:
