@@ -1,8 +1,6 @@
 #include "CalibrateWindow.hpp"
-<<<<<<< HEAD
 #include "WindowBase.hpp"
 #include <QHBoxLayout>
-#include <QVBoxLayout>
 #include <stdio.h>
 #include <CircleWidget.hpp>
 #include <QGridLayout>
@@ -25,7 +23,7 @@
 
 CalibrateWindow::CalibrateWindow(int a, QMainWindow *parent)
     : WindowBase(parent),
-    nextWindowId(a),
+      nextWindowId(a),
       CalibrateButton(new QPushButton()),
       CalibrateText(new QLabel()),
       CalibrationProgressBar(new QProgressBar())

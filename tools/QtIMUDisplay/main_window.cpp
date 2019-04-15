@@ -16,11 +16,7 @@
 #include <QtWidgets/QMainWindow>
 #include <iostream>
 #include "chart.h"
-<<<<<<< HEAD
 #include "common_types.h"
-#include "progressbar.hpp"
-=======
->>>>>>> Edited GUI, now works with realtime data from sensors.
 
 MainWindow::MainWindow()
     : GaitInstructions(new QLabel()),

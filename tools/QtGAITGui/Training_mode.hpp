@@ -13,14 +13,7 @@
 #include <QVBoxLayout>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include "WindowBase.hpp"
-=======
->>>>>>> Edited GUI, now works with realtime data from sensors.
-=======
-#include "WindowBase.hpp"
->>>>>>> qt gui: all windows in training mode are now connected
 #include "progressbar.hpp"
 #include "telemetry/client.h"
 
@@ -28,23 +21,9 @@ class ProgressBar;
 class CircleWidget;
 
 template <class WidgetT>
-<<<<<<< HEAD
-<<<<<<< HEAD
 class TrainingMode : public WindowBase {
  public:
   TrainingMode(QString instructions, QMainWindow *parent)
-=======
-class TrainingMode : public QWidget {
-=======
-class TrainingMode : public WindowBase {
->>>>>>> qt gui: all windows in training mode are now connected
- public:
-<<<<<<< HEAD
-  TrainingMode(QString instructions)
->>>>>>> Edited GUI, now works with realtime data from sensors.
-=======
-  TrainingMode(QString instructions, QMainWindow *parent)
->>>>>>> qt gui: training mode receiving data from sensors
       : widget_r(new WidgetT()),
         widget_l(new WidgetT()),
         level_label(new QLabel()),
@@ -89,34 +68,11 @@ class TrainingMode : public WindowBase {
     ExerciseLay->addWidget(level_label, 1, Qt::AlignCenter);
     ExerciseLay->addLayout(grid);
     setLayout(ExerciseLay);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> qt gui: training mode receiving data from sensors
 
     connect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataL,
             widget_l, &WidgetT::onNewFSRData);
     connect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataR,
             widget_r, &WidgetT::onNewFSRData);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Added calibration functionality.
-
-<<<<<<< HEAD
-    int calibrationMax = static_cast<MainWindow *>(parent)->calibrationMax;
-    widget_l->setMaxValue(calibrationMax);
-    widget_r->setMaxValue(calibrationMax);
-<<<<<<< HEAD
-=======
->>>>>>> Edited GUI, now works with realtime data from sensors.
-=======
->>>>>>> qt gui: training mode receiving data from sensors
-=======
->>>>>>> Added calibration functionality.
-=======
-
->>>>>>> Fixed calibration functionality and added progress bar to calibration window.
   }
 
  private:

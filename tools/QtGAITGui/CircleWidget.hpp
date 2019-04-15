@@ -5,6 +5,7 @@
 
 #include <QWidget>
 #include "MainWindow.hpp"
+#include "common_types.h"
 
 class CircleWidget : public QWidget {
   Q_OBJECT

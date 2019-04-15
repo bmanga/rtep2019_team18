@@ -6,41 +6,23 @@
 #include <QDebug>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMetaType>
 #include <QPainter>
 #include <QProgressBar>
 #include <QPushButton>
-#include <QMetaType>
 #include <QString>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
 #include "WindowBase.hpp"
 #include "common_types.h"
-
 #include "telemetry/client.h"
-
-/*struct imu_packet {
-  float ax, ay, az;
-  float gx, gy, gz;
-};
-
-struct fsr_packet {
-  float heel, toe;
-};
-
-Q_DECLARE_METATYPE(fsr_packet);
-
-struct sensors_data {
-  float timepoint;
-  imu_packet p1, p2, p3;
-  fsr_packet left, right;
-};*/
-
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
  public:
   MainWindow();
   ~MainWindow();
+
   void setCalibrationMax(double max);
   double calibrationMax;
 
@@ -56,10 +38,6 @@ class MainWindow : public QMainWindow {
     m_client.connect_to(address.toStdString());
     m_client.run_on_thread();
   }
-
-    signals:
-  void newFSRDataL(fsr_packet);
-  void newFSRDataR(fsr_packet);
 
  private:
   tel::client m_client;

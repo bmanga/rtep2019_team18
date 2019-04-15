@@ -1,17 +1,8 @@
 #include "WelcomeWindow.hpp"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include "MainWindow.hpp"
 
-=======
->>>>>>> Edited GUI, now works with realtime data from sensors.
-=======
-#include "MainWindow.hpp"
-
->>>>>>> qt gui: all windows in training mode are now connected
 WelcomeWindow::WelcomeWindow()
     : ConnectLabel(new QLineEdit()),
       VocalInstructions(new QCheckBox()),
@@ -68,8 +59,6 @@ WelcomeWindow::WelcomeWindow()
   pal.setColor(QPalette::Background, background);
   setAutoFillBackground(true);
   setPalette(pal);
-<<<<<<< HEAD
-<<<<<<< HEAD
 
   connect(NextButton, &QPushButton::clicked, this,
           &WelcomeWindow::onNextButtonPushed);
@@ -83,23 +72,3 @@ void WelcomeWindow::onNextButtonPushed()
   emit windowDone(WindowKind::Welcome, 0);
 }
 WelcomeWindow::~WelcomeWindow() {}
-=======
-=======
-
-  connect(NextButton, &QPushButton::clicked, this,
-          &WelcomeWindow::onNextButtonPushed);
->>>>>>> qt gui: all windows in training mode are now connected
-}
-
-void WelcomeWindow::onNextButtonPushed()
-{
-  static_cast<MainWindow *>(this->parent())
-      ->connectToAddress(ConnectLabel->text().isEmpty() ? "localhost"
-                                                        : ConnectLabel->text());
-  emit windowDone(WindowKind::Welcome, 0);
-}
-<<<<<<< HEAD
->>>>>>> Edited GUI, now works with realtime data from sensors.
-=======
-WelcomeWindow::~WelcomeWindow() {}
->>>>>>> qt gui: all windows in training mode are now connected

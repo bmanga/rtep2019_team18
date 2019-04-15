@@ -73,17 +73,5 @@ void MainWindow::on_message(const void *d, long len)
 void MainWindow::setCalibrationMax(double maxValue)
 {
     calibrationMax = maxValue;
-<<<<<<< HEAD
-}
 
-void MainWindow::on_message(const void *d, long len)
-{
-  sensors_data data = {};
-  memcpy(&data, d, sizeof(data));
-
-  emit newFSRDataL(data.left);
-  emit newFSRDataR(data.right);
 }
-=======
-}
->>>>>>> Added calibration functionality.

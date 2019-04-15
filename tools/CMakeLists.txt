@@ -9,11 +9,6 @@ add_subdirectory(IMUStreamReader)
 add_subdirectory(MockIMUStreamer)
 add_subdirectory(QtIMUDisplay)
 add_subdirectory(QtSavedataDisplay)
-<<<<<<< HEAD
-add_subdirectory(fsrReader)
-=======
->>>>>>> Edited GUI, now works with realtime data from sensors.
 add_subdirectory(Streamer)
 add_subdirectory(QtGAITGui)
-
 install(DIRECTORY ../resources DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

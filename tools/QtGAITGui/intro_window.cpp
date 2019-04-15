@@ -10,14 +10,7 @@
 #include <QtCharts/QChartView>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include "MainWindow.hpp"
-=======
->>>>>>> Edited GUI, now works with realtime data from sensors.
-=======
-#include "MainWindow.hpp"
->>>>>>> qt gui: all windows in training mode are now connected
 
 IntroWindow::IntroWindow() : Message(new QLabel())
 {
@@ -71,30 +64,17 @@ IntroWindow::IntroWindow() : Message(new QLabel())
   pal.setColor(QPalette::Background, background);
   setAutoFillBackground(true);
   setPalette(pal);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> qt gui: all windows in training mode are now connected
 
   connect(WSButton, &QPushButton::clicked, this,
           &IntroWindow::onWSButtonPushed);
   connect(CPButton, &QPushButton::clicked, this,
           &IntroWindow::onCPButtonPushed);
-<<<<<<< HEAD
-=======
->>>>>>> Edited GUI, now works with realtime data from sensors.
-=======
->>>>>>> qt gui: all windows in training mode are now connected
 }
 
 IntroWindow::~IntroWindow()
 {
   delete Message;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> qt gui: all windows in training mode are now connected
 
 void IntroWindow::onWSButtonPushed()
 {
@@ -104,8 +84,3 @@ void IntroWindow::onCPButtonPushed()
 {
   emit windowDone(WindowKind::Intro, 1);
 }
-<<<<<<< HEAD
-=======
->>>>>>> Edited GUI, now works with realtime data from sensors.
-=======
->>>>>>> qt gui: all windows in training mode are now connected
