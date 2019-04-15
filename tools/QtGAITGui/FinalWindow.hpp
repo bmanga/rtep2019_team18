@@ -2,8 +2,9 @@
 #define FinalWindow_hpp
 #include <stdio.h>
 #include <QLabel>
+#include "WindowBase.hpp"
 
-class FinalWindow : public QWidget {
+class FinalWindow : public WindowBase {
  public:
   FinalWindow();
   ~FinalWindow();

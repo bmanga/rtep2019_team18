@@ -5,6 +5,7 @@
 
 #include <QWidget>
 #include "MainWindow.hpp"
+#include "TargetBase.h"
 #include "common_types.h"
 
 class CircleWidget : public QWidget {
@@ -28,8 +29,10 @@ class CircleWidget : public QWidget {
  public slots:
   void setDiameter(float d);
   float getDiameter();
-  void setTarget(float lower, float upper);  // NEW
-  void checkStatus();                        // NEW
+
+  void setTarget(Target t);
+  void checkStatus();
+
   void onNewFSRData(fsr_data p) { setDiameter(p.toe + p.heel); }
 
  private:

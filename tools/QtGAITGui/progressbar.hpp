@@ -11,6 +11,7 @@
  * Widget which displays a the current fill state of the Engine's internal
  * buffer, and the current play/record position within that buffer.
  */
+
 class ProgressBar : public QProgressBar {
   Q_OBJECT
 
@@ -34,16 +35,13 @@ class ProgressBar : public QProgressBar {
   void recordPositionChanged(float recordPosition);
   void playPositionChanged(float playPosition);
   void windowChanged(float position, float length);
-  void setTarget(float lower, float upper);
+  void setTarget(Target t);
   void checkStatus();
 
   void onNewFSRData(fsr_data packet)
   {
     playPositionChanged(packet.toe + packet.heel);
   }
-
- signals:
-  void onTarget(bool);
 
  private:
   bool isPositionOnTarget(float val) const;
@@ -58,6 +56,9 @@ class ProgressBar : public QProgressBar {
   float max;
 
   bool m_prevOnTarget = false;
+
+ signals:
+  void onTarget(bool);
 };
 
 #endif /* progressbar_hpp */

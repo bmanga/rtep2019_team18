@@ -26,10 +26,10 @@ ProgressBar::ProgressBar(QWidget *parent)
 
 ProgressBar::~ProgressBar() {}
 
-void ProgressBar::setTarget(float lower, float upper)
+void ProgressBar::setTarget(Target t)
 {
-  m_targetLow = lower;
-  m_targetHigh = upper;
+  m_targetLow = t.low;
+  m_targetHigh = t.high;
 }
 
 void ProgressBar::checkStatus()

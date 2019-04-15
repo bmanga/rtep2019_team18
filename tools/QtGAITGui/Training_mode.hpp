@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <CircleWidget.hpp>
 #include <QGridLayout>
+#include <QJsonArray>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPainter>
@@ -13,6 +14,7 @@
 #include <QVBoxLayout>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
+#include "Level_weight_shifting.hpp"
 #include "WindowBase.hpp"
 #include "progressbar.hpp"
 #include "telemetry/client.h"
@@ -27,7 +29,8 @@ class TrainingMode : public WindowBase {
       : widget_r(new WidgetT()),
         widget_l(new WidgetT()),
         level_label(new QLabel()),
-        instruction_label(new QLabel(instructions))
+        instruction_label(new QLabel(instructions)),
+        level_manager(this, widget_l, widget_r, level_label)
 
   {
     QPalette pal = palette();
@@ -73,7 +76,12 @@ class TrainingMode : public WindowBase {
             widget_l, &WidgetT::onNewFSRData);
     connect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataR,
             widget_r, &WidgetT::onNewFSRData);
+
+    level_manager.loadJsonFile("levels.json");
+    level_manager.start();
   }
+
+  void emitWindowDone() { emit windowDone(WindowKind::Training, 0); }
 
  private:
   WidgetT *widget_r;
@@ -84,6 +92,8 @@ class TrainingMode : public WindowBase {
 
   QLabel *level_label;
   QLabel *instruction_label;
+
+  LevelWS<WidgetT> level_manager;
 };
 
 #endif /* Training_mode_hpp */

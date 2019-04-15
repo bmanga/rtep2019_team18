@@ -52,7 +52,9 @@ void MainWindow::onWindowDone(WindowKind wk, int extra)
                                                     this);
         ;
       }
-
+      break;
+    case WindowKind::Training:
+      nextWindow = new FinalWindow();
       break;
   }
   connect(nextWindow, &WindowBase::windowDone, this, &MainWindow::onWindowDone);

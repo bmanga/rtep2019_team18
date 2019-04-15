@@ -19,7 +19,6 @@ find_package(Qt5Charts CONFIG REQUIRED)
 add_executable(qt-gait-gui
 	main.cpp
 	WindowBase.hpp
-	Training_mode.cpp
 	Training_mode.hpp
 	CircleWidget.cpp
 	CircleWidget.hpp
@@ -27,7 +26,6 @@ add_executable(qt-gait-gui
 	progressbar.hpp
 	intro_window.cpp
 	intro_window.hpp
-	Level_weight_shifting.cpp
 	Level_weight_shifting.hpp
 	MainWindow.cpp
 	MainWindow.hpp

@@ -26,10 +26,10 @@ float CircleWidget::getDiameter()
   return this->diameter;
 }
 
-void CircleWidget::setTarget(float lower, float upper)
+void CircleWidget::setTarget(Target t)
 {
-  m_targetLow = lower;
-  m_targetHigh = upper;
+  m_targetLow = t.low;
+  m_targetHigh = t.high;
 }
 
 void CircleWidget::checkStatus()
