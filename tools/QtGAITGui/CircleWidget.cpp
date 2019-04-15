@@ -1,7 +1,7 @@
 #include "CircleWidget.hpp"
 
-#include <QPainter>
 #include <stdlib.h>
+#include <QPainter>
 #include <iostream>
 
 CircleWidget::CircleWidget(QWidget *parent) : QWidget(parent)

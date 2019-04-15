@@ -13,7 +13,7 @@ enum WindowKind {
 class WindowBase : public QWidget {
   Q_OBJECT
  public:
-    WindowBase(QWidget *parent = nullptr) : QWidget(parent) {}
+  WindowBase(QWidget *parent = nullptr) : QWidget(parent) {}
  signals:
   void windowDone(WindowKind, int);
 };

@@ -1,6 +1,4 @@
 #include "CalibrateWindow.hpp"
-#include "WindowBase.hpp"
-#include <QHBoxLayout>
 #include <stdio.h>
 #include <CircleWidget.hpp>
 #include <QGridLayout>
@@ -67,9 +65,7 @@ CalibrateWindow::CalibrateWindow(int a, QMainWindow *parent)
   connect(CalibrateButton, &QPushButton::clicked, this,
           &CalibrateWindow::onCalibrateButtonPushed);
 
-
-    calibration_points = 0;
-
+  calibration_points = 0;
 }
 CalibrateWindow::~CalibrateWindow()
 {
@@ -79,10 +75,12 @@ CalibrateWindow::~CalibrateWindow()
 
 void CalibrateWindow::onCalibrateButtonPushed()
 {
-    connect(static_cast<MainWindow *>(this->parent()), &MainWindow::newFSRDataL, this,&CalibrateWindow::calibrateL);
-    connect(static_cast<MainWindow *>(this->parent()), &MainWindow::newFSRDataR, this,&CalibrateWindow::calibrateR);
+  connect(static_cast<MainWindow *>(this->parent()), &MainWindow::newFSRDataL,
+          this, &CalibrateWindow::calibrateL);
+  connect(static_cast<MainWindow *>(this->parent()), &MainWindow::newFSRDataR,
+          this, &CalibrateWindow::calibrateR);
 
-    //emit windowDone(WindowKind::Cal, this->nextWindowId);
+  // emit windowDone(WindowKind::Cal, this->nextWindowId);
 }
 
 void CalibrateWindow::calibrateL(fsr_data data)
@@ -92,24 +90,25 @@ void CalibrateWindow::calibrateL(fsr_data data)
 
 void CalibrateWindow::calibrateR(fsr_data data)
 {
-    if(calibration_points < 100){
-        calibration_points += 1;
-        pointsSumR += data.toe + data.heel;
-        CalibrationProgressBar->setValue(calibration_points);
-    }
-    else{
-        onCalibrateDone();        //disconnect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataL,
-        // this, this::calibrate);
-    }
+  if (calibration_points < 100) {
+    calibration_points += 1;
+    pointsSumR += data.toe + data.heel;
+    CalibrationProgressBar->setValue(calibration_points);
+  }
+  else {
+    onCalibrateDone();  // disconnect(static_cast<MainWindow *>(parent),
+                        // &MainWindow::newFSRDataL,
+    // this, this::calibrate);
+  }
 }
 
 void CalibrateWindow::onCalibrateDone()
 {
-    double max = (pointsSumL + pointsSumR) / 100;
-    printf("Points SumL: %f\n", pointsSumL);
-    printf("Points SumR: %f\n", pointsSumR);
-    printf("Calibrate Done Max: %f\n", max);
-    // call parent and set max
-    static_cast<MainWindow *> (parent())->setCalibrationMax(max);
-    emit windowDone(WindowKind::Cal, this->nextWindowId);
+  double max = (pointsSumL + pointsSumR) / 100;
+  printf("Points SumL: %f\n", pointsSumL);
+  printf("Points SumR: %f\n", pointsSumR);
+  printf("Calibrate Done Max: %f\n", max);
+  // call parent and set max
+  static_cast<MainWindow *>(parent())->setCalibrationMax(max);
+  emit windowDone(WindowKind::Cal, this->nextWindowId);
 }

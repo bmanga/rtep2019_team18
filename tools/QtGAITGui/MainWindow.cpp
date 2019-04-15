@@ -72,6 +72,5 @@ void MainWindow::on_message(const void *d, long len)
 
 void MainWindow::setCalibrationMax(double maxValue)
 {
-    calibrationMax = maxValue;
-
+  calibrationMax = maxValue;
 }

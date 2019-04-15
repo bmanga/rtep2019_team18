@@ -42,7 +42,6 @@ class MainWindow : public QMainWindow {
  private:
   tel::client m_client;
   void on_message(const void *d, long len);
-
 };
 
 #endif /* MainWindow_hpp */

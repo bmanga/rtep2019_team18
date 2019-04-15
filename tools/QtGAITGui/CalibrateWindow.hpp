@@ -2,9 +2,6 @@
 #define CalibrateWindow_hpp
 
 #include <stdio.h>
-#include <QtWidgets/QMainWindow>
-#include "WindowBase.hpp"
-#include <stdio.h>
 #include <CircleWidget.hpp>
 #include <QCheckBox>
 #include <QGridLayout>

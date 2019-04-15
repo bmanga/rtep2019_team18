@@ -36,9 +36,9 @@ class TrainingMode : public WindowBase {
     setAutoFillBackground(true);
     setPalette(pal);
 
-  double calibrationMax = static_cast<MainWindow *>(parent)->calibrationMax;
-  widget_l->setMaxValue(calibrationMax);
-  widget_r->setMaxValue(calibrationMax);
+    double calibrationMax = static_cast<MainWindow *>(parent)->calibrationMax;
+    widget_l->setMaxValue(calibrationMax);
+    widget_r->setMaxValue(calibrationMax);
 
     instruction_label->setWordWrap(true);
     QFont font_message = instruction_label->font();
