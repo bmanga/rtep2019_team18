@@ -73,6 +73,7 @@ void MainWindow::on_message(const void *d, long len)
 void MainWindow::setCalibrationMax(int maxValue)
 {
     calibrationMax = maxValue;
+<<<<<<< HEAD
 }
 
 void MainWindow::on_message(const void *d, long len)
@@ -83,3 +84,6 @@ void MainWindow::on_message(const void *d, long len)
   emit newFSRDataL(data.left);
   emit newFSRDataR(data.right);
 }
+=======
+}
+>>>>>>> Added calibration functionality.

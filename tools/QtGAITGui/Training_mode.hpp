@@ -95,14 +95,20 @@ class TrainingMode : public WindowBase {
     connect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataR,
             widget_r, &WidgetT::onNewFSRData);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Added calibration functionality.
 
     int calibrationMax = static_cast<MainWindow *>(parent)->calibrationMax;
     widget_l->setMaxValue(calibrationMax);
     widget_r->setMaxValue(calibrationMax);
+<<<<<<< HEAD
 =======
 >>>>>>> Edited GUI, now works with realtime data from sensors.
 =======
 >>>>>>> qt gui: training mode receiving data from sensors
+=======
+>>>>>>> Added calibration functionality.
   }
 
  private:

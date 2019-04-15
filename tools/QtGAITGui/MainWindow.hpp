@@ -75,6 +75,7 @@ class MainWindow : public QMainWindow {
   ~MainWindow();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   void setCalibrationMax(int max);
 
   int calibrationMax;
@@ -92,8 +93,14 @@ class MainWindow : public QMainWindow {
     m_client.connect_to(address.toStdString());
     m_client.run_on_thread();
 =======
+=======
+  void setCalibrationMax(int max);
+>>>>>>> Added calibration functionality.
 
- signals:
+  int calibrationMax;
+
+
+    signals:
   void newFSRDataL(fsr_packet);
   void newFSRDataR(fsr_packet);
 
