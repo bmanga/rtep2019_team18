@@ -12,8 +12,6 @@ ProgressBar::ProgressBar(QProgressBar *parent)
       m_windowLength(0)
 {
   // setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-  // setFixedWidth(50);
-  // setFixedHeight(400);
   this->setTextVisible(false);
   this->show();
 
