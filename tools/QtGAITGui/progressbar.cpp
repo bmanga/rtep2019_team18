@@ -13,7 +13,6 @@ ProgressBar::ProgressBar(QWidget *parent)
 {
 
   // setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-
   this->setTextVisible(false);
   this->show();
 
