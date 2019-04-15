@@ -10,25 +10,8 @@
 #include "progressbar.hpp"
 int main(int argc, char *argv[])
 {
+  qRegisterMetaType<class fsr_packet>("fsr_packet");
   QApplication a(argc, argv);
-  auto t1 = new TrainingMode<ProgressBar>(R"(
-                                          <html>
-                                          <center><b>Welcome to the Weight Shifting exercise!</b> <\center>
-                                          <br>
-                                          <br>
-                                          Shift your weight from one foot to the other to reach the target levels shown on each bar
-                                          <br>
-                                          
-                                          </html>)");
-  auto t2 = new TrainingMode<CircleWidget>(R"(
-                                           <html>
-                                           <center><b>Welcome to the Calf Pushes exercise!</b> <\center>
-                                           <br>
-                                           <br>
-                                           Shift your weight from heel to toes to  reach the target levels shown on each bar
-                                           <br>
-                                           </html>)");
-
   MainWindow w0;
   QPixmap pixmap("/Users/luca/Downloads/GaitLogo.png");
   QSplashScreen splash(pixmap);

@@ -5,6 +5,7 @@
 #include <QColor>
 #include <QProgressBar>
 #include <QWidget>
+#include "MainWindow.hpp"
 
 /**
  * Widget which displays a the current fill state of the Engine's internal
@@ -33,6 +34,11 @@ class ProgressBar : public QProgressBar {
   void windowChanged(float position, float length);
   void setTarget(float lower, float upper);
   void checkStatus();
+
+  void onNewFSRData(fsr_packet packet)
+  {
+    playPositionChanged(packet.toe + packet.heel);
+  }
 
  signals:
   void onTarget(bool);

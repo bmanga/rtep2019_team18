@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include <QWidget>
+#include "MainWindow.hpp"
 
 class CircleWidget : public QWidget {
   Q_OBJECT
@@ -26,6 +27,7 @@ class CircleWidget : public QWidget {
   float getDiameter();
   void setTarget(float lower, float upper);  // NEW
   void checkStatus();                        // NEW
+  void onNewFSRData(fsr_packet p) { setDiameter(p.toe); }
 
  private:
   bool floatBased;
