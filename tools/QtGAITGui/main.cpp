@@ -11,6 +11,7 @@
 int main(int argc, char *argv[])
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
   qRegisterMetaType<class fsr_packet>("fsr_packet");
   QApplication a(argc, argv);
   MainWindow w0;
@@ -44,6 +45,10 @@ int main(int argc, char *argv[])
   w5.setCentralWidget(new FinalWindow());
 >>>>>>> Edited GUI, now works with realtime data from sensors.
 =======
+=======
+  qRegisterMetaType<class fsr_packet>("fsr_packet");
+  QApplication a(argc, argv);
+>>>>>>> qt gui: training mode receiving data from sensors
   MainWindow w0;
 >>>>>>> qt gui: all windows in training mode are now connected
   QPixmap pixmap("/Users/luca/Downloads/GaitLogo.png");

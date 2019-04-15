@@ -39,8 +39,12 @@ class TrainingMode : public QWidget {
 class TrainingMode : public WindowBase {
 >>>>>>> qt gui: all windows in training mode are now connected
  public:
+<<<<<<< HEAD
   TrainingMode(QString instructions)
 >>>>>>> Edited GUI, now works with realtime data from sensors.
+=======
+  TrainingMode(QString instructions, QMainWindow *parent)
+>>>>>>> qt gui: training mode receiving data from sensors
       : widget_r(new WidgetT()),
         widget_l(new WidgetT()),
         level_label(new QLabel()),
@@ -82,17 +86,23 @@ class TrainingMode : public WindowBase {
     ExerciseLay->addLayout(grid);
     setLayout(ExerciseLay);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> qt gui: training mode receiving data from sensors
 
     connect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataL,
             widget_l, &WidgetT::onNewFSRData);
     connect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataR,
             widget_r, &WidgetT::onNewFSRData);
+<<<<<<< HEAD
 
     int calibrationMax = static_cast<MainWindow *>(parent)->calibrationMax;
     widget_l->setMaxValue(calibrationMax);
     widget_r->setMaxValue(calibrationMax);
 =======
 >>>>>>> Edited GUI, now works with realtime data from sensors.
+=======
+>>>>>>> qt gui: training mode receiving data from sensors
   }
 
  private:
