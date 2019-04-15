@@ -14,10 +14,11 @@
 #include <QtWidgets/QMainWindow>
 #include <chrono>
 #include "WindowBase.hpp"
+#include "common_types.h"
 
 #include "telemetry/client.h"
 
-struct imu_packet {
+/*struct imu_packet {
   float ax, ay, az;
   float gx, gy, gz;
 };
@@ -32,7 +33,7 @@ struct sensors_data {
   float timepoint;
   imu_packet p1, p2, p3;
   fsr_packet left, right;
-};
+};*/
 
 
 class MainWindow : public QMainWindow {
@@ -43,10 +44,9 @@ class MainWindow : public QMainWindow {
   void setCalibrationMax(double max);
   double calibrationMax;
 
-
-    signals:
-  void newFSRDataL(fsr_packet);
-  void newFSRDataR(fsr_packet);
+ signals:
+  void newFSRDataL(fsr_data);
+  void newFSRDataR(fsr_data);
 
  public slots:
   void onWindowDone(WindowKind win, int extra = 0);

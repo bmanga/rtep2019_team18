@@ -2,6 +2,7 @@
 #define CalibrateWindow_hpp
 
 #include <stdio.h>
+<<<<<<< HEAD
 #include <QCheckBox>
 #include <QLabel>
 #include <QLineEdit>
@@ -15,7 +16,10 @@
 #include <QtWidgets/QMainWindow>
 #include "WindowBase.hpp"
 #include <stdio.h>
+=======
+>>>>>>> Changed sensor structs to use common_types. Fixed calibrate window done signal.
 #include <CircleWidget.hpp>
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -23,13 +27,19 @@
 #include <QProgressBar>
 #include <QPushButton>
 #include <QString>
+#include <QTimer>
 #include <QVBoxLayout>
+#include <QWidget>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
 #include "WindowBase.hpp"
+#include "common_types.h"
 #include "progressbar.hpp"
+<<<<<<< HEAD
 #include <QTimer>
 <<<<<<< HEAD
+=======
+>>>>>>> Changed sensor structs to use common_types. Fixed calibrate window done signal.
 
 class CalibrateWindow : public WindowBase {
  public:
@@ -49,6 +59,7 @@ class CalibrateWindow : public WindowBase {
 
  private slots:
   void onCalibrateButtonPushed();
+<<<<<<< HEAD
     void calibrateL(fsr_packet data);
     void calibrateR(fsr_packet data);
 
@@ -86,6 +97,10 @@ class CalibrateWindow : public WindowBase {
     void calibrateR(fsr_packet data);
 
 >>>>>>> Added calibration functionality.
+=======
+  void calibrateL(fsr_data data);
+  void calibrateR(fsr_data data);
+>>>>>>> Changed sensor structs to use common_types. Fixed calibrate window done signal.
 };
 
 #endif /* CalibrateWindow_hpp */

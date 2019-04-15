@@ -6,13 +6,18 @@
 #include "MainWindow.hpp"
 #include "Training_mode.hpp"
 #include "WelcomeWindow.hpp"
+#include "common_types.h"
 #include "intro_window.hpp"
 #include "progressbar.hpp"
 int main(int argc, char *argv[])
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   qRegisterMetaType<class fsr_packet>("fsr_packet");
+=======
+  qRegisterMetaType<class fsr_data>("fsr_data");
+>>>>>>> Changed sensor structs to use common_types. Fixed calibrate window done signal.
   QApplication a(argc, argv);
   MainWindow w0;
 =======

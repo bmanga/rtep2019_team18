@@ -37,7 +37,7 @@ class ProgressBar : public QProgressBar {
   void setTarget(float lower, float upper);
   void checkStatus();
 
-  void onNewFSRData(fsr_packet packet)
+  void onNewFSRData(fsr_data packet)
   {
     playPositionChanged(packet.toe + packet.heel);
   }

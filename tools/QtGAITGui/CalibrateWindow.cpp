@@ -1,39 +1,31 @@
 #include "CalibrateWindow.hpp"
+<<<<<<< HEAD
 #include "WindowBase.hpp"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Added calibration functionality.
-#include <QtWidgets/QMainWindow>
 #include <stdio.h>
 #include <CircleWidget.hpp>
 #include <QGridLayout>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPainter>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QString>
+#include <QTimer>
 #include <QVBoxLayout>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
-#include <QTimer>
 #include "MainWindow.hpp"
+#include "WindowBase.hpp"
+#include "common_types.h"
 #include "progressbar.hpp"
 #include "telemetry/client.h"
 
 CalibrateWindow::CalibrateWindow(int a, QMainWindow *parent)
     : WindowBase(parent),
     nextWindowId(a),
-<<<<<<< HEAD
-=======
-CalibrateWindow::CalibrateWindow(int a)
-    : nextWindowId(a),
->>>>>>> qt gui: all windows in training mode are now connected
-=======
->>>>>>> Added calibration functionality.
       CalibrateButton(new QPushButton()),
       CalibrateText(new QLabel()),
       CalibrationProgressBar(new QProgressBar())
@@ -59,7 +51,7 @@ CalibrateWindow::CalibrateWindow(int a)
   CalButtLay->addSpacing(200);
 
   CalibrationProgressBar->setMaximum(100);
-  //CalibrationProgressBar->setOrientation
+  // CalibrationProgressBar->setOrientation
 
   QVBoxLayout *CalibrateLay = new QVBoxLayout();
   CalibrateLay->addWidget(CalibrateText);
@@ -95,14 +87,12 @@ void CalibrateWindow::onCalibrateButtonPushed()
     //emit windowDone(WindowKind::Cal, this->nextWindowId);
 }
 
-
-void CalibrateWindow::calibrateL(fsr_packet data)
+void CalibrateWindow::calibrateL(fsr_data data)
 {
-    pointsSumL += data.toe + data.heel;
+  pointsSumL += data.toe + data.heel;
 }
 
-
-void CalibrateWindow::calibrateR(fsr_packet data)
+void CalibrateWindow::calibrateR(fsr_data data)
 {
     if(calibration_points < 100){
         calibration_points += 1;

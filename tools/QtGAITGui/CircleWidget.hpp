@@ -22,15 +22,14 @@ class CircleWidget : public QWidget {
   QSize minimumSizeHint() const override;
   QSize sizeHint() const override;
 
-  void setMaxValue(int calibrationMax);
-
+  void setMaxValue(double calibrationMax);
 
  public slots:
   void setDiameter(float d);
   float getDiameter();
   void setTarget(float lower, float upper);  // NEW
   void checkStatus();                        // NEW
-  void onNewFSRData(fsr_packet p) { setDiameter(p.toe); }
+  void onNewFSRData(fsr_data p) { setDiameter(p.toe + p.heel); }
 
  private:
   bool floatBased;

@@ -1,7 +1,6 @@
 #include "CircleWidget.hpp"
 
 #include <QPainter>
-
 #include <stdlib.h>
 #include <iostream>
 
@@ -10,14 +9,14 @@ CircleWidget::CircleWidget(QWidget *parent) : QWidget(parent)
   floatBased = false;
   antialiased = true;
   diameter = 0;
-  max_diameter = 300;
+  max_diameter = 10;
   setBackgroundRole(QPalette::Base);
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 void CircleWidget::setDiameter(float d)
 {
-  this->diameter = d;
+  this->diameter = d * 100;
   checkStatus();
   this->repaint();
 }
@@ -117,8 +116,7 @@ QColor CircleWidget::interpolate3(float pos,
   return interpolate2((pos - middlePos) / (1 - middlePos), middle, end);
 }
 
-
-void CircleWidget::setMaxValue(int calibrationMax)
+void CircleWidget::setMaxValue(double calibrationMax)
 {
-    //this->setMaxValue(calibrationMax);
+  this->max_diameter = calibrationMax * 100;
 }
