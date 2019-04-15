@@ -12,8 +12,8 @@ ProgressBar::ProgressBar(QProgressBar *parent)
       m_windowLength(0)
 {
   // setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-  setFixedWidth(50);
-  setFixedHeight(400);
+  // setFixedWidth(50);
+  // setFixedHeight(400);
   this->setTextVisible(false);
   this->show();
 
@@ -101,7 +101,7 @@ void ProgressBar::paintEvent(QPaintEvent *event)
     pen_box.setWidth(8);
     pen_box.setBrush(Qt::black);
     QRect box = rect();
-    box.setRect(-5, 396, 60, 75);
+    box.setRect(-5, this->height() - 4, 60, 75);
     box.setRect(
         -5, this->height() - ((this->m_targetHigh) * (this->height() - 4)), 60,
         (this->m_targetHigh - this->m_targetLow) * (this->height() - 4));
