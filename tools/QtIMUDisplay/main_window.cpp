@@ -17,7 +17,6 @@
 #include <iostream>
 #include "chart.h"
 #include "common_types.h"
-#include "progressbar.hpp"
 
 MainWindow::MainWindow()
     : GaitInstructions(new QLabel()),

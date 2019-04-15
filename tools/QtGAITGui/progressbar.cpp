@@ -5,19 +5,19 @@
 #include <QtWidgets>
 #include <iostream>
 
-ProgressBar::ProgressBar(QProgressBar *parent)
+ProgressBar::ProgressBar(QWidget *parent)
     : QProgressBar(parent),
       m_recordPosition(0),
       m_windowPosition(0),
       m_windowLength(0)
 {
-  // setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
   setFixedWidth(50);
   setFixedHeight(400);
   this->setTextVisible(false);
   this->show();
 
-  this->setMaximum(500);
+  this->setMaximum(10);
+  max = 10;
   this->setMinimum(0);
   this->setValue(0);
 
@@ -35,7 +35,6 @@ void ProgressBar::setTarget(float lower, float upper)
 void ProgressBar::checkStatus()
 {
   bool posOnTarget = isPositionOnTarget(this->value());
-
   if (posOnTarget && !m_prevOnTarget) {
     emit onTarget(true);
   }
@@ -47,8 +46,9 @@ void ProgressBar::checkStatus()
 
 bool ProgressBar::isPositionOnTarget(float val) const
 {
-  return val >= m_targetLow * this->maximum() - 4 &&
-         val <= m_targetHigh * this->maximum() + 4;  // 4 is side box thickness
+  // printf("Maximum is: %d", this->maximum());
+  return val >= m_targetLow * this->maximum() &&
+         val <= m_targetHigh * this->maximum();
 }
 
 void ProgressBar::paintEvent(QPaintEvent *event)
@@ -120,7 +120,11 @@ void ProgressBar::recordPositionChanged(float recordPosition)
 
 void ProgressBar::playPositionChanged(float playPosition)
 {
-  this->setValue(playPosition);
+  this->setValue(playPosition * 10);
+  /*if (playPosition * 10 >= max) {
+    this->setMaximum(playPosition * 10);
+    max = playPosition * 10;
+  }*/
   checkStatus();
 }
 
@@ -150,4 +154,10 @@ QColor ProgressBar::interpolate3(float pos,
   if (pos < middlePos)
     return interpolate2(pos / middlePos, start, middle);
   return interpolate2((pos - middlePos) / (1 - middlePos), middle, end);
+}
+
+void ProgressBar::setMaxValue(double calibrationMax)
+{
+  printf("Maximum: %.3f", calibrationMax);
+  this->setMaximum(int(calibrationMax) * 10);
 }

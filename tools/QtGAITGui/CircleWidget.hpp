@@ -4,6 +4,8 @@
 #include <stdio.h>
 
 #include <QWidget>
+#include "MainWindow.hpp"
+#include "common_types.h"
 
 class CircleWidget : public QWidget {
   Q_OBJECT
@@ -21,11 +23,14 @@ class CircleWidget : public QWidget {
   QSize minimumSizeHint() const override;
   QSize sizeHint() const override;
 
+  void setMaxValue(double calibrationMax);
+
  public slots:
   void setDiameter(float d);
   float getDiameter();
   void setTarget(float lower, float upper);  // NEW
   void checkStatus();                        // NEW
+  void onNewFSRData(fsr_data p) { setDiameter(p.toe + p.heel); }
 
  private:
   bool floatBased;

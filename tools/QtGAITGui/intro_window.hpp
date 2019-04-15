@@ -12,15 +12,19 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QtWidgets/QMainWindow>
+#include "WindowBase.hpp"
 
-class IntroWindow : public QMainWindow {
+class IntroWindow : public WindowBase {
  public:
   IntroWindow();
   ~IntroWindow();
 
-  QPushButton *GaitMode;
-  QPushButton *TrainingMode;
-  QPushButton *Vocal;
+  QPushButton *WSButton;
+  QPushButton *CPButton;
+
+ private slots:
+  void onWSButtonPushed();
+  void onCPButtonPushed();
 
  private:
   QLabel *Message;
