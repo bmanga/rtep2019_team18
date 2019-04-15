@@ -1,31 +1,17 @@
 #include <chrono>
 #include <random>
 #include <thread>
+#include "common_types.h"
 #include "telemetry/server.h"
-
-struct imu_packet {
-  float ax, ay, az;
-  float gx, gy, gz;
-};
-
-struct fsr_packet {
-  float heel, toe;
-};
-
-struct sensors_data {
-  float timepoint;
-  imu_packet p1, p2, p3;
-  fsr_packet left, right;
-};
 
 std::random_device rd;
 
 std::mt19937 gen(rd());
 std::uniform_real_distribution<float> dist(1, 250);
 
-imu_packet random_packet()
+imu_data random_packet()
 {
-  imu_packet p;
+  imu_data p;
   p.ax = dist(gen);
   p.ay = dist(gen);
   p.az = dist(gen);
@@ -39,9 +25,9 @@ imu_packet random_packet()
 sensors_data random_data()
 {
   sensors_data sd;
-  sd.p1 = random_packet();
-  sd.p2 = random_packet();
-  sd.p3 = random_packet();
+  sd.a = random_packet();
+  sd.b = random_packet();
+  sd.c = random_packet();
 
   sd.left.heel = dist(gen);
   sd.left.toe = dist(gen);

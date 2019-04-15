@@ -16,6 +16,7 @@
 #include <QtWidgets/QMainWindow>
 #include <iostream>
 #include "chart.h"
+#include "common_types.h"
 #include "progressbar.hpp"
 
 MainWindow::MainWindow()
@@ -241,21 +242,6 @@ MainWindow::~MainWindow()
   delete m_chartGRF_l;
 }
 
-struct imu_packet {
-  float ax, ay, az;
-  float gx, gy, gz;
-};
-
-struct fsr_packet {
-  float heel, toe;
-};
-
-struct sensors_data {
-  float timepoint;
-  imu_packet p1, p2, p3;
-  fsr_packet right, left;
-};
-
 void MainWindow::on_message(const void *d, long len)
 {
   sensors_data data;
@@ -269,29 +255,29 @@ void MainWindow::on_message(const void *d, long len)
 
   double x_sec = data.timepoint - m_time_start;
 
-  m_chartAccel_1->m_series_x->append(x_sec, data.p1.ax);
-  m_chartAccel_1->m_series_y->append(x_sec, data.p1.ay);
-  m_chartAccel_1->m_series_z->append(x_sec, data.p1.az);
+  m_chartAccel_1->m_series_x->append(x_sec, data.a.ax);
+  m_chartAccel_1->m_series_y->append(x_sec, data.a.ay);
+  m_chartAccel_1->m_series_z->append(x_sec, data.a.az);
 
-  m_chartGyro_1->m_series_x->append(x_sec, data.p1.gx);
-  m_chartGyro_1->m_series_y->append(x_sec, data.p1.gy);
-  m_chartGyro_1->m_series_z->append(x_sec, data.p1.gz);
+  m_chartGyro_1->m_series_x->append(x_sec, data.a.gx);
+  m_chartGyro_1->m_series_y->append(x_sec, data.a.gy);
+  m_chartGyro_1->m_series_z->append(x_sec, data.a.gz);
 
-  m_chartAccel_2->m_series_x->append(x_sec, data.p2.ax);
-  m_chartAccel_2->m_series_y->append(x_sec, data.p2.ay);
-  m_chartAccel_2->m_series_z->append(x_sec, data.p2.az);
+  m_chartAccel_2->m_series_x->append(x_sec, data.b.ax);
+  m_chartAccel_2->m_series_y->append(x_sec, data.b.ay);
+  m_chartAccel_2->m_series_z->append(x_sec, data.b.az);
 
-  m_chartGyro_2->m_series_x->append(x_sec, data.p2.gx);
-  m_chartGyro_2->m_series_y->append(x_sec, data.p2.gy);
-  m_chartGyro_2->m_series_z->append(x_sec, data.p2.gz);
+  m_chartGyro_2->m_series_x->append(x_sec, data.b.gx);
+  m_chartGyro_2->m_series_y->append(x_sec, data.b.gy);
+  m_chartGyro_2->m_series_z->append(x_sec, data.b.gz);
 
-  m_chartAccel_3->m_series_x->append(x_sec, data.p3.ax);
-  m_chartAccel_3->m_series_y->append(x_sec, data.p3.ay);
-  m_chartAccel_3->m_series_z->append(x_sec, data.p3.az);
+  m_chartAccel_3->m_series_x->append(x_sec, data.c.ax);
+  m_chartAccel_3->m_series_y->append(x_sec, data.c.ay);
+  m_chartAccel_3->m_series_z->append(x_sec, data.c.az);
 
-  m_chartGyro_3->m_series_x->append(x_sec, data.p3.gx);
-  m_chartGyro_3->m_series_y->append(x_sec, data.p3.gy);
-  m_chartGyro_3->m_series_z->append(x_sec, data.p3.gz);
+  m_chartGyro_3->m_series_x->append(x_sec, data.c.gx);
+  m_chartGyro_3->m_series_y->append(x_sec, data.c.gy);
+  m_chartGyro_3->m_series_z->append(x_sec, data.c.gz);
 
   m_chartGRF_r->m_series_x->append(x_sec, data.right.toe);
   m_chartGRF_r->m_series_y->append(x_sec, data.right.heel);

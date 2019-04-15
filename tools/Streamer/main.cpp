@@ -2,25 +2,11 @@
 #include <iostream>
 #include <thread>
 #include "IMU/IMU.h"
+#include "common_types.h"
 #include "fsr/fsr_reader.h"
 #include "telemetry/server.h"
 
 using namespace std;
-
-struct imu {
-  float ax, ay, az;
-  float gx, gy, gz;
-};
-
-struct fsr {
-  float heel, toe;
-};
-
-struct packet {
-  float timepoint;
-  imu a, b, c;
-  fsr left, right;
-};
 
 int main()
 {
@@ -41,7 +27,7 @@ int main()
   int a2dChannel = 0;
   unsigned char pdata[3];
 
-  packet data = {};
+  sensors_data data = {};
 
   using clk = std::chrono::steady_clock;
   auto start_time = clk::now();
