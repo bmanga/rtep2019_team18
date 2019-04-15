@@ -35,6 +35,7 @@ add_library(mp3
 target_include_directories(mp3 PRIVATE ../include)
 target_link_libraries(mp3 PRIVATE mpg123 ao)
 
-add_library(analysis analysis/gait_cycle_splitter.cpp)
-target_link_libraries(analysis PUBLIC kfr kfr_dft DSPFilters Resampler)
-target_include_directories(analysis PRIVATE ../include)
+
+add_library(analysis INTERFACE)
+target_link_libraries(analysis INTERFACE  kfr kfr_dft DSPFilters Resampler)
+target_include_directories(analysis INTERFACE  ../include)

@@ -52,6 +52,7 @@ std::vector<double> resample_series(double in_freq,
   std::vector<double> output;
   resample(freq * num_out_samples / input.size(), freq, input, output);
   output[0] = input[0];
+  assert(output.size() == num_out_samples);
   return output;
 }
 

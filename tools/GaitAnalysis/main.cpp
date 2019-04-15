@@ -1,25 +1,14 @@
 #include <iostream>
+#include <memory>
 #include <string>
+#include "common_types.h"
 #include "telemetry/client.h"
 
 #include "analysis/gait_cycle_splitter.h"
 
+#include <torch/script.h>
+
 gait_cycle_splitter s;
-
-struct imu_packet {
-  float ax, ay, az;
-  float gx, gy, gz;
-};
-
-struct fsr_packet {
-  float heel, toe;
-};
-
-struct sensors_data {
-  float timepoint;
-  imu_packet p1, p2, p3;
-  fsr_packet right, left;
-};
 
 double first_tp = 0;
 
@@ -33,24 +22,24 @@ void on_message(const void *d, long len)
   packaged_data points = {
       data.left.heel + data.left.toe,
       data.right.heel + data.right.toe,
-      data.p1.ax,
-      data.p1.ay,
-      data.p1.az,
-      data.p2.ax,
-      data.p2.ay,
-      data.p2.az,
-      data.p3.ax,
-      data.p3.ay,
-      data.p3.az,
-      data.p1.gx,
-      data.p1.gy,
-      data.p1.gz,
-      data.p2.gx,
-      data.p2.gy,
-      data.p2.gz,
-      data.p3.gx,
-      data.p3.gy,
-      data.p3.gz,
+      data.a.ax,
+      data.a.ay,
+      data.a.az,
+      data.b.ax,
+      data.b.ay,
+      data.b.az,
+      data.c.ax,
+      data.c.ay,
+      data.c.az,
+      data.a.gx,
+      data.a.gy,
+      data.a.gz,
+      data.b.gx,
+      data.b.gy,
+      data.b.gz,
+      data.c.gx,
+      data.c.gy,
+      data.c.gz,
   };
 
   s.add_cycle_points(data.timepoint, data.left.heel, points);
@@ -80,9 +69,30 @@ if (argc != 2) {
   client.connect_to(addr);
   client.run_on_thread();
 
+  std::this_thread::sleep_for(std::chrono::seconds(5));
+  std::shared_ptr<torch::jit::script::Module> module =
+      torch::jit::load("~/Downloads/model.pth");
+
   while (true) {
     std::this_thread::sleep_for(std::chrono::seconds(1));
     auto last_cycle = s.latest_gait_cycle();
+
+    // Create the input vector
+    std::vector<torch::jit::IValue> inputs;
+
+    auto series = s.get_latest_cycle_data();
+    for (auto &s : series) {
+      std::vector<double> ss;
+      ss.assign(s.data(), s.data() + s.size());
+      std::vector<double> resampled = resample_series(1 / 0.051, 20, ss);
+      for (int j = 0; j < 20; ++j) {
+        inputs.push_back(resampled[j]);
+      }
+    }
+
+    at::Tensor output = module->forward(inputs).toTensor();
+    std::cout << output << std::endl;
+
     printf("%.2lf -- %.2lf\n", last_cycle.first, last_cycle.second);
   }
 #else
