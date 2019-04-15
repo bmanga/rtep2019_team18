@@ -2,6 +2,7 @@
 #define Level_weight_shifting_hpp
 
 #include <stdio.h>
+#include <QJsonObject>
 #include <QObject>
 #include <QTimer>
 #include <chrono>
@@ -20,17 +21,24 @@ class LevelWS : public QObject {
   void setLvlRequirements(Target left,
                           Target right,
                           std::chrono::seconds timeRequirement);
+  void loadJsonFile(QString file);
  public slots:
   void onLeftFSRChanged(bool onTarget);
   void onRightFSRChanged(bool onTarget);
 
- signals:
+  void start();
+
+  void runLevel();
+
+ private:
   void levelComplete();
 
  private:
   void checkTgtStatus();
 
  private:
+  QJsonObject levelsRoot;
+  QString currentLevel;
   QTimer m_timer;
 
   ProgressBar *m_leftBar;
