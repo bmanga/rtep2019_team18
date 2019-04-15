@@ -11,7 +11,6 @@ ProgressBar::ProgressBar(QWidget *parent)
       m_windowPosition(0),
       m_windowLength(0)
 {
-
   this->setTextVisible(false);
   this->show();
 
