@@ -21,7 +21,7 @@ class ProgressBar : public QProgressBar {
   void reset();
   void paintEvent(QPaintEvent *event) override;
 
-  void setMaxValue(int calibrationMax);
+  void setMaxValue(double calibrationMax);
 
   QColor interpolate2(float pos, QColor start, QColor end) const;
   QColor interpolate3(float pos,

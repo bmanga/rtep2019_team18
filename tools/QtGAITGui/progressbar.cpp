@@ -46,8 +46,9 @@ void ProgressBar::checkStatus()
 
 bool ProgressBar::isPositionOnTarget(float val) const
 {
-  return val * 10 >= m_targetLow * this->maximum() * 10 &&
-         val * 10 <= m_targetHigh * this->maximum() * 10;
+    //printf("Maximum is: %d", this->maximum());
+    return val >= m_targetLow * this->maximum() &&
+         val <= m_targetHigh * this->maximum() ;
 }
 
 void ProgressBar::paintEvent(QPaintEvent *event)
@@ -119,11 +120,11 @@ void ProgressBar::recordPositionChanged(float recordPosition)
 
 void ProgressBar::playPositionChanged(float playPosition)
 {
-  this->setValue(playPosition * 10);
-  if (playPosition * 10 >= max) {
+  this->setValue(playPosition*10);
+  /*if (playPosition * 10 >= max) {
     this->setMaximum(playPosition * 10);
     max = playPosition * 10;
-  }
+  }*/
   checkStatus();
 }
 
@@ -156,7 +157,8 @@ QColor ProgressBar::interpolate3(float pos,
 }
 
 
-void ProgressBar::setMaxValue(int calibrationMax)
+void ProgressBar::setMaxValue(double calibrationMax)
 {
-    this->setMaximum(calibrationMax);
+    printf("Maximum: %.3f", calibrationMax);
+    this->setMaximum(int(calibrationMax)*10);
 }

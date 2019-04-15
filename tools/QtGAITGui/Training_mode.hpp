@@ -57,6 +57,10 @@ class TrainingMode : public WindowBase {
     setAutoFillBackground(true);
     setPalette(pal);
 
+  double calibrationMax = static_cast<MainWindow *>(parent)->calibrationMax;
+  widget_l->setMaxValue(calibrationMax);
+  widget_r->setMaxValue(calibrationMax);
+
     instruction_label->setWordWrap(true);
     QFont font_message = instruction_label->font();
     font_message.setPixelSize(28);
@@ -99,6 +103,7 @@ class TrainingMode : public WindowBase {
 =======
 >>>>>>> Added calibration functionality.
 
+<<<<<<< HEAD
     int calibrationMax = static_cast<MainWindow *>(parent)->calibrationMax;
     widget_l->setMaxValue(calibrationMax);
     widget_r->setMaxValue(calibrationMax);
@@ -109,6 +114,9 @@ class TrainingMode : public WindowBase {
 >>>>>>> qt gui: training mode receiving data from sensors
 =======
 >>>>>>> Added calibration functionality.
+=======
+
+>>>>>>> Fixed calibration functionality and added progress bar to calibration window.
   }
 
  private:

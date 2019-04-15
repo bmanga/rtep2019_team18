@@ -70,7 +70,7 @@ void MainWindow::on_message(const void *d, long len)
   emit newFSRDataR(data.right);
 }
 
-void MainWindow::setCalibrationMax(int maxValue)
+void MainWindow::setCalibrationMax(double maxValue)
 {
     calibrationMax = maxValue;
 <<<<<<< HEAD

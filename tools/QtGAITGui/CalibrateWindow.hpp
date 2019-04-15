@@ -27,6 +27,7 @@
 #include <QtWidgets/QMainWindow>
 #include <chrono>
 #include "WindowBase.hpp"
+#include "progressbar.hpp"
 #include <QTimer>
 <<<<<<< HEAD
 
@@ -42,6 +43,7 @@ class CalibrateWindow : public WindowBase {
   double pointsSumL = 0, pointsSumR = 0;
   QPushButton *CalibrateButton;
   QLabel *CalibrateText;
+  QProgressBar *CalibrationProgressBar;
 
   void onCalibrateDone();
 
