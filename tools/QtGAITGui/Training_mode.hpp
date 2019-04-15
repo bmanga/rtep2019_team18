@@ -23,7 +23,7 @@ class CircleWidget;
 template <class WidgetT>
 class TrainingMode : public WindowBase {
  public:
-  TrainingMode(QString instructions)
+  TrainingMode(QString instructions, QMainWindow *parent)
       : widget_r(new WidgetT()),
         widget_l(new WidgetT()),
         level_label(new QLabel()),
@@ -64,6 +64,11 @@ class TrainingMode : public WindowBase {
     ExerciseLay->addWidget(level_label, 1, Qt::AlignCenter);
     ExerciseLay->addLayout(grid);
     setLayout(ExerciseLay);
+
+    connect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataL,
+            widget_l, &WidgetT::onNewFSRData);
+    connect(static_cast<MainWindow *>(parent), &MainWindow::newFSRDataR,
+            widget_r, &WidgetT::onNewFSRData);
   }
 
  private:

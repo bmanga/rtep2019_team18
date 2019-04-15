@@ -2,6 +2,8 @@
 #include "CalibrateWindow.hpp"
 #include "FinalWindow.hpp"
 #include "Training_mode.hpp"
+#include "WelcomeWindow.hpp"
+#include "intro_window.hpp"
 
 MainWindow::MainWindow()
 {
@@ -9,6 +11,9 @@ MainWindow::MainWindow()
   setCentralWidget(welcomeScreen);
   connect(welcomeScreen, &WindowBase::windowDone, this,
           &MainWindow::onWindowDone);
+
+  m_client.set_message_handler(
+      [this](const void *data, long len) { this->on_message(data, len); });
 }
 
 void MainWindow::onWindowDone(WindowKind wk, int extra)
@@ -32,7 +37,8 @@ void MainWindow::onWindowDone(WindowKind wk, int extra)
                                                    Shift your weight from one foot to the other to reach the target levels shown on each bar
                                                    <br>
                                                    
-                                                   </html>)");
+                                                   </html>)",
+                                                   this);
         ;
       }
       else {
@@ -43,7 +49,8 @@ void MainWindow::onWindowDone(WindowKind wk, int extra)
                                                     <br>
                                                     Shift your weight from heel to toes to  reach the target levels shown on each bar
                                                     <br>
-                                                    </html>)");
+                                                    </html>)",
+                                                    this);
         ;
       }
 
@@ -54,3 +61,12 @@ void MainWindow::onWindowDone(WindowKind wk, int extra)
 }
 
 MainWindow::~MainWindow() {}
+
+void MainWindow::on_message(const void *d, long len)
+{
+  sensors_data data = {};
+  memcpy(&data, d, sizeof(data));
+
+  emit newFSRDataL(data.left);
+  emit newFSRDataR(data.right);
+}
