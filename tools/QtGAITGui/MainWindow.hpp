@@ -24,7 +24,10 @@ class MainWindow : public QMainWindow {
   ~MainWindow();
 
   void setCalibrationMax(double max);
+  void toggleVoice(bool voice);
+  bool getVoiceEnabled();
   double calibrationMax;
+  bool vocalInstructions = false;
 
  signals:
   void newFSRDataL(fsr_data);

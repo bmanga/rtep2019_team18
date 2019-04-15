@@ -11,6 +11,7 @@
 #include <QString>
 #include <QTimer>
 #include <QVBoxLayout>
+#include <QtTextToSpeech/QTextToSpeech>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
 #include "MainWindow.hpp"
@@ -24,7 +25,8 @@ CalibrateWindow::CalibrateWindow(int a, QMainWindow *parent)
       nextWindowId(a),
       CalibrateButton(new QPushButton()),
       CalibrateText(new QLabel()),
-      CalibrationProgressBar(new QProgressBar())
+      CalibrationProgressBar(new QProgressBar()),
+      m_speech(new QTextToSpeech())
 {
   CalibrateText->setText(R"(
                        <html>
@@ -66,6 +68,7 @@ CalibrateWindow::CalibrateWindow(int a, QMainWindow *parent)
           &CalibrateWindow::onCalibrateButtonPushed);
 
   calibration_points = 0;
+  checkVoiceEnabled();
 }
 CalibrateWindow::~CalibrateWindow()
 {
@@ -111,4 +114,16 @@ void CalibrateWindow::onCalibrateDone()
   // call parent and set max
   static_cast<MainWindow *>(parent())->setCalibrationMax(max);
   emit windowDone(WindowKind::Cal, this->nextWindowId);
+}
+
+void CalibrateWindow::checkVoiceEnabled()
+{
+  if (static_cast<MainWindow *>(parent())->getVoiceEnabled() == true) {
+    m_speech->setPitch(-0.3);
+    m_speech->setRate(-0.3);
+    m_speech->setVolume(.8);
+    m_speech->say(
+        "Before your training begins, please click on Calibrate and stand "
+        "still for few seconds.  ");
+  }
 }

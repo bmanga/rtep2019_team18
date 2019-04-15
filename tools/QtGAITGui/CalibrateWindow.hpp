@@ -14,6 +14,7 @@
 #include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <QtTextToSpeech/QTextToSpeech>
 #include <QtWidgets/QMainWindow>
 #include <chrono>
 #include "WindowBase.hpp"
@@ -25,6 +26,7 @@ class CalibrateWindow : public WindowBase {
   CalibrateWindow(int a, QMainWindow *parent);
   ~CalibrateWindow();
   void calibrate();
+  void checkVoiceEnabled();
 
  private:
   int nextWindowId;
@@ -33,6 +35,7 @@ class CalibrateWindow : public WindowBase {
   QPushButton *CalibrateButton;
   QLabel *CalibrateText;
   QProgressBar *CalibrationProgressBar;
+  QTextToSpeech *m_speech;
 
   void onCalibrateDone();
 

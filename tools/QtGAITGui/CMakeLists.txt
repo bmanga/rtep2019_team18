@@ -11,7 +11,7 @@ set(CMAKE_AUTOUIC ON)
 # Find the QtWidgets library
 find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5Charts CONFIG REQUIRED)
-
+find_package(Qt5TextToSpeech CONFIG REQUIRED)
 # Populate a CMake variable with the sources
 
 
@@ -39,5 +39,5 @@ add_executable(qt-gait-gui
   FinalWindow.hpp
 	)
 # Use the Widgets module from Qt 5
-target_link_libraries(qt-gait-gui Qt5::Widgets Qt5::Charts telemetry)
+target_link_libraries(qt-gait-gui Qt5::Widgets Qt5::Charts Qt5::TextToSpeech telemetry)
 target_include_directories(qt-gait-gui PRIVATE ../../include .)
