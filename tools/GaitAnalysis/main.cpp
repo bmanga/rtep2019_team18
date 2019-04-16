@@ -53,6 +53,13 @@ void on_message(const void *d, long len)
 
 int main(int argc, char *argv[])
 {
+  torch::Device device(torch::kCPU);
+
+  std::shared_ptr<torch::jit::script::Module> module =
+      torch::jit::load("diok.pt", c10::kCPU);
+
+  module->to(device);
+
   /*
 if (argc != 2) {
   std::cout << "Invalid number of arguments: Requires  only the "
@@ -62,7 +69,7 @@ if (argc != 2) {
    */
 
 #if 1
-  std::string addr = "ws://192.168.1.163:9004";
+  std::string addr = "ws://localhost:9004";
   tel::client client;
   client.set_message_handler(&on_message);
 
@@ -70,15 +77,15 @@ if (argc != 2) {
   client.run_on_thread();
 
   std::this_thread::sleep_for(std::chrono::seconds(5));
-  std::shared_ptr<torch::jit::script::Module> module =
-      torch::jit::load("~/Downloads/model.pth");
 
   while (true) {
     std::this_thread::sleep_for(std::chrono::seconds(1));
     auto last_cycle = s.latest_gait_cycle();
 
     // Create the input vector
-    std::vector<torch::jit::IValue> inputs;
+    // std::vector<torch::jit::IValue> inputs;
+    torch::Tensor inputs;
+    inputs.to(device);
 
     auto series = s.get_latest_cycle_data();
     for (auto &s : series) {
@@ -86,11 +93,18 @@ if (argc != 2) {
       ss.assign(s.data(), s.data() + s.size());
       std::vector<double> resampled = resample_series(1 / 0.051, 20, ss);
       for (int j = 0; j < 20; ++j) {
-        inputs.push_back(resampled[j]);
+        inputs.add(resampled[j]);
       }
     }
 
-    at::Tensor output = module->forward(inputs).toTensor();
+    // torch::Tensor t;
+    // t.
+    // auto t =  at::tensor(inputs);
+    std::cout << " here arrived 1\n";
+    at::Tensor output = module->forward({inputs.reshape({20, 20}).to(device)})
+                            .toTensor()
+                            .to(device);
+    std::cout << " here arrived 2\n";
     std::cout << output << std::endl;
 
     printf("%.2lf -- %.2lf\n", last_cycle.first, last_cycle.second);
