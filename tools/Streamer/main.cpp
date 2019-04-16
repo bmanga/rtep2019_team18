@@ -46,7 +46,7 @@ int main()
     a2dVal |= (pdata[2] & 0xff);
 
     cout << "The Result is: " << a2dVal << endl;
-    data.right.heel = a2dVal / 512.0f;
+    data.left.heel = a2dVal / 512.0f;
 
     // Second
     pdata[0] = 1;  //  first byte transmitted -> start bit
@@ -62,7 +62,7 @@ int main()
     a2dVal |= (pdata[2] & 0xff);
 
     cout << "The Result is: " << a2dVal << endl;
-    data.right.toe = a2dVal / 512.0f;
+    data.left.toe = a2dVal / 512.0f;
 
     // Third
     pdata[0] = 1;  //  first byte transmitted -> start bit
@@ -78,7 +78,7 @@ int main()
     a2dVal |= (pdata[2] & 0xff);
 
     cout << "The Result is: " << a2dVal << endl;
-    data.left.heel = a2dVal / 512.0f;
+    data.right.heel = a2dVal / 512.0f;
 
     // Fourth
     pdata[0] = 1;  //  first byte transmitted -> start bit
@@ -94,7 +94,7 @@ int main()
     a2dVal |= (pdata[2] & 0xff);
 
     cout << "The Result is: " << a2dVal << endl;
-    data.left.toe = a2dVal / 512.0f;
+    data.right.toe = a2dVal / 512.0f;
 
     data.a.ax = imu_1.getAccel_X() / 16384.0;
     data.a.ay = imu_1.getAccel_Y() / 16384.0;
